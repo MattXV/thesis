@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import mplcyberpunk
 import numpy as np
+from scipy import fft
 # plt.style.use('cyberpunk')
 
 #%%
@@ -22,7 +23,7 @@ by = np.sin(b * f * np.pi)
 y = np.sin(a * f * np.pi)
 by = rounder(discrete_values)(by)
 
-fig, (ax, bx) = plt.subplots(2)
+fig, (ax, bx) = plt.subplots(1, 2, tight_layout=True, dpi=300, figsize=(6.4, 3))
 fig.set_layout_engine('tight')
 
 ax.plot(a, y)
@@ -58,5 +59,20 @@ ax.set_title('Analogue Signal')
 
 plt.show()
 
+
+# %%
+fs = 44100
+dt = 1/44100
+n = 64
+a = np.linspace(0, 1, int(fs))
+a_x = np.sin(a * 20 * np.pi)
+
+fft_ax = fft.fft(a_x, n)
+fft_t = np.arange(0, N, fs/)
+
+fig, (ax, bx) = plt.subplots(2)
+ax.plot(a, a_x)
+bx.plot(fft_t, fft_ax.real)
+plt.show()
 
 # %%
