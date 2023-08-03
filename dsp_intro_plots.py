@@ -1,7 +1,8 @@
 #%%
 import matplotlib.pyplot as plt
-import mplcyberpunk
+# import mplcyberpunk
 import numpy as np
+from scipy import signal as sps
 # plt.style.use('cyberpunk')
 
 #%%
@@ -59,4 +60,18 @@ ax.set_title('Analogue Signal')
 plt.show()
 
 
+# %% Nyquist-Shannon Theorem
+
+f1 = 6
+f2 = 3
+a_x = np.linspace(0, 1, 1024)
+b_x = np.linspace(0, 1, 1024)
+a_y = np.sin(a_x * f1 * np.pi)
+b_y = np.sin(b_x * f2 * np.pi)
+# b_y = sps.resample(b_y, f1)
+fig, ax = plt.subplots()
+
+ax.plot(a_x, a_y)
+ax.plot(b_x, b_y)
+plt.show()
 # %%
