@@ -1,8 +1,8 @@
 #%%
 import matplotlib.pyplot as plt
-# import mplcyberpunk
+import mplcyberpunk
 import numpy as np
-from scipy import signal as sps
+from scipy import fft
 # plt.style.use('cyberpunk')
 
 #%%
@@ -16,14 +16,14 @@ def rounder(values):
 
 #%% Basic sine
 a = np.linspace(0, 1, 1024)
-b = np.linspace(0, 1, 32)
-f = 4
+b = np.linspace(0, 1, 16)
+f = 2
 discrete_values = np.linspace(-1, 1, 9)
 by = np.sin(b * f * np.pi)
 y = np.sin(a * f * np.pi)
 by = rounder(discrete_values)(by)
 
-fig, (ax, bx) = plt.subplots(2)
+fig, (ax, bx) = plt.subplots(1, 2, tight_layout=True, dpi=300, figsize=(6.4, 3))
 fig.set_layout_engine('tight')
 
 ax.plot(a, y)
@@ -60,18 +60,19 @@ ax.set_title('Analogue Signal')
 plt.show()
 
 
-# %% Nyquist-Shannon Theorem
+# %%
+fs = 44100
+dt = 1/44100
+n = 64
+a = np.linspace(0, 1, int(fs))
+a_x = np.sin(a * 20 * np.pi)
 
-f1 = 6
-f2 = 3
-a_x = np.linspace(0, 1, 1024)
-b_x = np.linspace(0, 1, 1024)
-a_y = np.sin(a_x * f1 * np.pi)
-b_y = np.sin(b_x * f2 * np.pi)
-# b_y = sps.resample(b_y, f1)
-fig, ax = plt.subplots()
+fft_ax = fft.fft(a_x, n)
+fft_t = np.arange(0, N, fs/)
 
-ax.plot(a_x, a_y)
-ax.plot(b_x, b_y)
+fig, (ax, bx) = plt.subplots(2)
+ax.plot(a, a_x)
+bx.plot(fft_t, fft_ax.real)
 plt.show()
+
 # %%
