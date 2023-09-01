@@ -1,6 +1,7 @@
 #%%
 import numpy as np
 import matplotlib.pyplot as plt
+import scienceplots
 from scipy import signal
 from scipy.interpolate import interp1d
 
@@ -78,5 +79,6 @@ ax.tick_params(axis='x', which='minor', length=6, width=2, colors='r')
 ax.set_xlim((0, 0.1))
 plt.tight_layout()
 plt.show()
-fig.savefig('aliasing.png')
+# %%
+fig.savefig('aliasing.pdf', transparent=True)
 # %%
