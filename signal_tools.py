@@ -206,11 +206,11 @@ def plot_spectrogram(signal, samplerate, axes, label=None, scale=1000, title_fon
                             nfft=SPECTROGRAM_NFFT, mode='magnitude')
     norm = Normalize(clip=True)
     axes.pcolormesh(t, f, Sxx, cmap='gist_heat', norm=norm, shading='auto')
-    if label:
-        axes.set_title(label, fontsize=title_fontsize)
-    if labels:
-        axes.set_ylabel(labels[0], fontsize=fontsize)
-        axes.set_xlabel(labels[1], fontsize=fontsize)
+    # if label:
+    #     axes.set_title(label, fontsize=title_fontsize)
+    # if labels:
+    #     axes.set_ylabel(labels[0], fontsize=fontsize)
+    #     axes.set_xlabel(labels[1], fontsize=fontsize)
     axes.set_yscale('log')
     axes.set_ylim(20, 20000)
 
