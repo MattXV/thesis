@@ -85,3 +85,63 @@ plt.show()
 
 fig.savefig('rir-rt-final.pdf', transparent=False)
 # %%
+
+
+lpf = st.design_lpf(250, FS)
+bpf250 = st.design_bpf(250, 500, FS)
+bpf500 = st.design_bpf(500, 1000, FS)
+bpf1000 = st.design_bpf(1000, 2000, FS)
+bpf2000 = st.design_bpf(2000, 4000, FS)
+hpf = st.design_hpf(4000, FS)
+lpf_fft = np.abs(st.rfft(lpf.get_kernel(), st.FILTER_KERNEL_SIZE))
+bpf250_fft = np.abs(st.rfft(bpf250.get_kernel(), st.FILTER_KERNEL_SIZE))
+bpf500_fft = np.abs(st.rfft(bpf500.get_kernel(), st.FILTER_KERNEL_SIZE))
+bpf1000_fft = np.abs(st.rfft(bpf1000.get_kernel(), st.FILTER_KERNEL_SIZE))
+bpf2000_fft = np.abs(st.rfft(bpf2000.get_kernel(), st.FILTER_KERNEL_SIZE))
+hpf_fft = np.abs(st.rfft(hpf.get_kernel(), st.FILTER_KERNEL_SIZE))
+
+
+fig, (ax, bx) = plt.subplots(1, 2,  tight_layout=True, dpi=300, figsize=(6.4, 2.8))
+
+t = np.linspace(0, FS/2, lpf_fft.shape[0])
+
+l1, = ax.loglog(t, lpf_fft)
+l3, = ax.loglog(t, bpf250_fft)
+l4, = ax.loglog(t, bpf500_fft)
+l5, = ax.loglog(t, bpf1000_fft)
+l6, = ax.loglog(t, bpf2000_fft)
+l7, = ax.loglog(t, hpf_fft)
+
+
+ax.set_xlim(20, 20000)
+ax.set_ylim([10e-8, 10])
+ax.legend([l1, l3, l4, l5, l6, l7], 
+          [r'lpf', r'$\textrm{bpf}_{250}$',
+           r'$\textrm{bpf}_{500}$',r'$\textrm{bpf}_{1000}$', r'$\textrm{bpf}_{2000}$',
+           r'hpf'], fontsize=8)
+ax.set_xlabel('Frequency (Hz)', fontsize=10)
+ax.set_ylabel('Attenuation', fontsize=10)
+ax.set_title('Filter Bank', fontsize=12)
+p125 = lpf.convolve(np.squeeze(p125))
+p250 = bpf250.convolve(np.squeeze(p250))
+p500 = bpf500.convolve(np.squeeze(p500))
+p1000 = bpf1000.convolve(np.squeeze(p1000))
+p2000 = bpf2000.convolve(np.squeeze(p2000))
+p4000 = hpf.convolve(np.squeeze(p4000))
+
+l1 = st.plot_waveform(p125,  FS, bx)
+l2 = st.plot_waveform(p250,  FS, bx)
+l3 = st.plot_waveform(p500,  FS, bx)
+l4 = st.plot_waveform(p1000, FS, bx)
+l5 = st.plot_waveform(p2000, FS, bx)
+l6 = st.plot_waveform(p4000, FS, bx, fontsize=10)
+bx.legend([l1, l2, l3, l4, l5, l6],
+          ['F125', 'F250', 'F500', 'F1000', 'F2000', 'F4000'], fontsize=9)
+bx.set_title('Filtered IR Parts', fontsize=12)
+
+plt.show()
+# %%
+fig.savefig('filterbank.eps', transparent=True)
+fig.savefig('filterbank.pdf', transparent=True)
+
+# %%

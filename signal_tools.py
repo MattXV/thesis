@@ -1,8 +1,10 @@
 from pathlib import Path
+import math
 import numpy as np
 import soundfile as sf
 from scipy import interpolate
-from scipy.signal import find_peaks, resample, spectrogram
+from scipy.signal import find_peaks, resample, spectrogram, fftconvolve
+from scipy.fft import fft, ifft, rfft, irfft
 from scipy.signal.windows import blackman
 from scipy.integrate import quad
 import matplotlib.pyplot as plt
@@ -20,6 +22,7 @@ SPECTROGRAM_NFFT = 2**9
 SPECTROGRAM_WSIZE = 64
 SPECTROGRAM_NSEGS = 2**10
 # SPECTROGRAM_NFFT = 1024
+FILTER_KERNEL_SIZE = 2**14
 
 
 def clip(signal):
@@ -93,6 +96,16 @@ def get_d50(signal, samplerate):
     return nom / den
 
 
+def get_sound_strength(near_rir, far_rir, samplerate):
+    t_near = np.max(near_rir.shape) / samplerate
+    t_far = np.max(far_rir) / samplerate
+    h_near = lambda t : abs(near_rir[int(t * samplerate)])**2
+    h_far = lambda t: abs(far_rir[int(t * samplerate)])**2
+    nom = quad(h_near, 0, t_near)
+    den = quad(h_far, 0, t_far)
+    return 10 * np.log10(nom / den)
+
+
 def read_audio(file, out_samplerate):
     x, fs = sf.read(file, always_2d=True)
     if (x.shape[1] == 2):
@@ -110,6 +123,7 @@ def read_audio_stereo(file, out_samplerate):
     x = resample(x, int(np.floor(t * fs)))
     x = normalise(x)
     return x
+
 
 def trim_from_to(signal, time_a, time_b, fs=None):
     fs = SAMPLERATE if fs is None else fs
@@ -155,6 +169,27 @@ def convolve_ir_to_signal(signal, signal_samplerate, ir, ir_samplerate, out_samp
     y = normalise(y)
     return y
 
+def deconvolve(measurement_chirp, recording, samplerate, source_listener_dist_m=None):
+    measurement_chirp = np.squeeze(measurement_chirp)
+    recording = np.squeeze(recording)
+    bpf = design_bpf(25, 20000, samplerate)
+    assert(len(measurement_chirp.shape) == 1 and len(recording.shape) == 1)
+    n_conv = measurement_chirp.shape[0] + recording.shape[0]
+    x_fft = rfft(measurement_chirp[::-1], n_conv, norm='ortho')
+    y_fft = rfft(recording, n_conv, norm='ortho')
+    filter_fft = rfft(bpf.get_kernel(), n_conv, norm='ortho')
+    z_fft = x_fft * y_fft * filter_fft
+    z = irfft(z_fft, n_conv, norm='ortho')
+    z = z[measurement_chirp.shape[0]:]
+    z = z[:z.shape[0] - measurement_chirp.shape[0]]
+    z = z / np.max(np.abs(z))
+
+    # time shifting correction
+    if source_listener_dist_m is None: return z
+    delay_samples = round((source_listener_dist_m / 343) * samplerate)
+    z = z[np.argmax(z) - delay_samples:]
+
+    return z
 
 # PLOTS
 def plot_spectrogram(signal, samplerate, axes, label=None, scale=1000, title_fontsize=18, fontsize=12, labels=('Frequency (Hz)', 'Time (s)')):
@@ -231,3 +266,54 @@ def plot_image(image, axes, label=None, title=None):
     axes.set_xticks([])
     axes.set_yticks([])
 
+def real_fft(x):
+    z = fft(x)
+    z = np.abs(x[:x.shape[0] // 2])
+    return z
+
+
+class Filter:
+    def __init__(self):
+        self.kernel = np.zeros(FILTER_KERNEL_SIZE, np.float32)
+    
+    def convolve(self, x):
+        return fftconvolve(x, self.kernel, 'same')
+
+    def get_kernel(self): 
+        return self.kernel
+
+
+def design_lpf(fc, fs):
+    fc = fc / fs
+    f = Filter()
+    m = f.kernel.shape[0]
+    f_sum = 0
+    for i in range(m):
+        n = i - m / 2
+        if n == 0:
+            f.kernel[i] = 2 * math.pi * fc
+        else:
+            f.kernel[i] = math.sin(2 * math.pi * fc * n) / n
+        f.kernel[i] = f.kernel[i] * (0.42 - 0.5 * math.cos(2 * math.pi * i / m) + 0.08 * math.cos(4 * math.pi * i / m))
+        f_sum += f.kernel[i]
+    f.kernel /= f_sum
+    return f
+    
+
+def design_hpf(fc, fs):
+    f = design_lpf(fc, fs)
+    m = f.kernel.shape[0]
+    f.kernel = -f.kernel
+    f.kernel[m // 2] += 1
+    return f
+
+
+def design_bpf(lower_fc, upper_fc, fs):
+    f = design_lpf(upper_fc, fs)
+    hpf = design_hpf(lower_fc, fs)
+    m = f.kernel.shape[0]
+    for i in range(m):
+        f.kernel[i] = -(f.kernel[i] + hpf.kernel[i])
+        if i == m // 2:
+            f.kernel[i] += 1
+    return f
