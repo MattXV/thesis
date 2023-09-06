@@ -1,0 +1,10 @@
+Position Pair,T	extsubscript{30} Simulated,T	extsubscript{30} Real,C	extsubscript{50} Simulated,C	extsubscript{50} Real,D	extsubscript{50} Simulated,D	extsubscript{50} Real
+S1 L1,0.12,0.43,4.33,3.20,0.27,0.32
+S1 L2,0.12,0.41,2.96,3.33,0.34,0.32
+S1 L3,0.12,0.41,2.74,2.45,0.35,0.36
+S2 L1,0.12,0.45,5.81,3.40,0.21,0.31
+S2 L2,0.12,0.43,2.02,3.16,0.39,0.33
+S2 L3,0.12,0.43,3.90,1.74,0.29,0.40
+S3 L1,0.11,0.42,1.46,2.45,0.42,0.36
+S3 L2,0.11,0.47,1.72,2.96,0.40,0.34
+S3 L3,0.12,0.45,1.92,2.71,0.39,0.35

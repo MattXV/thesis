@@ -3,7 +3,7 @@ import math
 import numpy as np
 import soundfile as sf
 from scipy import interpolate
-from scipy.signal import find_peaks, resample, spectrogram, fftconvolve
+from scipy.signal import find_peaks, resample, spectrogram, fftconvolve, hilbert
 from scipy.fft import fft, ifft, rfft, irfft
 from scipy.signal.windows import blackman
 from scipy.integrate import quad
@@ -50,6 +50,10 @@ def mag_to_db(signal, threshold=-80):
 def db_to_mag(db):
     return 10 ** (np.copy(db) / 20)
 
+def get_decay_curve(rir, fs, smoothing=5001):
+    a = np.abs(hilbert(rir))
+    a = np.convolve(a, np.ones(smoothing)/smoothing, mode='valid')
+    return np.linspace(0, a.shape[0] / fs, a.shape[0]), 20 * np.log10(a / np.max(a))
 
 def get_rir_segments(rir, fs):
     x = mag_to_db(np.copy(rir) ** 2)
@@ -82,8 +86,8 @@ def get_c50(signal, samplerate):
     x = np.squeeze(np.copy(signal))
     t_x = np.max(x.shape) / samplerate
     h = lambda t : abs(x[int(t * samplerate)])
-    nom, _ = quad(h, 0, 0.05)
-    den, _ = quad(h, 0.05, t_x)
+    nom, _ = quad(h, 0, 0.05, limit=50000)
+    den, _ = quad(h, 0.05, t_x, limit=50000)
     return 10 * np.log10(nom / den)
 
 
@@ -91,8 +95,8 @@ def get_d50(signal, samplerate):
     x = np.squeeze(np.copy(signal))
     t_x = np.max(x.shape) / samplerate
     h = lambda t : abs(x[int(t * samplerate)])
-    nom, _ = quad(h, 0, 0.05)
-    den, _ = quad(h, 0, t_x)
+    nom, _ = quad(h, 0, 0.05, limit=50000)
+    den, _ = quad(h, 0, t_x, limit=50000)
     return nom / den
 
 
@@ -101,8 +105,8 @@ def get_sound_strength(near_rir, far_rir, samplerate):
     t_far = np.max(far_rir) / samplerate
     h_near = lambda t : abs(near_rir[int(t * samplerate)])**2
     h_far = lambda t: abs(far_rir[int(t * samplerate)])**2
-    nom = quad(h_near, 0, t_near)
-    den = quad(h_far, 0, t_far)
+    nom = quad(h_near, 0, t_near, limit=50000)
+    den = quad(h_far, 0, t_far, limit=50000)
     return 10 * np.log10(nom / den)
 
 
@@ -249,11 +253,7 @@ def plot_waveform(signal, samplerate, axes, label=None, td=None, title_fontsize=
     # axes.plot(np.linspace(0, t, t_db.shape[0]), db_scale)
     
     # axes.plot(t_db, db_scale)
-    if label:
-        axes.set_title(label, fontsize=title_fontsize)
-    if labels:
-        axes.set_xlabel(labels[0], fontsize=fontsize)
-        axes.set_ylabel(labels[1], fontsize=fontsize)
+
     return line
 
 
