@@ -3,7 +3,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import scienceplots
 import signal_tools as st
-
+import csv
+import pandas as pd
 import numpy as np
 
 plt.rcParams["text.usetex"] = True
@@ -86,12 +87,11 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 cx.legend([l1, l2], ['Simulated', 'Real'], fontsize=fontsize_legend)
-ax.set_title('Synthetic', fontsize=fontsize_title)
+ax.set_title('Simulated', fontsize=fontsize_title)
 bx.set_title('Measured', fontsize=fontsize_title)
 cx.set_title('Decay Curves (dB)', fontsize=fontsize_title)
 
 
-# %% ROW 2
 ax, bx, cx = axes[1, :]
 synthetic_fn, real_fn = pairs_a[1]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -112,7 +112,7 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
+
 ax, bx, cx = axes[2, :]
 synthetic_fn, real_fn = pairs_a[2]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -132,7 +132,6 @@ l1, = cx.plot(decay_st, decay_s)
 l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
-# %%
 
 
 ax, bx, cx = axes[3, :]
@@ -154,7 +153,7 @@ l1, = cx.plot(decay_st, decay_s)
 l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
-# %%
+
 
 ax, bx, cx = axes[4, :]
 synthetic_fn, real_fn = pairs_a[4]
@@ -176,25 +175,7 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
 
-# ax, bx, cx = axes[5, :]
-# synthetic, real = pairs[5]
-
-# synthetic, synthetic_fs = st.sf.read(synthetic)
-# synthetic = st.trim_from_to(st.normalise(synthetic), 0, 0.3)
-# real, real_fs = st.sf.read(real)
-# real = st.normalise(real)
-# assert(real_fs == synthetic_fs == FS)
-# ax.plot(np.linspace(0, synthetic.shape[0] / FS, synthetic.shape[0]), synthetic)
-# bx.plot(np.linspace(0, real.shape[0] / FS, real.shape[0]), real)
-
-# decay_st, decay_s = st.get_decay_curve(synthetic, FS)
-# decay_rt, decay_r = st.get_decay_curve(real, FS)
-# l1, = cx.plot(decay_st, decay_s)
-# l2, = cx.plot(decay_rt, decay_r)
-# cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
-# cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
 # %%
 
@@ -232,11 +213,11 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 cx.legend([l1, l2], ['Simulated', 'Real'], fontsize=fontsize_legend)
-ax.set_title('Synthetic', fontsize=fontsize_title)
+ax.set_title('Simulated', fontsize=fontsize_title)
 bx.set_title('Measured', fontsize=fontsize_title)
 cx.set_title('Decay Curves (dB)', fontsize=fontsize_title)
 
-#%%
+
 ax, bx, cx = axes[1, :]
 synthetic_fn, real_fn = pairs_a[6]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -257,9 +238,9 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
 
-#%%
+
+
 ax, bx, cx = axes[2, :]
 synthetic_fn, real_fn = pairs_a[7]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -280,7 +261,7 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
+
 
 ax, bx, cx = axes[3, :]
 synthetic_fn, real_fn = pairs_a[8]
@@ -350,12 +331,12 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 cx.legend([l1, l2], ['Simulated', 'Real'], fontsize=fontsize_legend)
-ax.set_title('Synthetic', fontsize=fontsize_title)
+ax.set_title('Simulated', fontsize=fontsize_title)
 bx.set_title('Measured', fontsize=fontsize_title)
 cx.set_title('Decay Curves (dB)', fontsize=fontsize_title)
 
 
-# %% ROW 2
+
 ax, bx, cx = axes[1, :]
 synthetic_fn, real_fn = pairs_b[1]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -376,7 +357,7 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
+
 ax, bx, cx = axes[2, :]
 synthetic_fn, real_fn = pairs_b[2]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -396,7 +377,6 @@ l1, = cx.plot(decay_st, decay_s)
 l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
-# %%
 
 
 ax, bx, cx = axes[3, :]
@@ -418,7 +398,7 @@ l1, = cx.plot(decay_st, decay_s)
 l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
-# %%
+
 
 ax, bx, cx = axes[4, :]
 synthetic_fn, real_fn = pairs_b[4]
@@ -440,25 +420,6 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
-
-# ax, bx, cx = axes[5, :]
-# synthetic, real = pairs[5]
-
-# synthetic, synthetic_fs = st.sf.read(synthetic)
-# synthetic = st.trim_from_to(st.normalise(synthetic), 0, 0.3)
-# real, real_fs = st.sf.read(real)
-# real = st.normalise(real)
-# assert(real_fs == synthetic_fs == FS)
-# ax.plot(np.linspace(0, synthetic.shape[0] / FS, synthetic.shape[0]), synthetic)
-# bx.plot(np.linspace(0, real.shape[0] / FS, real.shape[0]), real)
-
-# decay_st, decay_s = st.get_decay_curve(synthetic, FS)
-# decay_rt, decay_r = st.get_decay_curve(real, FS)
-# l1, = cx.plot(decay_st, decay_s)
-# l2, = cx.plot(decay_rt, decay_r)
-# cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
-# cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
 # %%
 
@@ -496,11 +457,10 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 cx.legend([l1, l2], ['Simulated', 'Real'], fontsize=fontsize_legend)
-ax.set_title('Synthetic', fontsize=fontsize_title)
+ax.set_title('Simulated', fontsize=fontsize_title)
 bx.set_title('Measured', fontsize=fontsize_title)
 cx.set_title('Decay Curves (dB)', fontsize=fontsize_title)
 
-#%%
 ax, bx, cx = axes[1, :]
 synthetic_fn, real_fn = pairs_b[6]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -521,9 +481,6 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
-
-#%%
 ax, bx, cx = axes[2, :]
 synthetic_fn, real_fn = pairs_b[7]
 row_name = synthetic_fn.stem.split('-')[-1].upper()
@@ -544,7 +501,6 @@ l2, = cx.plot(decay_rt, decay_r)
 cx.plot([np.argmax(decay_s < -30) / FS], [-30], marker='*', markersize=12)
 cx.plot([np.argmax(decay_r < -30) / FS], [-30], marker='*', markersize=12)
 
-# %%
 
 ax, bx, cx = axes[3, :]
 synthetic_fn, real_fn = pairs_b[8]
@@ -614,8 +570,7 @@ for pair_a, pair_b in zip(pairs_a, pairs_b):
 
 # %%
 
-import csv
-import pandas as pd
+
 # %%
 
 with open('metrics_grid_a.csv', 'w', newline='') as file:
@@ -635,9 +590,10 @@ grid_a = pd.read_csv('metrics_grid_a.csv')
 grid_b = pd.read_csv('metrics_grid_b.csv')
 
 # %%
-fig, (ax, bx) = plt.subplots(1, 2,  tight_layout=True, dpi=300, figsize=(6.4, 2.2))
+fig, (ax, bx) = plt.subplots(1, 2, tight_layout=True, dpi=300, figsize=(6.4, 2.2))
 x = [0, 1, 2]
 lines = list()
+
 
 l1 = grid_a[grid_a['Position Pair'].str.contains('L1')]
 l2 = grid_a[grid_a['Position Pair'].str.contains('L2')]
@@ -655,8 +611,14 @@ y_real = list(l3['C\textsubscript{50} Real'])
 lines.extend(ax.plot(x, y_sim,  color='tab:green'))
 lines.extend(ax.plot(x, y_real, color='tab:green', linestyle='dashed'))
 
-ax.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
-          fontsize=fontsize_legend)
+# ax.legend(lines[:2], ['L1 Sim', 'L1 Real'],
+#           fontsize=fontsize_legend, loc=1)
+# ax.legend(lines[2:4], ['L2 Sim', 'L2 Real'],
+#           fontsize=fontsize_legend, loc=4)
+# ax.legend(lines[4:], ['L3 Sim', 'L3 Real'],
+#           fontsize=fontsize_legend)
+
+
 ax.set_ylabel(r'C\textsubscript{50} (dB)', fontsize=fontsize_label)
 ax.set_xticks(x, ['S1', 'S2', 'S3'], fontsize=fontsize_label)
 ax.set_title('Grid A', fontsize=fontsize_title)
@@ -677,12 +639,15 @@ y_real = list(l3['C\textsubscript{50} Real'])
 lines.extend(bx.plot(x, y_sim,  color='tab:green'))
 lines.extend(bx.plot(x, y_real, color='tab:green', linestyle='dashed'))
 
-bx.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
-          fontsize=fontsize_legend)
+# bx.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
+#           fontsize=fontsize_legend)
 bx.set_ylabel(r'C\textsubscript{50} (dB)', fontsize=fontsize_label)
 bx.set_xticks(x, ['S1', 'S2', 'S3'], fontsize=fontsize_label)
 bx.set_title('Grid B', fontsize=fontsize_title)
 
+fig.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
+            bbox_to_anchor=(0.5, -0.02),
+            loc='center', ncols=6, fontsize=fontsize_legend)
 
 plt.show()
 
@@ -710,8 +675,7 @@ y_real = list(l3['D\textsubscript{50} Real'])
 lines.extend(ax.plot(x, y_sim,  color='tab:green'))
 lines.extend(ax.plot(x, y_real, color='tab:green', linestyle='dashed'))
 
-ax.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
-          fontsize=fontsize_legend)
+
 ax.set_ylabel(r'D\textsubscript{50} (dB)', fontsize=fontsize_label)
 ax.set_xticks(x, ['S1', 'S2', 'S3'], fontsize=fontsize_label)
 ax.set_title('Grid A', fontsize=fontsize_title)
@@ -732,12 +696,14 @@ y_real = list(l3['D\textsubscript{50} Real'])
 lines.extend(bx.plot(x, y_sim,  color='tab:green'))
 lines.extend(bx.plot(x, y_real, color='tab:green', linestyle='dashed'))
 
-bx.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
-          fontsize=fontsize_legend)
+
 bx.set_ylabel(r'D\textsubscript{50} (dB)', fontsize=fontsize_label)
 bx.set_xticks(x, ['S1', 'S2', 'S3'], fontsize=fontsize_label)
 bx.set_title('Grid B', fontsize=fontsize_title)
 
+fig.legend(lines, ['L1 Sim', 'L1 Real', 'L2 Sim', 'L2 Real', 'L3 Sim', 'L3 Real'],
+            bbox_to_anchor=(0.5, -0.02),
+            loc='center', ncols=6, fontsize=fontsize_legend)
 
 plt.show()
 
