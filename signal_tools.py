@@ -101,12 +101,12 @@ def get_d50(signal, samplerate):
 
 
 def get_sound_strength(near_rir, far_rir, samplerate):
-    t_near = np.max(near_rir.shape) / samplerate
-    t_far = np.max(far_rir) / samplerate
+    t_near = near_rir.shape[0] / samplerate
+    t_far = far_rir.shape[0] / samplerate
     h_near = lambda t : abs(near_rir[int(t * samplerate)])**2
     h_far = lambda t: abs(far_rir[int(t * samplerate)])**2
-    nom = quad(h_near, 0, t_near, limit=50000)
-    den = quad(h_far, 0, t_far, limit=50000)
+    nom, _ = quad(h_near, 0, t_near, limit=1000000)
+    den, _ = quad(h_far, 0, t_far, limit=1000000)
     return 10 * np.log10(nom / den)
 
 

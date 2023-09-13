@@ -584,7 +584,7 @@ with open('metrics_grid_b.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(metrics_b[0])
     writer.writerows(metrics_b[1:])
-# %%
+# %% D50 C50 plots
 
 grid_a = pd.read_csv('metrics_grid_a.csv')
 grid_b = pd.read_csv('metrics_grid_b.csv')
@@ -709,5 +709,33 @@ plt.show()
 
 # %%
 fig.savefig('D50.pdf', transparent=True)
+
+# %% G metric
+
+
+# grid a
+a1 = filter(lambda x: any(i in x[0].stem for i in ['s1l1', 's3l1']), pairs_a)
+a2 = filter(lambda x: any(i in x[0].stem for i in ['s1l3', 's3l3']), pairs_a)
+
+b1 = filter(lambda x: any(i in x[0].stem for i in ['s1l1', 's3l1']), pairs_b)
+b2 = filter(lambda x: any(i in x[0].stem for i in ['s1l3', 's3l3']), pairs_b)
+
+
+current_pair = b2
+rir_dict = {'sim': {'near': None, 'far': None}, 'real':{'near': None, 'real': None}}
+for (synthetic_fn, real_fn), distance in zip(current_pair, ['near', 'far']):
+    print('distance: {}, {}'.format(distance, synthetic_fn.stem))
+    synthetic, synthetic_fs = st.sf.read(synthetic_fn)
+    synthetic = st.trim_from_to(st.normalise(synthetic), 0, 0.5, FS)
+    real, real_fs = st.sf.read(real_fn)
+    real = st.trim_from_to(st.normalise(real), 0, 0.5, FS)
+
+    rir_dict['sim'][distance] = np.copy(synthetic)
+    rir_dict['real'][distance] = np.copy(real)
+
+for rir_type in ['sim', 'real']:
+    print(st.get_sound_strength(rir_dict[rir_type]['near'], rir_dict[rir_type]['far'], FS))
+
+
 
 # %%
