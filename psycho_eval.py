@@ -1,3 +1,4 @@
+# %%
 import json
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -6,6 +7,8 @@ import pandas as pd
 
 
 PATH_TO_RESPONSES = 'responses'
+
+# %%
 
 def unit_vector(vector):
     """ Returns the unit vector of the vector.  """
@@ -31,32 +34,7 @@ def append_row(df, row):
                 pd.DataFrame([row], columns=row.index)]
            ).reset_index(drop=True)
 
-
-def main():
     
-    df = pd.DataFrame(columns=['ParticipantID', 'Distance', 'ActualSource', 'SelectedSource', 'AngularDistance'])
-    for json_file in Path(PATH_TO_RESPONSES).glob('*.json'):
-        file_id = json_file.stem.split('_')
-        task_dict = json.load(open(json_file))
-        participant_id = file_id.pop(0)
-        if 'localisation' in file_id[0]:
-            print(file_id[2])
-            # do_localisation(task_dict, df)
-
-            actual_source = task_dict['tasks'][0]['sourcePosition']
-            selected_source = task_dict['tasks'][0]['selectedSource']
-            actual_source = actual_source[0:2]
-            selected_source = selected_source[0:2]
-            angle = np.degrees(angle_between(actual_source, selected_source))
-            row = pd.Series({'ParticipantID': task_dict['ParticipantID'],
-                     'Distance': file_id[2][0:-5],
-                     'ActualSource': actual_source,
-                     'SelectedSource': selected_source,
-                     'AngularDistance': angle})
-            df = append_row(df, row)
-
-
-    df.to_excel('test.xlsx')
         
 
 def do_localisation(localisation_dict, df):
@@ -83,8 +61,87 @@ def do_localisation(localisation_dict, df):
                      'SelectedSource': selected_source,
                      'AngularDistance': angle})
     df = append_row(df, row)
+# %%
 
+localisation_df = pd.DataFrame(columns=['ParticipantID', 'ArrayDistance',
+                                         'ActualSource', 'SelectedSource',
+                                         'AngularDistance', 'Timestamp',
+                                         'ClipName', 'RT'])
+for json_file in Path(PATH_TO_RESPONSES).glob('*.json'):
+    file_id = json_file.stem.split('_')
+    task_dict = json.load(open(json_file))
+    participant_id = file_id.pop(0)
+    tasks = task_dict['tasks']
 
-if __name__ == '__main__':
-    main()
+    if 'localisation' in file_id[0]:
+        # do_localisation(task_dict, df)
+        if len(tasks) != 27:
+            continue
+
+        array_distance = file_id[2][0:-5]
+        for task in tasks:
+            
+            source_position = task['sourcePosition']
+            selected_source = task['selectedSource']
+            angle = np.degrees(angle_between(source_position, selected_source))
+            timestamp = task['timeStamp']
+            clip_name = task['clip_name']
+            rt = task['rt']
+            row = pd.Series(
+                {'ParticipantID': task_dict['ParticipantID'],
+                 'ArrayDistance': array_distance,
+                 'ActualSource': source_position,
+                 'SelectedSource': selected_source,
+                 'AngularDistance': angle,
+                 'Timestamp': timestamp,
+                 'ClipName': clip_name,
+                 'RT': rt      
+                 })
+            localisation_df = append_row(localisation_df, row)
+
     
+
+
+# df.to_excel('test.xlsx')
+
+# %%
+
+
+masking_df = pd.DataFrame(columns=['ParticipantID', 'ListenerPosition',
+                                         'AngularDistance', 'SoundSourcePositions',
+                                         'Timestamp', 'Response', 'RT'])
+for json_file in Path(PATH_TO_RESPONSES).glob('*.json'):
+    file_id = json_file.stem.split('_')
+    task_dict = json.load(open(json_file))
+    participant_id = file_id.pop(0)
+    tasks = task_dict['tasks']
+
+    if 'masking' in file_id[0]:
+        # do_localisation(task_dict, df)
+        # if len(tasks) != 27:
+        #     continue
+
+        for task in tasks:
+            if 'rt' not in task.keys():
+                continue
+            listener_position = task['listenerPosition']
+            angle = task['angularDistance']
+            source_positions = task['soundSourcePositions']
+            timestamp = task['timeStamp']
+            response = task['response']
+            rt = task['rt']
+            row = pd.Series(
+                {'ParticipantID': task_dict['ParticipantID'],
+                 'ListenerPosition': listener_position,
+                 'AngularDistance': angle,
+                 'SoundSourcePositions': source_positions,
+                 'Timestamp': timestamp,
+                 'Response': response,
+                 'RT': rt      
+                 })
+            masking_df = append_row(masking_df, row)
+
+
+    
+
+# %%
