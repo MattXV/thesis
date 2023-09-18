@@ -1,0 +1,65 @@
+Table: Split Values
+Variable,Value
+Distance,0
+Pipeline,0
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,553,30.93,1.62,38.03,1446.32,4.60,.21,2.32,.10
+Valid N (listwise),553,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+Distance,0
+Pipeline,1
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,530,24.76,1.37,31.55,995.56,7.24,.21,2.76,.11
+Valid N (listwise),530,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+Distance,1
+Pipeline,0
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,565,24.85,1.77,42.11,1773.43,4.08,.21,2.17,.10
+Valid N (listwise),565,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+Distance,1
+Pipeline,1
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,589,21.36,1.53,37.22,1385.09,5.58,.20,2.40,.10
+Valid N (listwise),589,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+Distance,2
+Pipeline,0
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,556,22.84,1.89,44.67,1995.84,4.38,.21,2.28,.10
+Valid N (listwise),556,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+Distance,2
+Pipeline,1
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,555,25.16,1.92,45.28,2050.01,3.32,.21,2.04,.10
+Valid N (listwise),555,,,,,,,,
+Missing N (listwise),0,,,,,,,,

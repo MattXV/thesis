@@ -1,0 +1,19 @@
+Table: Split Values
+Variable,Value
+GAPipeline,0
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,558,26.28,1.75,41.30,1706.00,3.87,.21,2.14,.10
+Valid N (listwise),558,,,,,,,,
+Missing N (listwise),0,,,,,,,,
+
+Table: Split Values
+Variable,Value
+GAPipeline,1
+
+Table: Descriptive Statistics
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,558,25.31,1.71,40.46,1637.07,4.36,.21,2.22,.10
+Valid N (listwise),558,,,,,,,,
+Missing N (listwise),0,,,,,,,,

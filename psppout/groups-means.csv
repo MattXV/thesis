@@ -1,0 +1,19 @@
+Table: Case Processing Summary
+,Cases,,,,,
+,Included,,Excluded,,Total,
+,N,Percent,N,Percent,N,Percent
+Error * Pipeline,3348,100.0%,0,.0%,3348,100.0%
+Error * Distance,3348,100.0%,0,.0%,3348,100.0%
+
+Table: Report
+Pipeline,Mean,N,Std. Deviation
+0,26.19,1674,41.82
+1,23.70,1674,38.52
+Total,24.94,3348,40.22
+
+Table: Report
+Distance,Mean,N,Std. Deviation
+0,27.91,1083,35.13
+1,23.07,1154,39.71
+2,24.00,1111,44.97
+Total,24.94,3348,40.22

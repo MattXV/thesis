@@ -36,20 +36,7 @@ fig, ax = plt.subplots(
     dpi=300,
     tight_layout=True)
 # %%
-localisation_df = pd.read_excel('localisation.xlsx')
-
-#%%
-
-print(len(localisation_df))
-todrop = list()
-for participant in localisation_df['ParticipantID']:
-    participant = localisation_df.loc[localisation_df['ParticipantID'] == participant]
-    if len(participant) != 81:
-        todrop.extend(list(participant.iloc[:, 0]))
-localisation_df = localisation_df.drop(todrop)
-
-print(len(localisation_df))
-
+localisation_df = pd.read_excel('filtered_loc.xlsx')
 
 #%%
 rt_df = localisation_df.loc[(localisation_df['RT'] == True)]
@@ -62,27 +49,35 @@ error_near_rt = rt_df.loc[(localisation_df['ArrayDistance'] == 'Near')]
 error_mid_rt  = rt_df.loc[(localisation_df['ArrayDistance'] == 'Medium')]
 error_far_rt  = rt_df.loc[(localisation_df['ArrayDistance'] == 'Far')]
 
+#%% PSPP export
+
+
 
 # %%
 
 
 fig, (ax, bx) = plt.subplots(1, 2,  tight_layout=True, dpi=300, figsize=(6.4, 3.4))
+ticks = [i * 5 for i in range(7)]
+ticklabels = ['${}^\circ$'.format(i) for i in ticks]
 
 ax.boxplot([error_near['AngularDistance'], error_mid['AngularDistance'], error_far['AngularDistance']],
            notch=False, showmeans=True, labels=['Near', 'Medium', 'Far'],
-           flierprops=dict(markerfacecolor='g', marker='D'), widths=0.5)
+           flierprops=dict(markerfacecolor='g', marker='D'), widths=0.5, showfliers=False)
 ax.set_title('HRTF')
-ax.set_yticks([0, 25, 50, 75, 100, 125, 150, 175])
-ax.set_yticklabels(['$0^\circ$', '$25^\circ$', '$50^\circ$', '$75^\circ$', '$100^\circ$',
-                     '$125^\circ$', '$150^\circ$', '$175^\circ$'])
+ax.set_yticks(ticks)
+ax.set_yticklabels(ticklabels)
+
 bx.boxplot([error_near_rt['AngularDistance'], error_mid_rt['AngularDistance'], error_far_rt['AngularDistance']],
            notch=False, showmeans=True, labels=['Near', 'Medium', 'Far'],
-           flierprops=dict(markerfacecolor='g', marker='D'), widths=0.5)
-bx.set_title('HRTF + BRIR')
-bx.set_yticks([0, 25, 50, 75, 100, 125, 150, 175])
-bx.set_yticklabels(['$0^\circ$', '$25^\circ$', '$50^\circ$', '$75^\circ$', '$100^\circ$',
-                     '$125^\circ$', '$150^\circ$', '$175^\circ$'])
+           flierprops=dict(markerfacecolor='g', marker='D'), widths=0.5, showfliers=False)
+bx.set_title('HRTF + Pipeline')
+bx.set_yticks(ticks)
+bx.set_yticklabels(ticklabels)
+ax.set_ylim(0, 32)
+bx.set_ylim(0, 32)
+fig.suptitle('Localisation Error', fontsize=14, y=0.93)
 plt.show()
+
 # %%
 fig.savefig('localisation_accuracy.pdf', transparent=True)
 # %%

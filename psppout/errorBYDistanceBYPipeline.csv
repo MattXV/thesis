@@ -1,0 +1,61 @@
+Distance,GA,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Near,No,28.75,2.46,34.14,1165.73,6.38,0.35,2.55,0.18
+,Yes,27.61,2.64,35.52,1261.43,5.26,0.36,2.45,0.18
+Medium,No,27.66,3.47,47.76,2280.71,2.74,0.35,1.97,0.18
+,Yes,21.63,2.66,36.43,1327.18,5.41,0.35,2.33,0.18
+Far,No,22.14,3.07,40.89,1671.89,3.56,0.36,2.08,0.18
+,Yes,26.73,3.48,47.92,2296.65,2.92,0.35,1.98,0.18
+,,,,,,,,,
+,,,,,,,,,
+Table: Split Values,,,,,,,,,
+Variable,Value,,,,,,,,
+Distance,0,,,,,,,,
+GAPipeline,1,,,,,,,,
+,,,,,,,,,
+Table: Descriptive Statistics,,,,,,,,,
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,181,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Table: Split Values,,,,,,,,,
+Variable,Value,,,,,,,,
+Distance,1,,,,,,,,
+GAPipeline,0,,,,,,,,
+,,,,,,,,,
+Table: Descriptive Statistics,,,,,,,,,
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,189,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Table: Split Values,,,,,,,,,
+Variable,Value,,,,,,,,
+Distance,1,,,,,,,,
+GAPipeline,1,,,,,,,,
+,,,,,,,,,
+Table: Descriptive Statistics,,,,,,,,,
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,187,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Table: Split Values,,,,,,,,,
+Variable,Value,,,,,,,,
+Distance,2,,,,,,,,
+GAPipeline,0,,,,,,,,
+,,,,,,,,,
+Table: Descriptive Statistics,,,,,,,,,
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,177,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Table: Split Values,,,,,,,,,
+Variable,Value,,,,,,,,
+Distance,2,,,,,,,,
+GAPipeline,1,,,,,,,,
+,,,,,,,,,
+Table: Descriptive Statistics,,,,,,,,,
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Error,190,,,,,,,,

@@ -1,0 +1,4 @@
+,N,Mean,S.E. Mean,Std Dev,Variance,Kurtosis,S.E. Kurt,Skewness,S.E. Skew
+Aggregate,1116,25.8,1.22,40.87,1670.28,4.08,0.15,2.18,0.07
+HRTF,558,26.28,1.75,41.3,1706,3.87,0.21,2.14,0.1
+GA pipeline ,558,25.31,1.71,40.46,1637.07,4.36,0.21,2.22,0.1
