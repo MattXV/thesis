@@ -1,0 +1,14 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Method                       & Task                 & Architecture & Inputs              & Requirements        & Notes                                                          \\ \midrule
+\cite{Singh_2021_ICCV}       & Reverb apprx.        & GAN          & RGB image           & DNN forward pass   & Efficient. No consideration for source-emitter receiver.       \\
+\cite{ratnarajah2022mesh2ir} & RIR estimation       & Graph NN     & S-R, 3D Mesh        & DNN forward pass   & 10.000 IR per second. Limited control over acoustic materials. \\
+\cite{liang2023neural}       & RIR query            & NAF          & S-R, RGBD data      & NAF query          & Fast and highly generalisable.                                 \\ \bottomrule
+\end{tabular}
+\caption{Summary of cutting-edge visual-acoustic mapping methods for sound propagation tasks in virtual environments. Glossary: GAN $\leftarrow$ Generative Adversarial Network; S-R pos. $\leftarrow$ source-receiver position information;  NAF $\leftarrow$ Neural Acoustic Field.}
+\label{tab:visual-acoustic-mapping}
+\end{table}

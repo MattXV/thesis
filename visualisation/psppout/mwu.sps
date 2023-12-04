@@ -1,0 +1,2 @@
+NPAR TESTS
+/MANN-WHITNEY = Error BY GAPipeline(0, 1) 

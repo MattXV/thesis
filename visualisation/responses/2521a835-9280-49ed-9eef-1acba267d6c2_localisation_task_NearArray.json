@@ -1,0 +1,187 @@
+{
+  "ParticipantID": "2521a835-9280-49ed-9eef-1acba267d6c2",
+  "startTimeStamp": "2023-06-02T11:09:54+01:00",
+  "endTimeStamp": "2023-06-02T11:10:55+01:00",
+  "tasks": [
+    {
+      "sourcePosition": [
+        -0.276564837,
+        -0.0514381267,
+        0.113828629
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.06920657,
+        0.0502076149,
+        0.150534034
+      ],
+      "timeStamp": "2023-06-02T11:10:36+01:00",
+      "clip_name": "auralisation_Cube (1)_drums",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.276564837,
+        -0.0514381267,
+        0.113828629
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07611662,
+        0.0473429821,
+        0.128166437
+      ],
+      "timeStamp": "2023-06-02T11:10:42+01:00",
+      "clip_name": "auralisation_Cube (1)_singing",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.5562842,
+        -0.0514381267,
+        0.5483945
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.0766234845,
+        0.0443099327,
+        0.122886553
+      ],
+      "timeStamp": "2023-06-02T11:10:44+01:00",
+      "clip_name": "auralisation_Cube (2)_drums",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.31196034,
+        -0.0549580939,
+        1.00473487
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07565805,
+        0.0445521437,
+        0.1290051
+      ],
+      "timeStamp": "2023-06-02T11:10:46+01:00",
+      "clip_name": "auralisation_Cube (3)_arp",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.31196034,
+        -0.0549580939,
+        1.00473487
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07656632,
+        0.0434042774,
+        0.127423942
+      ],
+      "timeStamp": "2023-06-02T11:10:48+01:00",
+      "clip_name": "auralisation_Cube (3)_drums",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.276564837,
+        -0.0514381267,
+        0.113828629
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.0750096962,
+        0.0436027162,
+        0.129634947
+      ],
+      "timeStamp": "2023-06-02T11:10:49+01:00",
+      "clip_name": "auralisation_Cube (1)_arp",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.5562842,
+        -0.0514381267,
+        0.5483945
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07761631,
+        0.04183535,
+        0.1363997
+      ],
+      "timeStamp": "2023-06-02T11:10:51+01:00",
+      "clip_name": "auralisation_Cube (2)_arp",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.5562842,
+        -0.0514381267,
+        0.5483945
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07440873,
+        0.0420232378,
+        0.147186458
+      ],
+      "timeStamp": "2023-06-02T11:10:52+01:00",
+      "clip_name": "auralisation_Cube (2)_singing",
+      "rt": false
+    },
+    {
+      "sourcePosition": [
+        -0.31196034,
+        -0.0549580939,
+        1.00473487
+      ],
+      "selectedSource": [
+        -0.277183,
+        0.0602400042,
+        0.9555027
+      ],
+      "listenerPosition": [
+        0.07017467,
+        0.04278933,
+        0.151127011
+      ],
+      "timeStamp": "2023-06-02T11:10:54+01:00",
+      "clip_name": "auralisation_Cube (3)_singing",
+      "rt": false
+    }
+  ]
+}

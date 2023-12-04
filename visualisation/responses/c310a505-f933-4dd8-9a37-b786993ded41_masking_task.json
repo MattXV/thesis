@@ -1,0 +1,493 @@
+{
+  "ParticipantID": "c310a505-f933-4dd8-9a37-b786993ded41",
+  "startTimeStamp": "2023-06-09T14:31:50+01:00",
+  "endTimeStamp": "2023-06-09T14:31:54+01:00",
+  "tasks": [
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 0.5,
+      "soundSourcePositions": [
+        [
+          -0.249349445,
+          0.0,
+          1.98439538
+        ],
+        [
+          0.249349445,
+          0.0,
+          1.98439538
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair4_A",
+        "pair4_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 1.78,
+      "soundSourcePositions": [
+        [
+          -0.860915661,
+          0.0,
+          1.80522132
+        ],
+        [
+          0.860915661,
+          0.0,
+          1.80522132
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair3_A",
+        "pair3_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 2.42,
+      "soundSourcePositions": [
+        [
+          -1.13752413,
+          0.0,
+          1.64500427
+        ],
+        [
+          1.13752413,
+          0.0,
+          1.64500427
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair1_A",
+        "pair1_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 1.14,
+      "soundSourcePositions": [
+        [
+          -0.562314868,
+          0.0,
+          1.91932333
+        ],
+        [
+          0.562314868,
+          0.0,
+          1.91932333
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair1_A",
+        "pair1_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 4.35,
+      "soundSourcePositions": [
+        [
+          -1.77093577,
+          0.0,
+          0.92940104
+        ],
+        [
+          1.77093577,
+          0.0,
+          0.92940104
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair4_A",
+        "pair4_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 0.5,
+      "soundSourcePositions": [
+        [
+          -0.249349445,
+          0.0,
+          1.98439538
+        ],
+        [
+          0.249349445,
+          0.0,
+          1.98439538
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair1_A",
+        "pair1_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 2.42,
+      "soundSourcePositions": [
+        [
+          -1.13752413,
+          0.0,
+          1.64500427
+        ],
+        [
+          1.13752413,
+          0.0,
+          1.64500427
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair1_A",
+        "pair1_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 0.5,
+      "soundSourcePositions": [
+        [
+          0.0,
+          0.0,
+          2.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.0
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair4_A",
+        "pair4_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 5.0,
+      "soundSourcePositions": [
+        [
+          -1.89796925,
+          0.0,
+          0.6306448
+        ],
+        [
+          1.89796925,
+          0.0,
+          0.6306448
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair2_A",
+        "pair2_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 4.35,
+      "soundSourcePositions": [
+        [
+          -1.77093577,
+          0.0,
+          0.92940104
+        ],
+        [
+          1.77093577,
+          0.0,
+          0.92940104
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair1_A",
+        "pair1_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 3.07,
+      "soundSourcePositions": [
+        [
+          -1.38867652,
+          0.0,
+          1.43929744
+        ],
+        [
+          1.38867652,
+          0.0,
+          1.43929744
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair2_A",
+        "pair2_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 1.78,
+      "soundSourcePositions": [
+        [
+          -0.860915661,
+          0.0,
+          1.80522132
+        ],
+        [
+          0.860915661,
+          0.0,
+          1.80522132
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair2_A",
+        "pair2_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 3.07,
+      "soundSourcePositions": [
+        [
+          -1.38867652,
+          0.0,
+          1.43929744
+        ],
+        [
+          1.38867652,
+          0.0,
+          1.43929744
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair2_A",
+        "pair2_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 1.14,
+      "soundSourcePositions": [
+        [
+          -0.562314868,
+          0.0,
+          1.91932333
+        ],
+        [
+          0.562314868,
+          0.0,
+          1.91932333
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair2_A",
+        "pair2_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 5.0,
+      "soundSourcePositions": [
+        [
+          -1.89796925,
+          0.0,
+          0.6306448
+        ],
+        [
+          1.89796925,
+          0.0,
+          0.6306448
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair3_A",
+        "pair3_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 3.71,
+      "soundSourcePositions": [
+        [
+          -1.60024559,
+          0.0,
+          1.19967246
+        ],
+        [
+          1.60024559,
+          0.0,
+          1.19967246
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair3_A",
+        "pair3_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 0.5,
+      "soundSourcePositions": [
+        [
+          0.0,
+          0.0,
+          2.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.0
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Single",
+      "clip_names": [
+        "pair4_A",
+        "pair4_B"
+      ],
+      "rt": false
+    },
+    {
+      "listenerPosition": [
+        -0.127360821,
+        0.0221875384,
+        0.17080687
+      ],
+      "angularDistance": 3.71,
+      "soundSourcePositions": [
+        [
+          -1.60024559,
+          0.0,
+          1.19967246
+        ],
+        [
+          1.60024559,
+          0.0,
+          1.19967246
+        ]
+      ],
+      "timeStamp": "2023-06-09T14:31:54+01:00",
+      "response": "Multiple",
+      "clip_names": [
+        "pair3_A",
+        "pair3_B"
+      ],
+      "rt": false
+    }
+  ]
+}
