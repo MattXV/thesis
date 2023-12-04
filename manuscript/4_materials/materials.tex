@@ -1,0 +1,321 @@
+\chapter{Methods for Acoustic Characteristics Retrieval from Complex Virtual Environments} % If you're changing this, update Section 1.6
+\label{ch:Materials}
+The following Chapter introduces two systems to retrieve acoustic characteristics from space surrounding users in AR, providing fundamental building blocks for subsequent acoustic rendering techniques to simulate sound transmissions between an entity in AR space and the user. The acoustic characteristics extracted from the physical and virtual scene experienced by the user allow context-aware rendering, enabling the acoustic renderers discussed in Chapter~\ref{ch:acousticrendering} to approximate sound waves with geometrical primitives and compute propagation paths from sources to a listener, i.e. the user. Propagation paths, calculated by intersecting rays (or other primitives) with the environment, can respond to the physical properties of surfaces or scene entities, attributing characteristics to portions of the scene geometry. This allows propagation paths to model how acoustic energy propagating from an emitter in AR space is affected by diverse surfaces in space, enabling context-aware auditory interactions. \par
+The following Chapter is structured around two main sections presenting novel workflows for acoustic information retrieval:
+\begin{enumerate}
+    \item a \textbf{camera-based} system to understand complex scenes and project acoustic information based on visual renders,
+    \item and a \textbf{texture-based} extension that improves the above by abstracting away from camera render and analyses texture data from scene geometry.
+\end{enumerate}
+The two methods predict acoustic characteristics of space from their visual representations to inform sound rendering and produce believable acoustic stimuli in interactive applications. The methods are tested on various complex scenes, ranging from authored virtual scenes to reconstructions of physical space with LiDAR scanners, emulating input environments that are typically available to AR HMDs. The methods presented demonstrate applications of scene understanding techniques to virtual environments and digital reconstructions of real space to determine acoustic properties of scene geometry for automating realistic sound rendering, and they are evaluated on state-of-the-art acoustic rendering systems, measuring objective and subjective metrics relating to simulated soundfields. \par
+
+\section{Introduction}
+% Camera-based approach
+Modern approaches to audio rendering can be broadly categorised into geometrical acoustics (GA) methods \cite{savioja2015overview} or finite or boundary element methods (FEM/BEM) \cite{hulusic2012acoustic}. Finite elements methods, such as wave-based audio renderers, often require the positions of sound sources and listeners, as well as the scene geometry and associated materials, tagged with acoustic absorption coefficients for each material \cite{deines2006comparative, raghuvanshi2014parametric}. 
+
+This process is commonly performed manually, often at significant cost, due to the human-in-the-loop. Our work proposes a first step towards creating an automatic process for the generation of such input data for pre-computed audio rendering pipelines in the absence of knowledge of geometry and material information of a complex scene. Specifically, we propose a proof-of-concept system for vision-based material information retrieval, which allows for near-real-time tagging of an object's acoustic properties based on its image features, which are then mapped to frequency-dependent absorption coefficients. 
+The system tags meshes in VEs representing boundaries in sound propagation paths having a noticeable perceptual impact, facilitating the use of GA or FEM/BEM-based acoustic renderers on complex scenes.
+Our contributions are: 1) a system for material-based tagging of VEs; 2) a methodology for fine-tuning material-based semantic segmentation models; 3) an approach to reprojection of semantic labels back into the VE using level-of-detail.
+% Superpixel Introduction
+However, the accuracy of the acoustic simulation depends on material information assigned to the scene geometry. The scene geometry, tagged with frequency-dependent absorption and scattering information, determines how sound behaves in space and affects the resulting wavefield. In games development, the process of tagging materials with appropriate acoustic data often requires the work of experts, raising costs and resources needs for large scenes.\par
+Advances in acoustic modelling propose automatic tagging of acoustic data to scene geometry using convolutional neural networks to tag acoustic materials from stereo photographs of real environments \cite{li2018scene}. Alternatively, using a recent camera-based material tagging system tags geometry in VEs, applying scene understanding algorithms and filtering complex geometry based on its perceptual impact on the resulting acoustic model. At the core of these methods lies the problem of scene segmentation. In computer games, often, a set of meshes composes a scene, where each mesh represents an object in the scene. Acoustic materials are often assigned to all triangles composing a given mesh, allowing audio engineers to group scene geometry when assigning acoustic data. Hence, the resulting acoustic model's accuracy depends on the separation of the geometry, where ideal conditions would have each triangle mapped to its specific acoustic data. A naive approach would have the entire geometry mapping to a single acoustic material. Besides, the representation of materials in real and virtual environments adds further dimensions to the material tagging problem due to complex links between the visual representation of materials of an object and its perceptual effects on the soundscape of the environments in which it exists.\par
+
+\section{Camera-based Acoustic Material Tagging}
+\subsection{System Overview}
+The camera-based acoustic material tagging pipeline is the first approach to attribute physical properties to portions of scene geometry representing a virtual environment. At a high-level overview, the pipeline adopts a Convolutional Neural Network to understand the scene features of the environment, expressed as pixel-wise semantic information predicted from camera renders obtained by a perspective camera within the virtual environment. The network generates a prediction map where pixel-wise semantic information maps to acoustic absorption information, e.g. a pixel belonging to a wooden table in the virtual scene may be attributed with ``wood'' semantics, which maps to absorption data related to the semantic material. Using camera transformation matrices, semantic information is projected onto the scene from camera space. The system has two phases: \emph{training} and \emph{inference}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{camera-pipeline}
+    \caption{Overview of the proposed system: given a set of views captured in a VE, a convolutional neural network trained on samples from our scenes performs semantic segmentation. The predicted semantic maps are then reprojected onto objects in the virtual scene, associating predicted semantic classes with acoustic profiles that are attributed to the scene geometry. Tagged scene geometry provides input to acoustic renderers or physically-based audio engines for sound propagation or synthesis tasks.}
+    \label{fig:cog-pipeline}
+\end{figure}
+
+\paragraph{Training Phase}
+The training phase used an environment with scene geometry tagged with ground truth acoustic materials, reproducing the workflow of audio engineers authoring virtual complex scenes by assigning acoustic properties to scene elements. The system is trained on these scenes by generating a set of camera renders with associated segmentation mapping to the correct pixel-wise category.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{cog-pipeline-training}
+    \caption{Training phase of the system pipeline: manual acoustic material tagging is performed on an input environment, generating pairs of camera renders and segmentation maps via ray casting, which are then used to train and evaluate the convolutional neural network.}
+    \label{fig:cog-training}
+\end{figure}
+
+\paragraph{Inference Phase}
+Once the network is fit on the ground truth set, it is deployed to a set of test scenes with no material tags, obtaining camera renders across uniformly spaced camera probes scattered around the walkable space of each scene. The scene is then tagged by predicting segmentation maps and reprojecting acoustic material to virtual geometry.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{cog-pipeline-inference}
+    \caption{Inference phase of the system pipeline: camera renders are generated from an input environment, providing input to the convolutional neural network. With camera transformations, segmentation maps generated by the network are used to attribute acoustic properties via semantic class mapping to scene geometry.}
+    \label{fig:cog-inference}
+\end{figure}
+
+
+
+\subsection{Method}
+\label{sec:mat-method}
+Based on advances in scene understanding and the current state of wave-based audio renderers, we design an architecture that enables the process of semantic mesh labelling in complex scenes and associating every category with a frequency-dependent acoustic absorption function. Methods based on perceptual metrics should consider only meshes that are relevant to the acoustic environment. Scene understanding methods and inference should be optimised depending on the scene geometry.
+
+\subsubsection{Input}
+We demonstrate the usage of the pipeline in two scenes: an open, urban environment, \emph{City}, and an indoor wooden room, \emph{Office}. City has $6.3M$ triangles and $8.6M$ vertices. Office has $3.3M$ triangles and $3.8M$ vertices. 
+We define a set of classes using tables of measured acoustic absorption of construction materials, where materials are grouped in categories specifying a vector $\alpha$ of absorption coefficient values across an approximated equivalent rectangular bandwidth frequency scale ranging from $125Hz$ to $4kHz$. For every major material category that exists in our material database, we define two levels, representing the low and high bounds of mass density $\rho$ in that category. Mass density is a physical property allowing for the acoustic properties of two objects made of the same material to be perceptually distinguishable \cite{giordano2006material}. 
+We define 23 material classes constituted by the two density levels for each of the 11 material categories and an additional class representing ``air'', see Table.
+
+\subsubsection{Data Generation}
+We implement the core material tagging system in Unity using a camera located across probe points of a complex scene. Segmentation masks associated with each view are generated by ray-casting through each point of $C_n$, the \emph{near} camera clipping plane, to $\infty$. For this case, we exclude wavelength-based strides to maximise segmentation accuracy. The areas where rays intersect with $C_f$, the \emph{far} camera clipping plane, are labelled as air; objects that are hit by a ray determine the pixel value of the mask, which points to the corresponding material. The dataset consists of 3500 labelled images with $512\times512$ pixel resolution, split into 3000 training images and 500 validation images. 
+In City and Office, rendered views are generated in different regions of the environments. The different regions delimit spaces for the collection of training and validation data. For each delimited region, sets of points are scattered to cover the walkable space. The camera position is interpolated across points in these sets and rotated between 0 and $2\pi$ along the azimuth and between 0 and $\pi$ along the elevation.
+
+\subsubsection{Semantic Segmentation Model}
+A convolutional neural network is used to discriminate materials of objects represented in the camera-rendered views. This task is performed with pixel-level semantic segmentation using a ResNet-34-based UNet \cite{ronneberger2015u}. The ResNet backbone offers a topology that is easy to train and has excellent generalisation performance. It also provides a compromise between accuracy and the number of parameters \cite{he2016deep}.
+The model, pre-trained on the ImageNet dataset, is fine-tuned for 70 epochs minimising focal loss \cite{lin2017focal}. Table \ref{table:model} shows the information on the networks trained, including the total number of parameters, $F_{1}$\hyp{}score, intersection-over-union (IOU) and the number of epochs.
+\input{cog-model}
+
+\subsubsection{Model Inference}
+The output of the model is an $m \times n \times k$ matrix $M$, where $m$ and $n$ are the input image resolution and $k$ is the number of classes. For each pixel, the $k$ channels encode a probability distribution across the classes. Per-pixel classes are determined with the member having the highest presence probability, reducing $M$ to an $m \times n$ matrix where entries encode the semantic class (see Table \ref{tab:absorption-coeffs}). 
+In addition, counts of unique entries in $M$ determine the number of pixels describing the associated material. With scaling based on the distance between a target object and $C_n$, this allows material exclusion below a threshold.
+
+\subsubsection{Map Reprojection}
+Using the segmented images, meshes are labelled by raycasting through $C_n$ divided in strides. Based on the distance of every Mesh Renderer Unity object inside the camera frustum, the stride size is determined by the lowest structural dimension of each mesh, scaled according to its distance to $C_n$. This allows consideration of filtering objects by wavelength, $\lambda = 0.7m$, from the reprojection process. This is because some objects are too small to have a significant impact on the human perception of the soundscape \cite{pelzer2010frequency}. Through this level of detail (LOD) graduation, we reduce the analysed scene geometry, excluding structures having smaller perceptual impacts on the resulting acoustic model. Among the factors affecting the performance and accuracy of acoustical simulation methods is the polygon count of the acoustic VE, dependent on the complexity of a scene and the presence of detail and small objects. 
+In acoustic environments, smaller structures on surfaces tend to induce scattering of incidental high-frequency waves reflected, and they are neglected by lower frequencies whose wavelength is greater than the structure dimensions. As a consequence, the amplitude of lower frequencies is more likely to be affected by first-order room modes, given by walls and large boundaries, affecting the frequency response of the sound field resulting in a more noticeable perceptual effect. As opposed to frequencies higher than the Schroeder Frequency, which tend to scatter chaotically \cite{kuttruff2016room, blauert1997spatial}.
+A pilot study of this perceptual optimisation demonstrates up to 123\% of performance gains in offline and real-time acoustic modelling implementations. Small structures on surfaces can therefore be excluded from modelling processes. Results of this process can be seen in Fig. \ref{fig:results} where smaller objects than this $\lambda$ of 0.7m do not receive a material tag. Considering meshes inside the camera frustum, marching cubes algorithms should enable the geometry reduction considering the size of cubes dependent on the wavelength of the lowest frequency \cite{pelzer2010frequency}.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{cog-reproj-a}
+       \caption{Input Camera Render}
+       \label{fig:cog-reproj-a}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{cog-reproj-b}
+       \caption{Re-projected Acoustic Materials}
+       \label{fig:cog-reproj-b}
+    \end{subfigure}
+\caption{Map Reprojection performed on an input camera render: based on a predicted segmentation map, acoustic materials determined by pixel-wise semantic information is re-projected onto scene objects captured by the camera.}
+\label{fig:cog-reprojection}
+\end{figure}
+
+CASE WHERE MULTIPLE PIXELS PROJECT ONTO THE SAME OBJECT
+
+\subsection{Acoustic Materials}
+
+\input{absorption-coeffs}
+
+\subsubsection{Preliminary Evaluation}
+An acoustic renderer is used to test the validity of this method by producing auralisations of Office. City is excluded because of its computationally-expensive scene complexity. We employ a state-of-the-art acoustic renderer \cite{raghuvanshi2014parametric}, integrated into Unity, to generate a model of the acoustic environment in which all meshes having a potential impact on the VE are included. The renderer determines per-mesh absorption information based on the texture meta-data as per Default behaviour. A sound source and listener are placed at human height in the scene; the listener captures a $30s$ chirp signal sweeping logarithmically from $20Hz$ to $20kHz$ emitted by the sound source to measure an IR. Maintaining the same settings and positions of source and listener, we repeat the procedure supplying meshes and absorption information inferred by our system, Tagged. We compare the two IRs generated by the former (Default) and the latter acoustic model (Tagged) through comparisons of their deconvolved frequency responses, see Fig.
+
+\subsection{Results}
+The model inference takes an average of $400 ms$ and the re-projection process takes an average of $96ms$. These figures are quoted per camera probe that is used to generate acoustic labels for surfaces in the scene. Images to be inferred are of a fixed size from the scene frame buffer, $512 \times 512$ pixels. The time taken for inference is largely invariant to typical scene complexities such as shape, polygon count, materials etc. The Office scene requires 12 probes to completely tag the environment, requiring $\sim$6s to complete the tagging process. The City scene shown, has extra complexity and requires use of solutions to the Art Gallery problem to deduce the minimum number of probes to cover the space and tag all objects. 
+As shown in Fig. \ref{fig:results}, acoustic properties can be associated with geometry in the scene, and can be tagged from camera probes. These materials are used in an acoustic rendering process, either directly in game audio engines or external offline acoustic renderers. This can result in more realistic aural spatialisation, using IRs to encode early and late reflections. An example of this offline rendering is shown in Fig. \ref{fig:fft}. 
+Currently our approach works by providing inference for camera views within the scene. These camera views are manually placed and would need to be placed in many positions in order to tag materials accurately for the entire scene. This process still requires a human-in-the-loop and needs to be addressed to ensure the goal of having this system as an end-to-end autonomous vision based material tagging system. 
+To extrapolate materials tagged to the entire scene, solutions to the Art Gallery problem would optimise the number of predictions required \cite{devadoss2011discrete, bajuelos2008optimizing}. Considering the polygons encapsulating the walkable space $W$ of a scene, minimum vertex guard algorithms suggest that $\floor*{n/3}$, where $n$ indicates the total vertices of $W$, is the least number of positions from where the entire scene can be seen. Based on the depth of the camera, additional intermediate positions $\textbf{p}$ might be needed to accurately represent objects, this also depends on the number of pixels per object allowing the the neural network to infer materials from the set of camera views that facilitate the whole scene to be visible. For each camera probe position, rotation steps are needed to ensure that all points of $W$ are inside the camera frustum. For an omni-directional camera probe, these rotation steps $\textbf{r}_\theta$ for azimuthal steps and $\textbf{r}_\phi$ for elevation steps should cover the space in $2\pi$ azimuth and $\pi$ elevation. The resulting complexity of the material tagging process for the scene would then be determined by $O(\floor*{n/3} + \textbf{p} + \textbf{r}_\theta + \textbf{r}_\phi)$.
+
+\input{cog-preliminary-results}
+
+
+\subsection{Discussion}
+Acoustic modelling and audio rendering methods can benefit from research and development of computer vision methods. 
+The current status of this work does not eliminate the human-in-the-loop; however, it can generalise and operate on large sets of complex scenes. As a result, artistic and creative workflows for level design can benefit from automated material tagging system that is agnostic of scene complexity and allow for easy integration of wave-based acoustic renderers.
+The next steps planned for this work include the development of a generalised system to perform material tagging in complex scenes. This will consider optimisation methods to allow the inference of entire scenes automatically with the minimal set of camera probes to consistently tag every acoustically congruent object that is contributory to the VE.\par
+One crucial advantage of a camera-based acoustic material recognition system is the potential to tailor the recognition of materials based on their appearance to a defined ecosystem of material appearances expressed by a set of virtual environments. Although this aspect contrasts the goal of CNN of providing generalisable models, it addresses the problem of the large variance found in visual features of materials by constraining the network within a range of material appearances that interest VE designers. Resembling workflows common in Neural Radiance Fields \citep{mildenhall2020nerf}, game designers or VE artists would need to provide exemplary scenes tagged with a customisable set of acoustic and semantic materials to the camera-based system, enabling acoustic material tagging of unseen or novel scenes sharing the same nature. With the rising availability of computational resources allocated to rendering VEs, performing a forward pass with a ResNet50 CNN \citep{he2016deep} is becoming feasible at runtime, unlocking the potential for online sound propagation on dynamic scenes.\par
+
+% Case for tailoring material recognition to ecosystems of materials
+Case for artistic material tags
+
+
+\section{Texture-based Acoustic Material Tagging}
+Here, we propose a novel architecture for tagging acoustic material in virtual environments, which improves upon recent work by abstracting away from camera-based systems and tests vision-based material recognition methods in real environments. By working on virtual reconstructions of complex scenes, the approach is agnostic of the technology and architecture of the target platform. Despite the significant progress made in sound propagation over the last decades, there are still many limitations in simulations for indoor and outdoor environments due to the complexity of the factors that describe a wavefield \cite{liu2020sound}. This improved system expands from the camera-based methods by contributing towards:
+\begin{itemize}
+    \item a more efficient application of acoustic rendering to virtual environments;
+    \item a novel architecture for recognising materials from textured meshes in complex scenes, reducing the need for manual tagging of acoustic materials and eliminating the needs for camera-based workflows; 
+    \item an objective evaluation of the architecture conducted on a virtual reconstruction of a real conference room.
+\end{itemize}
+
+\subsection{Method}
+We present a method for processing scene geometry generating acoustic models by predicting materials of objects composing complex scenes. A breakdown of the system shown in Figure~\ref{fig:pipeline_overview} illustrates how visual representations of the environment map to acoustic data used by sound renderers to model sound propagation in a scene. The unwrapped texture of each mesh in the scene geometry provides representations of their materials, which provide input for a convolutional neural network. The network, based on features extracted from textures, recognises different material labels in textures and maps them to acoustic data from a database, expressed as acoustic materials.
+
+\subsubsection{Material Recognition}
+According to \cite{schwartz2019recognizing}, small image patches contain enough information to distinguish materials and hence, we decompose input image textures into small image patches.
+\subsubsection{Training}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{chi-training}
+    \caption{}
+    \label{fig:chi-inference}
+\end{figure}
+We determine the visual material space by applying transfer learning to the OpenSurfaces dataset \cite{bell2013opensurfaces}, which comprises 36 classes of surface photographs. 
+The SLIC algorithm \cite{slic6205760} segments input surface photographs into a set of superpixel labels, which determine regions correlated with boundaries of objects. From these resulting superpixel labels, we then generate rectified image patches encapsulating their contours through edge detection \cite{ding2001canny}.
+The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of 32x32 pixel resolution input patches. We train the network on 13677819 input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \cite{kingma2014adam} to update the weights initialised from the ImageNet dataset \cite{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about 0.94 and 0.83 respectively. 
+
+\subsubsection{Inference}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{chi-inference}
+    \caption{}
+    \label{fig:chi-inference}
+\end{figure}
+Given the set of textured meshes in a scene, we unwrap textures as images to predict materials represented. The trained ResNet50 extracts features from input image textures in complex scenes, whose embeddings enable the classifier to predict class labels associated with each input superpixels. The most frequent prediction maps to an acoustic measurement database, defining the output acoustic material. On average, the classifier takes $11.2s$ to determine the acoustic material for a given texture, see Figure~\ref{fig:superpixel_labels}, divided in $3.8s$ for generating rectified patches and $7.3s$ to extract features and compute the mapping.%
+
+\subsubsection{Acoustic Material Mapping}
+Material labels inferred from textures are associated with acoustic measurements of absorption coefficients. For every label, a one-to-many mapping groups measurements of the given material. Following the methodology in \cite{kim2020acoustic}, we use median frequency-dependent values to determine acoustic absorption, defining acoustic materials. A single acoustic material maps to each given mesh, associating a vector of acoustic absorption coefficients to its triangles, determining the overall acoustic mapping accuracy to depend upon the mesh separation of the scene geometry. In the example texture shown in Figure~\ref{fig:superpixel_labels}, ``Tile'' defines the acoustic material, as per predictions shown in Figure~\ref{fig:hist}.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{slic-input-texture}
+       \caption{Input Texture}
+       \label{fig:slic-input-texture}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{slic-texture}
+       \caption{SLIC Superpixels}
+       \label{fig:slic-labels}
+    \end{subfigure}
+\caption{SLIC Superpixel computation on real texture from a scanned space.}
+\label{fig:slic-generation}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{slic_labels}
+    \caption{Predicted Class labels from input image patches computed from the texture shown in Figure~\ref{fig:slic-generation}.}
+    \label{fig:slic-labels}
+\end{figure}
+
+
+
+\subsection{Preliminary Evaluation}
+We compare acoustic models estimated with state-of-the-art wave-based audio renderers, testing whether the proposed system for the automatic tagging of scene geometry has a significant impact on the resulting acoustic model. The experimental evaluation uses a real environment as a benchmark for testing how predicted models express acoustic parameters of measurable space.
+
+\subsubsection{Scene Geometry Reconstruction}
+Wavefields are simulated from a real conference room that is $3.5346m$ deep, $2.8367m$ wide and $3.5149m$ tall. Theoretically, the dimensions determine a Schroeder frequency of $261Hz$. The room is reconstructed using the Unity game engine with $2.9M$ of triangles and $6.6M$ vertices.
+We reconstruct the geometry of a conference room to deploy the proposed system in a real environment and conduct the subsequent subjective experimental evaluation. We adopt a LiDAR scanner, FARO Focus\textsuperscript{3D} X300, to capture several point clouds scans of the room across 8 positions: 4 position points for each corner of the room at about 1$m$ height and 4 additional positions at about 0.2$m$ height to capture furniture and materials from different angles and enhance the spatial resolution. We then segment the reconstructed mesh, obtained from the scanner, to ensure that every scene object is represented by a separate textured mesh.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{environment}
+       \caption{Input Camera Render}
+       \label{fig:chi-input-env}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{reconstructed}
+       \caption{Re-projected Acoustic Materials}
+       \label{fig:chi-reconstructed-env}
+    \end{subfigure}
+\caption{Map Reprojection performed on an input camera render: based on a predicted segmentation map, acoustic materials determined by pixel-wise semantic information is re-projected onto scene objects captured by the camera.}
+\label{fig:chi-scanning}
+\end{figure}
+
+
+\subsubsection{RIR Measurements}
+The experimental evaluation compares simulated wavefields generated from the reconstructed environment to a sample measurement of the real counterpart's wavefield. We compare wavefields using Room Impulse Responses (RIRs) to describe acoustic properties dependent on geometry and materials surrounding a sound transmission between a source and a listener \cite{stan2002comparison}. We capture the environments' acoustic characteristics emitting and recording an exponentially swept sine, ranging from $20Hz$ to $20kHz$, from a listening to a receiving point that is consistent between the real and reconstructed environments, see Figure~\ref{fig:pipeline_overview}. Applying inverse filtering, we recover the RIRs from the captured signal \cite{holters2009impulse}. Given the single listener position, all RIRs are mono.
+% \subsubsection{Real environment}
+In the conference room, a public address system, the dB Technologies ES 1002, emitted the exponentially swept sine converted from a laptop using an Audient ID14 DAC and ADC, which captured the signal back through an omnidirectional measurement microphone, the Earthwork M30.
+% \subsubsection{Reconstructed Environment}
+With Steam Audio \cite{audio2019git}, we simulate wavefields of the reconstructed environment.  This allows synthesis of wavefields based on acoustic geometry, considering absorption coefficients expressed across three frequency bands: low, medium and high. All simulations share the same resolution of 65536 and 16384 direct and secondary rays, respectively, with 256 bounces off solid geometry. With the same setup, we synthesise three wavefields with different acoustic materials: the \emph{generic} with a single acoustic material for the entire scene geometry; the \emph{tagged}, with acoustic materials assigned through manual material tagging; and \emph{ours}, using the proposed automatic tagging.
+\subsubsection{Perceptual test}
+We conduct a perceptual comparison between simulated wavefields at the same positions of source and listener, see Figure~\ref{fig:reconstruction}, using an automated perceptual metric learned on subjects’ responses \cite{manocha2020differentiable}. The metric consists of a 14-layer deep neural network with filters trained on features extracted from paired input audio samples; it expresses a distance $D(x_{ref}, x_{per})$ between two input signals, where $x_{ref}$ is a reference signal, and $x_{per}$ is a perturbated signal. The function $D$ considers factors including reverb and the ratio between direct and reverberated signal. We test whether the metric expresses a closer perceptual distance between the measured ground truth and the synthesised wavefields, by convolving the RIRs to samples from the evaluation subset of a database for acoustic scene classification, which comprises 15 different acoustic environments, generating a total of 18 minutes of audio over 1620 $N$ samples \cite{mesaros2016tut}. The learned metric determines the distance between the ground truth convolutions and each of the relative simulated RIRs: for each audio sample $k$ in $N$, we determine perceptual distances $D(x_{ref, k}, x_{per_i, k}~\forall~i \in \{generic, tagged, ours\})$, where $ref$ and $per_i$ are the measured and simulated RIRs.
+
+\subsection{Evaluation Results}
+figures.
+
+\section{Experimental Evaluation}
+An experimental evaluation is designed to investigate the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The evaluation focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
+The evaluation uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes. \par
+The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
+
+\subsection{Test Scenes}
+The test adopts three real spaces: a small, a medium, and a large environment, see Table~\ref{tab:material-eval-scene}. These environments have diverse ecosystems of surfaces and materials that characterise and determine their respective soundscape and acoustic fingerprints.
+\input{scenes} %tab:material-eval-scene
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{guildhall}
+    \caption{St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second.}
+    \label{fig:guildhall-iso-render}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{recital-hall}
+    \caption{Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.}
+    \label{fig:conservatoire-iso-render}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{mastering_suite}
+    \caption{Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.}
+    \label{fig:conservatoire-iso-render}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{environment}
+       \caption{Input Camera Render}
+       \label{fig:chi-input-env}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{reconstructed}
+       \caption{Re-projected Acoustic Materials}
+       \label{fig:chi-reconstructed-env}
+    \end{subfigure}
+\caption{Map Reprojection performed on an input camera render: based on a predicted segmentation map, acoustic materials determined by pixel-wise semantic information is re-projected onto scene objects captured by the camera.}
+\label{fig:chi-scanning}
+\end{figure}
+
+
+% \begin{figure}[htp]
+% \centering 
+% \subfloat[St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second. ]{%
+%   \includegraphics[clip,width=0.5\textwidth]{guildhall}%
+% }\\
+% \subfloat[Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.]{%
+%   \includegraphics[clip,width=0.5\textwidth]{recital-hall}%
+% }\\
+% \subfloat[Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.]{%
+%   \includegraphics[clip,width=0.5\textwidth]{mastering_suite}%
+% }\\
+% \caption{Environments used for the evaluation of the two prototype systems for acoustic material tagging.}
+% \label{fig:material-testing-scenes-iso}
+% \end{figure}
+
+
+\subsection{Mesh Segmentation}
+Manual segmentation of scene geometry via Blender.
+
+\subsection{Manual Acoustic Material Tagging}
+The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each sub mesh.
+
+\subsection{Testing methodology}
+RIR comparisons across single sources. Manually tagged and automatically tagged should be close perceptually.
+
+
+\section{Results}
+Results from camera and superpixel.
+
+
+
+\section{Discussion}
+Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
+
+\section{Conclusions}
+
+\subsection{Contributions}
+Camera-based system for acoustic material tagging.
+
+\subsection{Future Research Directions}
+% Camera-based
+Acoustic modelling and audio rendering methods can benefit from research and development of computer vision methods. 
+The current status of this work does not eliminate the human-in-the-loop; however, it can generalise and operate on large sets of complex scenes. As a result, artistic and creative workflows for level design can benefit from automated material tagging system that is agnostic of scene complexity and allow for easy integration of wave-based acoustic renderers.
+The next steps planned for this work include the development of a generalised system to perform material tagging in complex scenes. This will consider optimisation methods to allow the inference of entire scenes automatically with the minimal set of camera probes to consistently tag every acoustically congruent object that is contributory to the VE. 
+% superpixel
+We addressed the problem of mapping acoustic absorption data to scene geometry in virtual environments for acoustic simulations. Methods and frameworks for material recognition have become efficient enough in recognising materials in the wild with varying factors of illumination, shape and surface characteristics. Despite their limited resolution in computer games applications, sound propagation systems benefit from acoustic material tagging. With the proposed system, we aim to integrate material recognition to wave-based methods to determine materials' acoustic properties.
+The next steps of this work aims to extend the system to broader scenes with larger sets of materials as well as improving the material recognition by performing multi-scale analysis of superpixels and adopting clustering paradigms to overcome the limitations of finite material space definitions.
+With the proposed system, we aim to employ these methods to eliminate the human-in-the-loop for the process of labelling materials for acoustic renderers or assist in artistic and creative processes for level design. 
+

@@ -1,0 +1,13 @@
+\begin{table}[htbp]
+\caption{CNNs used to produce segmentation maps with the camera-based system, detailing architecture type and performance metrics.}
+\centering
+\begin{tabular}{lllllll}
+\toprule
+\textbf{Architecture} & \textbf{Backbone}  & \textbf{Capacity} & \textbf{$\mathbf{F_{1}}$\hyp{}score}   & \textbf{IOU}  & \textbf{Epochs} & \textbf{Loss} \\
+\midrule
+Unet                  & ResNet-34          & $24.5M$           & $0.51$                                 & $0.58$         & $70$           & $2*10^{-3}$   \\
+Unet                  & ResNet-50          & $32.6M$           & $0.54$                                 & $0.47$         & $70$           & $7*10^{-4}$   \\
+\bottomrule
+\end{tabular}
+\label{table:cog-model}
+\end{table}
