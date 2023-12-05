@@ -9,29 +9,29 @@ The initial design of the rendering framework employs the classic Image-Source M
     \centering
     \includegraphics[width=1\linewidth]{image-source-renderer}
     \caption{The Image Source Model (ISM) pipeline showing the four stages of the rendering process (left to right): an input scene is used as input; a geometry reduction process simplifies the complexity of the virtual environment to a cuboid volume; based on portions of the geometry dictated by the cuboid volume, materials of the input environment are determined; materials and simplified geometry provide input to the ISM to produce reverberation responses.}
-    \label{fig:image-source-pipeline}
+\label{fig:image-source-pipeline}
 \end{figure}
 
 \subsection{Geometry Reduction}
-The \emph{geometry reduction}, Figure~\ref{fig:image-source-pipeline}, generates a binary field, sampling from the input geometry at a given number of points. The field shapes the acoustic volume using a marching cubes algorithm, where each cell captures the appearance of surfaces from textures associated with meshes of the input geometry. A cuboid volume encapsulating the reconstructed surface determines the dimensions of the acoustic space simulated with the ISM. Using the vision-based techniques discussed in Chapter~\ref{ch:Materials} to analyse surface appearance, acoustic materials are inferred per image patch, effectively mapping acoustic materials to the surface of the acoustic volume. \par
-Input geometry is decomposed into a binary field expressed as $\mathbf{B} = (b_{x,y,z}) \in \{ 0, 1 \}^{P}$, where $P$ is the number of points sampled across the three dimensions. The definition of $\mathbf{B}$ is relevant to the quality of the resulting acoustic simulation and determines the accuracy of the acoustic material recognition, discussed in the following section. Given the set of input meshes from the complex scenes, we define an Axis-Aligned Bounding Box (AABB) encapsulating all vertices of a given scene object, normalising their coordinates to the $[-1, +1]$ range. Values in $\mathbf{B}$ equate to $1$ whenever a cell is within the coordinates of any AABB defined and to $0$ otherwise. The term AABBs will refer to the collection of all bounding boxes associated with scene objects throughout the rest of this Section. A multi-threaded implementation of the marching cubes algorithm \citep{bourke1994polygonising, lengyel2019foundations} shapes the binary field into a volume, representing the acoustic environment for reflection path computation. In this process, the use of the AABB to probe the input scene objects introduces error in cases with concave geometry, which negatively correlates to the resolution of $\mathbf{B}$ as collision checks with AABBs increase with the number of cells. A cuboid encapsulating the reconstructed surface from the marching cubes determines the ISM volume for the reflection computation stage. \par
+The \emph{geometry reduction}, Figure~\ref{fig:image-source-pipeline}, generates a binary field, sampling from the input geometry at a given number of points. The field shapes the acoustic volume using a marching cubes algorithm, where each cell captures the appearance of surfaces from textures associated with meshes of the input geometry. A cuboid volume encapsulating the reconstructed surface determines the dimensions of the acoustic space simulated with the ISM. Using the vision-based techniques discussed in Chapter~\ref{ch:Materials} to analyse surface appearance, acoustic materials are inferred per image patch, effectively mapping acoustic materials to the surface of the acoustic volume.\par
+Input geometry is decomposed into a binary field expressed as $\mathbf{B} = (b_{x,y,z}) \in \{ 0, 1 \}^{P}$, where $P$ is the number of points sampled across the three dimensions. The definition of $\mathbf{B}$ is relevant to the quality of the resulting acoustic simulation and determines the accuracy of the acoustic material recognition, discussed in the following section. Given the set of input meshes from the complex scenes, we define an Axis-Aligned Bounding Box (AABB) encapsulating all vertices of a given scene object, normalising their coordinates to the $[-1, +1]$ range. Values in $\mathbf{B}$ equate to $1$ whenever a cell is within the coordinates of any AABB defined and to $0$ otherwise. The term AABBs will refer to the collection of all bounding boxes associated with scene objects throughout the rest of this Section. A multi-threaded implementation of the marching cubes algorithm \citep{bourke1994polygonising, lengyel2019foundations} shapes the binary field into a volume, representing the acoustic environment for reflection path computation. In this process, the use of the AABB to probe the input scene objects introduces error in cases with concave geometry, which negatively correlates to the resolution of $\mathbf{B}$ as collision checks with AABBs increase with the number of cells. A cuboid encapsulating the reconstructed surface from the marching cubes determines the ISM volume for the reflection computation stage.\par
 
 \begin{figure}[htb]
- \centering 
- \includegraphics[width=1\columnwidth]{ism-patch_generation}
- \caption{Image patch generation: surfaces intersected by marching cubes are projected onto image patches with a camera by rasterising vertices via orthographic projections of the delimited portion of the surface. The resulting image patch is then fed to a neural network to extract features for semantic classification. Through a one-to-many mapping, semantics attributed to a patch, via embeddings classification, map to acoustic parameters.}
- \label{fig:ism-patch_generation}
+    \centering 
+    \includegraphics[width=1\columnwidth]{ism-patch_generation}
+    \caption{Image patch generation: surfaces intersected by marching cubes are projected onto image patches with a camera by rasterising vertices via orthographic projections of the delimited portion of the surface. The resulting image patch is then fed to a neural network to extract features for semantic classification. Through a one-to-many mapping, semantics attributed to a patch, via embeddings classification, map to acoustic parameters.}
+\label{fig:ism-patch_generation}
 \end{figure}
 
 \subsection{Camera Projection}
 Image patches are generated whenever a marching cube intersects a surface by an entire side, i.e. four consecutive corners of each marching cube. An orthographic camera, positioned at the centre of the neighbouring cube, rasterises sub-surfaces delimited by the cube. The camera is positioned on the opposite side of the four intersected corners, facing the surface that is intersected; see Figure~\ref{fig:ism-patch_generation}. 
-By using OpenGL rasterisation, surfaces are renderered orthographically from world space, defining the camera clipping space as the volume of the marching cube. Sampling image data from textures, the rasterisation stage produces an image patch representing the projection of the portion of the surface inscribed by a marching cube. Marching cubes intersecting in four consecutive corners ensure that the orthographic camera is perpendicular to the surface. \par
+By using OpenGL rasterisation, surfaces are renderered orthographically from world space, defining the camera clipping space as the volume of the marching cube. Sampling image data from textures, the rasterisation stage produces an image patch representing the projection of the portion of the surface inscribed by a marching cube. Marching cubes intersecting in four consecutive corners ensure that the orthographic camera is perpendicular to the surface.\par
 
 \subsection{Acoustic Material Classifier}
-Image patches projected from marching cubes provide input to a neural network, a ResNet50 \citep{he2016deep} backbone that operates as a feature extractor, whose output is forwarded to a densely connected layer. This last layer classifies predicted embeddings into acoustic material categories. The network was trained on the OpenSurfaces dataset \citep{bell2013opensurfaces}, learning mappings between visual appearances of surfaces from 34 material classes and semantic labels, as described in Chapter~\ref{ch:Materials}. The network, pre-trained on ImageNet \citep{deng2009imagenet}, learns on 32x32 pixel resolution image patches that are extracted from appearances sampled from OpenSurfaces, assembling a dataset of about 13M images, split into 9M and 4M train and evaluation sets, respectively. Via a one-to-many mapping, 34 categories from the OpenSurfaces dataset map to acoustic materials, and, given 11 acoustic materials, subdividing into two levels of mass density, the visual labels are mapped to 22 acoustic materials. \par
+Image patches projected from marching cubes provide input to a neural network, a ResNet50 \citep{he2016deep} backbone that operates as a feature extractor, whose output is forwarded to a densely connected layer. This last layer classifies predicted embeddings into acoustic material categories. The network was trained on the OpenSurfaces dataset \citep{bell2013opensurfaces}, learning mappings between visual appearances of surfaces from 34 material classes and semantic labels, as described in Chapter~\ref{ch:Materials}. The network, pre-trained on ImageNet \citep{deng2009imagenet}, learns on $32\times32$ pixel resolution image patches that are extracted from appearances sampled from OpenSurfaces, assembling a dataset of about 13M images, split into 9M and 4M train and evaluation sets, respectively. Via a one-to-many mapping, 34 categories from the OpenSurfaces dataset map to acoustic materials, and, given 11 acoustic materials, subdividing into two levels of mass density, the visual labels are mapped to 22 acoustic materials.\par
 
 \subsection{Frequency-Dependent Reverb Approximation}
-The ISM estimates attenuation functions for a given listener position, with respect to a source in space, drawing from Habet's implementation \cite{habets2006room} to estimate $h$ reverb response functions based on the spatial $[x, y, z]$ coordinates of a sound source, $\mathbf{s}$, a listener, $\mathbf{l}$, at each time step $t$ as 
+The ISM estimates attenuation functions for a given listener position, with respect to a source in space, drawing from Habet's implementation~\citep{habets2006room} to estimate $h$ reverb response functions based on the spatial $[x, y, z]$ coordinates of a sound source, $\mathbf{s}$, a listener, $\mathbf{l}$, at each time step $t$ as 
 \begin{equation}
 \label{eq:ism-base}
 h(\mathbf{l}, \mathbf{s}, t) = \sum_{\mathbf{p} \in \pazocal{P}} \sum_{\mathbf{m} \in \pazocal{M}} \beta_{-x}^{|\mathit{m_x - q}|} \beta_{+x}^{|\mathit{m_x}|} \beta_{-y}^{|\mathit{m_y - j}|} \beta_{+y}^{|\mathit{m_y}|} \beta_{-z}^{|\mathit{m_z - k}|}  \beta_{+z}^{|\mathit{m_z}|} \frac{\delta(t - \tau)}{4\pi \mathit{d}}\textrm{.}
@@ -113,13 +113,13 @@ $D_{50}$ error           & 0.01             & 0.235             & 0.013         
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{ism_scene_plots}
-    \caption{Comparison between room impulse responses, generated using the proposed framework. \emph{Predicted} RIRs are produced using materials inferred by the automatic acoustic material classification, while the \emph{tagged} counterparts have manually tagged acoustic materials. Rows show scenes in ascending order of volume; Columns from left to right show a render of the scene with an overlapped polygonised acoustic volume resulting from the marching cubes algorithm; a time-domain visualisation of the impulse response using \emph{predicted} materials, followed by the counterpart with \emph{tagged} materials; finally, the last two columns show spectrograms of the two. RIR pairs are generated, maintaining the same positions of source and listener.}
+    \caption{Comparison between room impulse responses, generated using the proposed framework.\emph{Predicted} RIRs are produced using materials inferred by the automatic acoustic material classification, while the \emph{tagged} counterparts have manually tagged acoustic materials. Rows show scenes in ascending order of volume; Columns from left to right show a render of the scene with an overlapped polygonised acoustic volume resulting from the marching cubes algorithm; a time-domain visualisation of the impulse response using \emph{predicted} materials, followed by the counterpart with \emph{tagged} materials; finally, the last two columns show spectrograms of the two. RIR pairs are generated, maintaining the same positions of source and listener.}
     \label{fig:ism_scene_plots}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering % avoid the use of \begin{center}...\end{center} and use \centering instead (more compact)
- \includegraphics[width=0.6\linewidth]{ism_perceptual_distances}
+ \includegraphics[width=1\linewidth]{ism_perceptual_distances}
  \caption{Distributions of perceptual distances between pairwise comparisons of audio recordings convolved to generated RIR pairs.
 A collection of everyday sounds is propagated for each pair, producing convolution pairs. By employing a learned metric, the perceptual distance between RIR with \emph{predicted} and \emph{tagged} materials is measured. The violin plot reports that all distances fall below one just noticeable difference, indicating that a human would be unlikely to distinguish between the two convolutions.}
  \label{fig:ism_perceptual_evaluation}
@@ -128,7 +128,7 @@ A collection of everyday sounds is propagated for each pair, producing convoluti
 \subsection{Discussion}
 \subsubsection{Overview}
 Given that procedures of isosurface extraction and computation of frequency-dependent impulse responses run on CPU programs, the timings recorded across the four scenes with increasing spatial resolution suggest that the pipeline would be practical for interactive platforms. Especially when considering dynamic and incremented geometry typical of extended reality systems. Furthermore, GPU implementations of the ISM efficiently distribute sources across parallel workers, allowing for real-time RIR generation \citep{diaz2021gpurir}. The technique illustrates promise in the domain of streaming geometry, where virtual environments are constructed via spatial mapping services for visualisation on extended reality displays. \par
-There is a necessity for understanding the acoustic information to be associated with this streamed mesh data. The nature of this approach facilitates mesh ingestion and updates to the binary field; subsequent subregions of the marching cube volume can be iteratively updated, and the resultant RIR to take stock of updated geometry can thus be generated. Despite overcoming the limitations of ISMs in propagating sound in non-enclosed environments, phenomena such as the occlusion of sound sources and arbitrary shapes of the environments are not considered. Occlusion and visibility of sound sources can be solved by combining the ISM with ray tracing, allowing for checking source visibility and introducing limited overhead thanks to their GPU implementations \citep{taylor2012guided}. \par
+There is a necessity for understanding the acoustic information to be associated with this streamed mesh data. The nature of this approach facilitates mesh ingestion and updates to the binary field; subsequent subregions of the marching cube volume can be iteratively updated, and the resultant RIR to take stock of updated geometry can thus be generated. Despite overcoming the limitations of ISMs in propagating sound in non-enclosed environments, phenomena such as the occlusion of sound sources and arbitrary shapes of the environments are not considered. Occlusion and visibility of sound sources can be solved by combining the ISM with ray tracing, allowing for checking source visibility and introducing limited overhead thanks to their GPU implementations \citep{taylor2012guided}.\par
 
 \subsubsection{Acoustic Material Approximation}
 The complexity of the pipeline depends upon the nature of the complex scenes and the number of points in which surfaces are sampled. Considering the overhead introduced by the acoustic material classifier, the complexity of the pipeline scales linearly with the number of surface intersections in the environment. Hence, the worst complexity occurs when each marching cube intersects scene geometry. In addition, despite the classifier's reasonable accuracy on test data, no ablation studies have been conducted to reduce the architecture to a minimum topology and further optimise complexity. Acoustic materials associated with each side of the calculated volume contribute to a mean, causing the ISM to approximate the computation of specular reflections, neglecting characteristics of surfaces, such as position or orientation. This approximation can be overcome by eliminating the process of averaging acoustic materials and reformulating the computation of image sources defined in Equation~\ref{eq:fd-ism} to refer to individual acoustic materials mapped to the acoustic volume. However, the reformulation would affect the timestep of computed $h$ functions, constraining it to the geometry reduction resolution, resulting in an arbitrary scale that should be interpolated to the time scale. \par
@@ -159,7 +159,7 @@ Ray tracing techniques have inherent limitations in modelling sound propagation 
 Although such limitations can cause inaccurate acoustic models, ray tracers still provide accurate reverberation and reflection approximations and are widely employed in modern acoustic surveying frameworks like ODEON\footnote{https://odeon.dk/} due to their ability to estimate key properties of soundfields and fast auralisations. Moreover, the constant rise in computing power offered by modern general-purpose GPUs offers fast implementations of geometrical acoustics that can be accelerated thanks to their architecture and the parallelisable nature of ray tracing \citep{savioja2010use}. \par
 
 \subsection{Geometrical Search}
-As discussed in \ref{sec:bg-geometry-handling}, the foundations of an acoustic ray tracer lay in the interactions between the primitive used to approximate a propagating sound wave and the environment. The modelling of acoustic phenomena in acoustic simulations produced by ray tracers is a process dependent on physics interaction between the geometrical primitives that compose the complex scene. Ray Tracing uses rays and line segments as geometrical primitives, requiring the environment handling system to facilitate operations between rays and the complex scene.\par
+As discussed in Section~\ref{sec:bg-geometry-handling}, the foundations of an acoustic ray tracer lay in the interactions between the primitive used to approximate a propagating sound wave and the environment. The modelling of acoustic phenomena in acoustic simulations produced by ray tracers is a process dependent on physics interaction between the geometrical primitives that compose the complex scene. Ray Tracing uses rays and line segments as geometrical primitives, requiring the environment handling system to facilitate operations between rays and the complex scene.\par
 The ray tracing-based renderer design implements a Bounding Volume Hierarchy (BVH) as a geometry handling system, allowing the dynamic indexing and searching of a given complex scene. The BVH implementation constructs a binary tree of AABBs encapsulating triangles of the mesh representing the VE and any entity interacting with the acoustic environment, e.g. a character representing a listener. 
 A dynamic BVH implementation uses the environment, represented as a set of triangulated meshes, to construct a set of bounding boxes that facilitate geometrical search operations such as ray-box intersections or point-in-volume tests. \par
 \begin{figure}[h]
@@ -177,20 +177,20 @@ A dynamic BVH implementation uses the environment, represented as a set of trian
     \label{fig:rt-room-demo}
 \end{figure}
 Rays propagate from a given spherical object, the sound source, visualised as a red sphere in Figure~\ref{fig:rt-room-demo}, originating from $N$ points uniformly distributed across the azimuth and elevation of the sphere. This chapter deals with the approximation of basic acoustic phenomena achieved by rendering pipelines and excludes directivity patterns for sources and receivers; hence, sources and listeners are omnidirectional emitters and monopole detectors unless explicitly defined otherwise. Propagation paths between source and receiver are expressed as three-dimensional segments determined by intersections caused by rays, containing acoustic features such as acoustic energy carried. The number of rays emitted from the source determines the initial energy $e_0$ of propagation paths, $e_0 = 1 / N$, where the sum of all propagation paths amounts to 1. \par
-Algorithm \ref{alg:rt-main} shows an overview of the main procedure of the ray tracer renderer. Starting from uniform sampling across azimuth and elevation points of the spherical volume of $S$, rays, defined by their origin and direction, are emitted from the spatial position of $S$ and oriented based on the sampled points across the sphere \citep{shirley2008realistic}; in Lines~\ref{alg:rt-main-spher} and \ref{alg:rt-main-cart} of Algorithm~\ref{alg:rt-main} directions are converted from polar to cartesian coordinates.\par
+Algorithm~\ref{alg:rt-main} shows an overview of the main procedure of the ray tracer renderer. Starting from uniform sampling across azimuth and elevation points of the spherical volume of $S$, rays, defined by their origin and direction, are emitted from the spatial position of $S$ and oriented based on the sampled points across the sphere \citep{shirley2008realistic}; in Lines~\ref{alg:rt-main-spher} and \ref{alg:rt-main-cart} of Algorithm~\ref{alg:rt-main} directions are converted from polar to cartesian coordinates.\par
 
 
 \begin{algorithm}
   \caption{Main procedure of the ray tracer: propagation paths are computed given Source/Listener bounds $S$ and $L$, a number or rays $N$ to propagate, and a max order $o$. for each propagation point on the emitter bounds, the geometry is searched for intersections a number of times depending on found intersections and the max order. These paths are registered if they intersect with the listener bound L.}\label{alg:rt-main}
   \begin{algorithmic}[1]
-    \State \textbf{define} $Ray(origin,~direction)$
-    \State \textbf{define} {$Vector3(x,y,z)$}
-    \State \textbf{define} {$Path(e_0)$}\Comment{$e_0$: initial path energy}
+    \State{} \textbf{define} $Ray(origin,~direction)$
+    \State{} \textbf{define} {$Vector3(x,y,z)$}
+    \State{} \textbf{define} {$Path(e_0)$}\Comment{$e_0$: initial path energy}
     \Function{$SphericalToCartesian$}{$r, p, e$}\Comment{$r$: radius, $p$: polar angle, $e$: elevation angle}
-        \State \textbf{return} $Vector3(r * \cos{e} * \cos{p}, r * \sin{e}, r* \cos{e} * \sin{p})$
-    \EndFunction
+        \State{} \textbf{return} $Vector3(r * \cos{e} * \cos{p}, r * \sin{e}, r* \cos{e} * \sin{p})$
+    \EndFunction{}
     \Procedure{ComputePropagationPaths}{$S, L, N, o$}
-      \State $e_0\gets 1 / N$
+      \State{} $e_0\gets 1 / N$
       % \State $ray \gets Ray(S.position,~L.position-S.position)$
       % \If{$SearchIntersection(ray)$}
       %   \If{Intersection is between S and L}
@@ -203,37 +203,37 @@ Algorithm \ref{alg:rt-main} shows an overview of the main procedure of the ray t
       % \EndIf
       \ForAll{$i \in [0..\sqrt{N}] $}\Comment{Uniform sphere sampling: azimuthal steps}
         \ForAll{$j \in [0..\sqrt{N}$]}\Comment{Uniform sphere sampling: elevation steps}
-          \State $dir_{spherical} \gets Vector3(S.radius,~i(2\pi/\sqrt{N}),~\pi/2-j(\pi/\sqrt{N}))$\label{alg:rt-main-spher}
-          \State $dir_{cartesian} \gets SphericalToCartesian(dir_{spherical})$\label{alg:rt-main-cart}
-          \State $path \gets new~Path(e_0)$
-          \State $path.addRay(new~Ray(S.position, dir_{cartesian}))$
+          \State{} $dir_{spherical} \gets Vector3(S.radius,~i(2\pi/\sqrt{N}),~\pi/2-j(\pi/\sqrt{N}))$\label{alg:rt-main-spher}
+          \State{} $dir_{cartesian} \gets SphericalToCartesian(dir_{spherical})$\label{alg:rt-main-cart}
+          \State{} $path \gets new~Path(e_0)$
+          \State{} $path.addRay(new~Ray(S.position, dir_{cartesian}))$
           
             \ForAll{$order \in [0..o]$}
                 \If{$path.currentRay$ Intersects $Listener.bounds$ }
-                    \State register specular path \Comment{occlusion between path and L is computed}
-                    \State \textbf{break}
-                \EndIf
+                    \State{} register specular path \Comment{occlusion between path and L is computed}
+                    \State{} \textbf{break}
+                \EndIf{}
               \If{$intersection$ between Geometry and $path.currentRay$}
-              \State $reflection \gets$ reflect $path.currentRay$ with $intersection$
-              \State $path.addRay(new~Ray(intersection,~reflection)$
-              \State $path.substractEnergy(intersection.absorption)$
-              \EndIf
-              \EndFor
-            \EndFor
-        \EndFor
+              \State{} $reflection \gets$ reflect $path.currentRay$ with $intersection$
+              \State{} $path.addRay(new~Ray(intersection,~reflection))$
+              \State{} $path.substractEnergy(intersection.absorption)$
+              \EndIf{}
+              \EndFor{}
+            \EndFor{}
+        \EndFor{}
 
-    \EndProcedure
+    \EndProcedure{}
   \end{algorithmic}
 \end{algorithm}
 
 \subsubsection{Reflection}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\linewidth]{rt-diagram}
+    \includegraphics[width=1\linewidth]{rt-diagram}
     \caption{An overview of the implemented propagation path: paths are formed by segments found by searching intersections along rays originating from the Source. Depending on the reflection order allowed, see Algorithm~\ref{alg:rt-main}, rays can search for further intersections after reflecting around surface normals. Rays intersecting the Receiver will be registered as final propagation paths.}
-    \label{fig:rt-reflection-diagram}
+\label{fig:rt-reflection-diagram}
 \end{figure}
-Figure~\ref{fig:rt-reflection-diagram} illustrates the computation of propagation paths overview in Algorithm~\ref{alg:rt-main}. For the sake of simplicity, only reflection paths are illustrated in the pseudocode listing, as shadow paths follow the same logic and registration procedure. The algorithm checks for intersection along rays propagating from the Source object bounds (the red sphere volume in Figure~\ref{fig:rt-room-demo}). Intersections found at surfaces create reflections around the computed surface normal by considering the leaf node AABBs encapsulating mesh triangles: rays are checked for collisions by traversing nodes of the scene BVH and testing ray-box collisions until a leaf node is reached. Leaf nodes are AABBs encapsulating mesh triangles; they are the primitives of the reconstructed acoustic volume. As shown in Figure~\ref{fig:aabb-normal}, propagation paths reflect around normals of reflections planes fit on surfaces of the AABB. Upon intersection of a ray with a leaf AABBs, the dot product of the encapsulated triangle normal is pre-computed for all six faces of the box; a plane is then fit on the face that aligns the most with the triangle normal, approximating the acoustic geometry to a Manhattan space. \par
+Figure~\ref{fig:rt-reflection-diagram} illustrates the computation of propagation paths overview in Algorithm~\ref{alg:rt-main}. For the sake of simplicity, only reflection paths are illustrated in the pseudocode listing, as shadow paths follow the same logic and registration procedure. The algorithm checks for intersection along rays propagating from the Source object bounds (the red sphere volume in Figure~\ref{fig:rt-room-demo}). Intersections found at surfaces create reflections around the computed surface normal by considering the leaf node AABBs encapsulating mesh triangles: rays are checked for collisions by traversing nodes of the scene BVH and testing ray-box collisions until a leaf node is reached. Leaf nodes are AABBs encapsulating mesh triangles; they are the primitives of the reconstructed acoustic volume. As shown in Figure~\ref{fig:aabb-normal}, propagation paths reflect around normals of reflections planes fit on surfaces of the AABB. Upon intersection of a ray with a leaf AABBs, the dot product of the encapsulated triangle normal is pre-computed for all six faces of the box; a plane is then fit on the face that aligns the most with the triangle normal, approximating the acoustic geometry to a Manhattan space.\par
 
 \subsubsection{Absorption}
 Leaf nodes of the scene BVH carry frequency-dependent acoustic absorption coefficients that affect the energy of propagation paths colliding with scene geometry. As discussed in Section~\ref{sec:mat-method}, coefficients express acoustic energy absorption over six frequency bands distributed over the human hearing frequency range. Propagation paths have $e_0$ initial energy across these six frequency bands, and upon collision with scene geometry, energy is absorbed based on the acoustic material assigned to the mesh triangle encapsulated in the colliding scene BVH leaf node. In pseudocode, $path.currentEnergy_f = path.currentEnergy * (1 - reflector.absorption_f)$ shows energy subtraction upon collision, with $f$ denoting frequency bands $\{ 125, 250, 500, 1000, 2000, 4000 \} Hz$ Table~\ref{tab:absorption-coeffs} shows example acoustic materials that can be attributed to leaf nodes. \par
