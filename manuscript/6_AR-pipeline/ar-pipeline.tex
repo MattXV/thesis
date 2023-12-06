@@ -12,7 +12,7 @@ The proposed system aims to produce realistic sound transmissions between sound-
 \end{figure}
 
 \section{Dynamic Environment Reconstruction}
-The first chain in the process of generating realistic sound transmission between a listener and holograms in AR space is the generation and handling of a virtual environment to host scene elements such as virtual sound-emitting entities. In AR space, the scene geometry includes a reconstruction of the real space surrounding the user. The space surrounding the user is sensed using space-sensing technology featured in the Hololens 2 device \cite{ungureanu2020hololens}. Using the Microsoft Mixed Reality Toolkit~\footnote{https://github.com/microsoft/MixedRealityToolkit-Unity}, an environment mesh is continuously extracted as a triangulated mesh and updated every 3 to 5 seconds, reflecting dynamic changes in the environment like furniture being moved or a crowd entering the space.\par
+The first chain in the process of generating realistic sound transmission between a listener and holograms in AR space is the generation and handling of a virtual environment to host scene elements such as virtual sound-emitting entities. In AR space, the scene geometry includes a reconstruction of the real space surrounding the user. The space surrounding the user is sensed using space-sensing technology featured in the Hololens 2 device~\citep{ungureanu2020hololens}. Using the Microsoft Mixed Reality Toolkit~\footnote{https://github.com/microsoft/MixedRealityToolkit-Unity}, an environment mesh is continuously extracted as a triangulated mesh and updated every 3 to 5 seconds, reflecting dynamic changes in the environment like furniture being moved or a crowd entering the space.\par
 The triangulated mesh, represented as a list of triangles and indices, is used to construct a Bounding Volume Hierarchy (BVH), where triangle primitives are wrapped in Axis-Aligned Bounding Boxes (AABBs), optimising geometrical search operations for acoustic modelling such as ray-triangle intersection tests. As discussed in Section~\ref{sec:bg-geometry-handling}, One key advantage of using a BVH in the pipeline is the ability to group multiple primitives in AABBs whose size can be determined by a geometry reduction algorithm to simplify the environment complexity whilst maintaining a target perceptual response from the acoustic model. \par
 \begin{figure}[htb]
     \centering
@@ -50,15 +50,17 @@ Head-Related Impulse Responses (HRIRs) offer a compact solution to the integrati
 \begin{equation}
     y_{left} = x * HRTF_{left} * h \quad \textrm{and} \quad  y_{right} = x * HRTF_{right} * h \textrm{.}
 \end{equation}
-HRTF channels left and right are evaluated in real-time, depending on the current position and rotation of the listener entity in the virtual environment, using a loaded bank or HRIRs that are often real measurements of subjects across a grid of points in the azimuth and elevation surrounding the subject. These measurements record the response of each ear canal, from a source position in the surrounding sphere, allowing an interactive HRIR algorithm to interpolate between these measurements.
+HRTF channels left and right are evaluated in real-time, depending on the current position and rotation of the listener entity in the virtual environment, using a loaded bank or HRIRs that are often real measurements of subjects across a grid of points in the azimuth and elevation surrounding the subject. These measurements record the response of each ear canal from a source position in the surrounding sphere, allowing an interactive HRIR algorithm to interpolate between these measurements.
 
 A range of objective metrics are commonly used in acoustic measurements. These metrics together offer a holistic understanding of acoustic properties of spaces, such as reverberation, clarity, strength, directionality, and intelligibility, and can be applied in various contexts, from concert halls to cultural heritage sites. 
 
 
 \section{Implementation of an AR Prototype System for AAR}
+The following Section provides a software implementation of the system, proposing a technical apparatus that can be employed for dynamic auralisation of sound-emitting holograms, considering approximated acoustic phenomena of AR space.
 
 \subsection{Overview}
-The system uses a common game engine.
+The system, illustrated in Figure~\ref{fig:ar-pipeline-overview}, has a game engine as its core component, responsible for querying the HMD for updates on the spare surrounding the user, indexing and handling reconstructed scene geometry, computing energy transfers between emitters and receivers, and controlling a DSP engine for performing audio rendering tasks.
+
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\linewidth]{ar-pipeline-diagram}
