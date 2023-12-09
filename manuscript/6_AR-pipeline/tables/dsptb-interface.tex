@@ -1,0 +1,16 @@
+\begin{table}[tbp]
+    \centering
+    \begin{tabularx}{1\linewidth}{lXcc}
+    \toprule
+    Operation                               & Inputs                                                     & Outputs & Phase   \\ \midrule
+    Initialise Engine                       & Samplerate, filter kernel size, frequency bands definition & None    & Setup   \\
+    Setup Block Processing                  & Chunk size, kernel size, channels                          & None    & Setup   \\
+    Load HRTF Banks                         & HRTF database                                              & None    & Setup   \\
+    \nohyphens{Set Energy Transfer}         & Target frequency band, data                                & None    & Runtime \\
+    Render IR                               & None                                                       & None    & Runtime \\
+    Process Buffer Chunk                    & Chunk                                                      & Chunk   & Runtime \\
+    Update HRTF                             & Head rotation                                              & None    & Runtime \\ \bottomrule
+    \end{tabularx}
+    \caption{A list of operations and routines provided by the proposed DSP engine to process audio in real-time from sources depending on acoustic energy transfers and listener's orientation information. }
+    \label{tab:dsptb-interface}
+    \end{table}
