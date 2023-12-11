@@ -72,13 +72,11 @@ The system, illustrated in Figure~\ref{fig:ar-pipeline-overview}, has a game eng
 \label{fig:source-flow-diagram}
 \end{figure}
 
-
 \subsection{Hardware Apparatus}
 Hololens 2
 
 \subsection{Game Engine and Scene Management System}
 Sound sources in AR scene. Holograms. Audio source description. Sound synthesis.
-
 
 \subsection{DSP Engine for Spatial Audio Rendering}
 Drawing from well-established and modern spatialiser system designs from~\cite{naef2002spatialized}~and~\cite{lakka2021x3d}, respectively, a DSP engine receives control from the game engine, transforming the energy propagation modelling into binaural IRs that can propagate anechoic audio. Duties of the DSP engine include manipulating signals in the time and frequency domain, requiring a fast implementation of the DTFT, and a suite of tools and routines for handling and processing IRs and transfer functions.\par
@@ -87,23 +85,33 @@ Runtime procedures, executed as the game engine runs the scene and a sound sourc
 
 \input{dsptb-interface}
 
+\subsection{Interactive Acoustic Rendering}
+At runtime, the game engine approximates energy transfer between a source and the listener, generating frequency-dependent energy histograms using a ray tracer. The ray tracer implementation follows the method provided in Section~\ref{sec:ga-based-pipeline}, underpinned by~\cite{schroder2011physically}'s work in physically-based acoustic rendering.
+Given a source-receiver pair, the game engine can generate propagation a set of propagation paths for each defined frequency band, which are defined based on frequency-dependent material properties assigned to the scene geometry.\par
+
 \subsection{Audio Rendering}
-At runtime, the game engine approximates energy transfer between a source and the listener, generating frequency-dependent energy histograms using a ray tracer. The ray tracer implementation follows the method provided in Section~\ref{sec:ga-based-pipeline}, underpinned by~\cite{schroder2011physically}.
+Overlap-add.
 
 
 \subsection{Acoustic Geometry Handling}
 Syncing and updating a server-side geometry handling system using a simplified mesh, to which material recognition procedures can also be offloaded.
 
 \section{Vision for Dynamic Auralisation Systems}
-This section outlines the design of future prototypes for dynamic auralisations expanding from the proposed systems toward real-time interpolation 
+This section outlines the design of future prototypes for dynamic auralisations expanding from the proposed systems toward real-time interpolation.\par
+Section~\ref{ch:Evaluation} demonstrates a prototype deployment of the implementation proposed in the previous Section, characterising the psychoacoustic factors associated with approximating the soundfield surrounding the user. The implementation focuses on a single sound source, omitting optimisations that target multiple sources, real-time aspects, dynamic environments scenarios, and factors targeting realistic acoustic rendering.\par
+With the human listener being the target for the generated audio-visual stimuli, rendering procedures affecting the perceived quality require probing of human perception to profile realism and performance aspects of the system. 
+
+
+\subsection{Psychoacoustic Characterisation of Acoustic Rendering}
+A crucial aspect associated with the vision of a real-time system is defining the need to outline the minimum required threshold for realism in IRs.
 
 \subsection{Extension to multiple sources and source clustering}
 Source clustering based on learned psychoacoustic threshold.
 
-\subsection{Dynamic Impulse Response Interpolation}
+\subsection{Extension to Dynamic Impulse Response Interpolation}
 learning a compact image2image to process 
 
-\subsection{Using Radiance Fields for Inferring Local Acoustic Features of Reconstructed Space}
+\subsection{Extension to Radiance Fields for Inferring Local Acoustic Features of Reconstructed Space}
 
 BVH space handling with image2reverb projections
 local feature query via neural radiance field
