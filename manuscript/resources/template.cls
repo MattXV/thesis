@@ -53,7 +53,7 @@
                 \normalfont
         \end{center}\vskip.5in\newpage}
 
-\def\declpage{%
+\newcommand{\declpage}[1]{%
 \prefacesection{Declaration}
         \begin{center}
         \begin{minipage}{4.5in}
@@ -61,9 +61,9 @@
                 I confirm that the work contained in this \@rpttype \space project report has been composed solely by myself and has not been accepted in any previous application for a degree. All sources of information have been specifically acknowledged, and all verbatim extracts are distinguished by quotation marks.
                 \par
                 \vskip 2in
-                 Signed ............................................ \hspace{0.5 in} Date ......................\\
-                 \hspace*{0.4 in} \@author 
-                 \par
+                Signed \includegraphics[width=1.5in]{#1} \hspace{0.2 in} Date: \today\newline
+                \hspace*{0.5 in} \@author 
+                \par
         \end{minipage}%
         \end{center}%
         \vfill}
@@ -73,11 +73,11 @@
         \pagestyle{plain}
         \titlep
         \ifsigpage\signaturepage\fi
+}
 
-
-\def\afterabstract{
+\newcommand{\afterabstract}[1]{
 %%        \newpage
-        \declpage
+        \declpage{#1}
 
 \tableofcontents
         \newpage
@@ -97,7 +97,7 @@
                 \newpage
         \fi}
 
-        }
+
 
 \def\prefacesection#1{%
         \chapter*{#1}

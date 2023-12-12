@@ -28,6 +28,7 @@ intermediate_file_extensions = [
     '*.lol',
     '*.sync*',
     'thesis.pdf',
+    '**/*-eps-converted-to.pdf',
     'output/'
 ]
 

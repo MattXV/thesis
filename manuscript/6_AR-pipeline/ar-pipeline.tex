@@ -1,13 +1,15 @@
 \chapter{Towards Scene-Aware Acoustic Rendering Pipelines for Augmented Audio Reality}\label{ch:ar-pipeline}% If you're changing this, update Section 1.6
-The following Chapter details the implementation to address the primary objective of the thesis.
+The following Chapter details the implementation to address the primary objective of the thesis: proposing a scene-aware interactive rendering system for realistic sound transmissions between sound sources and a listener in AR space. The following Sections will detail how the acoustic material recognition and rendering prototypes integrate with the overarching pipeline, discussing target functionalities, design choices, limitations, and future expansions based on evaluation data obtained from evaluations provided in earlier Chapters and recent advances in the field. This Chapter breaks down into the following three areas:
 \begin{itemize}
-    \item concept;
-    \item implementation;
-    \item vision.
+    \item \textbf{concept},
+    \item \textbf{implementation}, and
+    \item \textbf{vision}.
 \end{itemize}
+\emph{Concept} defines the proposed pipeline's architecture, objectives, and design principles; \emph{implementation} demonstrates how the pipeline can deploy to consumer HMDs as a proof-of-concept system; finally, \emph{vision} analyses limiting factors and expansion points, looking at perception factors to consider for optimisation and ablation studies.\par
+Discussions on design principles, implementation, and limitations feed into methodologies for future research direction, as demonstrated by Chapter~\ref{ch:Evaluation}, where the evaluation design has foundations on the outcomes of these Sections.
 
 \section{Concept}\label{sec:overview}
-The proposed system aims to produce realistic sound transmissions between sound-emitting holograms in AR space and a listener experiencing the holograms via a head-mounted holographic display and perceived auditory stimuli via headphones. In this chapter, the term ``listener'' is used interchangeably with the term ``user'' to refer to the user who is displayed audio-visual stimuli from both the holographic HMD and the headphones. The implementation of this method for interactive sound rendering is demonstrated on a Microsoft Hololens 2 Augmented Reality Head-Mounted Headset, an embedded wearable computer with a holographic display featuring space-sensing and spatial mapping technology that enables Simultaneous Localisation and Mapping (SLAM) methods~\cite{davison2003real, ungureanu2020hololens}.
+The proposed system aims to produce realistic sound transmissions between sound-emitting holograms in AR space and a listener experiencing the holograms via a head-mounted holographic display and perceived auditory stimuli via headphones. In this chapter, the term ``listener'' is used interchangeably with the term ``user'' to refer to the user who is displayed audio-visual stimuli from both the holographic HMD and the headphones. The implementation of this method for interactive sound rendering is demonstrated on a Microsoft Hololens 2 Augmented Reality Head-Mounted Headset, an embedded wearable computer with a holographic display featuring space-sensing and spatial mapping technology that enables Simultaneous Localisation and Mapping (SLAM) methods~\cite{davison2003real, ungureanu2020hololens}.\par
 
 \begin{figure}[htb]
     \centering
@@ -25,7 +27,7 @@ The triangulated mesh, represented as a list of triangles and indices, is used t
     \caption{A visualisation of a BVH constructed on a portion of a scanned environment, left image, to demonstrate how AABBs encapsulate triangle primitives, visible in the centre image, forming a tree of boxes to partition the geometry.}
 \label{fig:bvh-visualisation}
 \end{figure}
-The BVH implementation supports traversing and optimisation operations, allowing the BVH tree representing the environment to support deformation and moving objects at interactive rates \cite{wald2007ray}.
+The BVH implementation supports traversing and optimisation operations, allowing the BVH tree representing the environment to support deformation and moving objects at interactive rates \citep{wald2007ray}.
 
 \subsection{Material Tagging from Partitioned Space}
 One key advantage of the employment of AABBs-based BVH for the handling of scene geometry is the space partitioning that can be used for the material tagging process. As discussed in Chapter~\ref{ch:Materials}, CNNs offer efficient approaches to mapping the appearance of surfaces to the acoustic characteristics of their materials, like absorption or scattering coefficients. The space partitioning provided by the BVH here is used to capture the appearance of portions of the reconstructed environment in order to determine the material characteristics of its surfaces.\par
@@ -44,7 +46,7 @@ The geometry handling system provides the foundations for supporting real-time a
 \subsection{Selecting Acoustic Rendering Techniques}
 A central problem inherent in the task of interactive soundfield approximations for generating dynamic auralisations is the task of adopting a method for propagating anechoic audio in a dynamic scene. As discussed in Chapter~\ref{ch:Background} there are families of sound rendering techniques that produce auralisations with varying levels of realism evoked by audio propagated in the simulated soundscape and associated computational costs, as well as limitations due to their inherent architecture or nature.
 
-Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have emerged as prominent methods to generate impulse responses in the field of acoustics, each contributing to understanding how sound propagates within a given space. Ray-based techniques, rooted in geometric acoustics, simulate sound by tracing rays that emanate from a source and bounce off various surfaces within a space. This method creates echoes and reverberations, contributing to the overall impulse response. Notably, it offers efficiency as it's computationally less demanding compared to wave-based techniques, making it suitable for real-time applications or large-scale spaces often found in cultural heritage contexts. The geometrical nature of ray-based methods allows for easier integration with existing architectural models or historical reconstructions, and the method's inherent flexibility makes it easily adjustable to different acoustic scenarios. IS THIS OK FOR DYNAMIC AURALISATIONS
+Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have emerged as prominent methods to generate impulse responses in the field of acoustics, each contributing to understanding how sound propagates within a given space. Ray-based techniques, rooted in geometric acoustics, simulate sound by tracing rays that emanate from a source and bounce off various surfaces within a space. This method creates echoes and reverberations, contributing to the overall impulse response. Notably, it offers efficiency as it is computationally less demanding than wave-based techniques, making it suitable for real-time applications or large-scale spaces often found in cultural heritage contexts. The geometrical nature of ray-based methods allows for easier integration with existing architectural models or historical reconstructions, and the method's inherent flexibility makes it easily adjustable to different acoustic scenarios. IS THIS OK FOR DYNAMIC AURALISATIONS
 
 On the other hand, wave-ray hybrid techniques present a more complex picture, combining aspects of ray-based and wave-based methods. Rays are utilised to model the high-frequency components of the sound, while wave equations handle the low-frequency behaviour, attempting to capture the best attributes of both methods. However, the hybrid nature often means more computational resources are needed, and it might not always be the most suitable choice for cultural heritage applications where both high and low-frequency accuracy is not often the primary concern. IS THIS OK?
 
@@ -73,7 +75,15 @@ The system, illustrated in Figure~\ref{fig:ar-pipeline-overview}, has a game eng
 \end{figure}
 
 \subsection{Hardware Apparatus}
-Hololens 2
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{hl2-exploded-view}
+    \caption{Exploded view of the Microsoft Hololens 2 Augmented Reality Head-Mounted-Display.}
+\label{fig:hl2-exploded-view}
+\end{figure}
+This Section demonstrates the system implementation using a Hololens 2\footnote{\href{learn.microsoft.com/en-us/style-guide/developer-content/reference-documentation}{https://learn.microsoft.com/en-us/style-guide/developer-content/reference-documentation}} HMD, composed of a built-in ARM32/64 computer equipped powered by a Qualcomm Snapdragon 850 CPU with 4GB LPDDR4 DRAM.\par
+As shown in Figure~\ref{fig:hl2-exploded-view}, the HMD has a visor containing holographic visual displays and featuring head-tracking sensors with four light cameras, two eye-tracking infrared cameras, 1 Megapixel depth sensor. The visual displays have $1.08mm$ focal length and $96.1^\circ$ field of view. Additionally, an accelerometer, a gyroscope, and a magnetometer allow tracking of the user's position and 
+orientation. The device supports spatial audio reproduction with built-in speakers and a Bluetooth-connected external audio DAC. The array of sensors enables several human understanding features, such as hand and eye tracking and six-degrees-of-freedom position tracking.
 
 \subsection{Game Engine and Scene Management System}
 Sound sources in AR scene. Holograms. Audio source description. Sound synthesis.
@@ -90,14 +100,17 @@ At runtime, the game engine approximates energy transfer between a source and th
 Given a source-receiver pair, the game engine can generate propagation a set of propagation paths for each defined frequency band, which are defined based on frequency-dependent material properties assigned to the scene geometry.\par
 
 \subsection{Audio Rendering}
-Overlap-add.
+Approximated acoustic phenomena expressed in IRs are often applied to anechoic, unpropagated audio by application of the convolution operation, as discussed in Section~\ref{sec:real-time-conv}. The resulting auralisation targets a sound reproduction system by applying responses to model characteristics of a human listener in the sound field.\par
+Audio rendering describes operations related to such tasks, requiring DSP algorithms for real-time auralisation of audio signals from sources in a complex scene. The apparatus can display audio stimuli as a stereo signal via headphones connected to the master bus output of the game engine. The audio rendering implementation for the system needs to consider modelled source-receiver acoustic characteristics and apply spatialisation effects expressed as HRTF, inserting a spatialised system in the sound reproduction chain \citep{liu2022sound}.\par
+Real-time acoustic effects apply to audio buffers from scene sources via real-time DSP convolution algorithms such as Overlap-Save or Overlap-Add. The former optimises the number of convolution operations. Though this is unfavourable when the kernel function is updated frequently, leading to audio artefacts caused by outdated convolutions applied to the audio buffer. Hence, the implementation adopts the Overlap-Add algorithm, allowing for fast convolution of kernel functions, which can be updated across update calls within the engine audio thread to audio buffer chunks.\par
+Figure~\ref{fig:overlap-add} shows the algorithm implementation considering HRTFs combined with RIR applied to a given audio signal block from the audio buffer associated with a given scene source, showing the system as a single channel for simplicity. For each update call in the engine audio thread, the algorithm convolves a block of audio samples of length $B$ containing interleaved stereo signal to a kernel function of length $K$. Zero padding, applied to both the kernel function and blocks, allows a DFT toolbox to multiply the spectrum of the two signals ($\bigotimes$ operation), generating a $B+K-1$ convolution result. $B$-long blocks (the turquoise blocks) from past convolution results sum into a new block, discarding already summed blocks (the gray blocks). Finally, the new block replaces the given input block from the audio buffer.\par
+
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\linewidth]{overlap-add}
-    \caption{HENLO CAPTION block size, kernel size, convolution result list.}
+    \caption{Overlap-Add algorithm used for real-time convolution of a kernel function expressing Room Impulse Responses and Head-Related Transfer Functions applied to chunks of audio data from an audio buffer.}
 \label{fig:overlap-add}
 \end{figure}
-
 
 \subsection{Acoustic Geometry Handling}
 Syncing and updating a server-side geometry handling system using a simplified mesh, to which material recognition procedures can also be offloaded.
@@ -106,7 +119,6 @@ Syncing and updating a server-side geometry handling system using a simplified m
 This section outlines the design of future prototypes for dynamic auralisations expanding from the proposed systems toward real-time interpolation.\par
 Section~\ref{ch:Evaluation} demonstrates a prototype deployment of the implementation proposed in the previous Section, characterising the psychoacoustic factors associated with approximating the soundfield surrounding the user. The implementation focuses on a single sound source, omitting optimisations that target multiple sources, real-time aspects, dynamic environments scenarios, and factors targeting realistic acoustic rendering.\par
 With the human listener being the target for the generated audio-visual stimuli, rendering procedures affecting the perceived quality require probing of human perception to profile realism and performance aspects of the system. 
-
 
 \subsection{Psychoacoustic Characterisation of Acoustic Rendering}
 A crucial aspect associated with the vision of a real-time system is defining the need to outline the minimum required threshold for realism in IRs.

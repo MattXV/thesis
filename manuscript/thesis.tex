@@ -1,6 +1,6 @@
 \documentclass{resources/template}
 \usepackage{graphicx, parskip, appendix, float, geometry, algorithm, algpseudocode, bigints, multirow}
-\usepackage{url, amsmath, amssymb, amsfonts, fancybox, listings, pdfpages, subcaption, datetime, rotating, booktabs}
+\usepackage{url, amsmath, amssymb, amsfonts, fancybox, listings, pdfpages, subcaption, rotating, booktabs}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{hyphenat}
@@ -10,6 +10,7 @@
 \usepackage{natbib}
 \usepackage{pdflscape}
 \usepackage{tabularx}
+\usepackage[nodayofweek]{datetime}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bath}
@@ -17,7 +18,6 @@
 \renewcommand*\familydefault{\rmdefault}
 \usepackage[T1]{fontenc}
 \usepackage[pagebackref=false,pdffitwindow=true]{hyperref}
-
 
 \geometry{
  a4paper,
@@ -59,7 +59,7 @@
     pdftitle    = {\reportTitle},
     pdfauthor   = {\authorName},
     pdfsubject  = {Computing},
-    pdfkeywords = {Comma separated list of keywords},
+    pdfkeywords = {Sound Rendering, Audio Augmented Reality, Psychoacoustics},
     colorlinks  = true, anchorcolor = blue, filecolor = blue, urlcolor = blue,
     linkcolor   = blue,    %NOTE: change (blue) to (colIdentifier) to have links within the document in Black
     citecolor   = blue,    %NOTE: change (blue) to (colIdentifier) to have citation links within the document in Black
@@ -83,7 +83,6 @@
 \newtheorem{Example}[Theorem]{Example}
 \newtheorem{Definition}[Theorem]{Definition}
 
-%NOTE: Setup for including program listings
 \lstset{%
     float=H,
     basicstyle=\ttfamily\footnotesize,
@@ -101,7 +100,7 @@
     numberstyle=\footnotesize,
     breaklines=true,
     prebreak={\space\MyHookSign},
-    language=Java,
+    language=C++,
     backgroundcolor=\color{colBackGrnd},
     breakautoindent=true, %
     captionpos=b%
@@ -122,7 +121,7 @@
               {8_conclusions/images}
 }
 
-% Hack to achieve \graphicspath but for tables 
+% Hack to achieve \graphicspath for tables 
 \makeatletter
 \def\input@path{{1_intro/tables}
               {2_background/tables}
@@ -147,7 +146,8 @@
 % Abstract, Preface, ToC
 \include{abstract}
 \listofalgorithms%NOTE: Will generate a list of Algorithms in the Table of Contents Section
-\lstlistoflistings%NOTE: Will generate a list of Program Listings in the Table of Contents Section
+% \lstlistoflistings%NOTE: Will generate a list of Program Listings in the Table of Contents Section
+
 \pagenumbering{arabic}\setcounter{page}{1}
 
 % Chapters
@@ -169,4 +169,4 @@
 % \appendix
 % \include{appendix}
 
-\end{document} %NOTE: END of document, nothing after this point
+\end{document}
