@@ -118,18 +118,29 @@ Figure~\ref{fig:overlap-add} shows the algorithm implementation considering HRTF
 Syncing and updating a server-side geometry handling system using a simplified mesh, to which material recognition procedures can also be offloaded.
 
 \section{Vision for Dynamic Auralisation Systems}
-This section outlines the design of future prototypes for dynamic auralisations expanding from the proposed systems toward real-time interpolation.\par
-Section~\ref{ch:Evaluation} demonstrates a prototype deployment of the implementation proposed in the previous Section, characterising the psychoacoustic factors associated with approximating the soundfield surrounding the user. The implementation focuses on a single sound source, omitting optimisations that target multiple sources, real-time aspects, dynamic environments scenarios, and factors targeting realistic acoustic rendering.\par
-With the human listener being the target for the generated audio-visual stimuli, rendering procedures affecting the perceived quality require probing of human perception to profile realism and performance aspects of the system. 
+This section outlines the design of future prototypes for dynamic auralisations expanding from the proposed systems toward real-time interpolation of RIRs computed across a given environment. 
+Beyond a baseline prototype for modelling acoustics of AR environments are potential avenues expanding towards areas of AAR. These can branch into domains of psychoacoustics and interactions between AR sound sources and listeners, adding to the overall aural experience beyond colouring ``dry'' propagating audio with acoustic effects, thus enabling the further potential for rich auditory displays in applications. Prior to expanding from the primary objective of rendering virtual audio-emitting entities that perceptually belong to the user's physical surroundings, there must be a standardised rendering pipeline that satisfies the minimum psychoacoustic requirements, as there is still a need for research defining thresholds and just noticeable differences of perceived aspects of soundfields, like reverberation or definition \citep{yang2022audio}.\par
+Chapter~\ref{ch:Evaluation} demonstrates a prototype deployment of the implementation discussed in the previous Sections, characterising the psychoacoustic factors associated with approximating the soundfield surrounding the user. The implementation focuses on a single sound source, omitting optimisations that target multiple sources, real-time aspects, dynamic environments scenarios, and factors targeting realistic acoustic rendering. With the human listener being the target for the generated audio-visual stimuli, rendering procedures affecting the perceived quality require probing of human perception to measure performance aspects and realism of the system. \par
+Despite the need to outline perceptual responses and characterise psychoacoustic factors of rendering pipelines, a vision for research directions and expansions toward context-aware and realistic auditory interactions in AR should be developed.
 
 \subsection{Psychoacoustic Characterisation of Acoustic Rendering}
 A crucial aspect associated with the vision of a real-time system is defining the need to outline the minimum required threshold for realism in IRs.
+Dolhasz threshold definition \citep{Dolhasz_2020_CVPR}. 
+JND
+
+\subsection{Acoustic Hear-Through Displays and Context-Aware Dereverberation}
+Audio pipelines should interact with the user's safety and improve perception of their surroundings.
+
+An example use case is improving the perception of physical sound sources through dereverberation techniques, leveraging scene understanding techniques and human-computer interfaces to resolve the cocktail party problem in adverse acoustic environments with concurrent propagating sources. A real-time system to improve perception of physical sound sources in AR space could target hard-of-hearing users to increase intelligibility and reduce information loss in sound transmissions, targeting a range of use cases around accessibility, training, or education.
+
 
 \subsection{Extension to multiple sources and source clustering}
 Source clustering based on learned psychoacoustic threshold.
 
+
 \subsection{Extension to Dynamic Impulse Response Interpolation}
 learning a compact image2image to process 
+
 
 \subsection{Extension to Radiance Fields for Inferring Local Acoustic Features of Reconstructed Space}
 
