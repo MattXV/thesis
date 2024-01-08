@@ -26,6 +26,28 @@
  top=25mm,
 }
 
+% glossary options - thanks Sean <3
+\usepackage[acronym, nonumberlist, nomain, toc, style=alttree]{glossaries}
+\newglossary[mlg]{maths}{mni}{mno}{Mathematical Notation}
+\glssetwidest[0]{MUSHRAAAA}
+\renewcommand{\glstreenamefmt}{}
+\makenoidxglossaries
+
+% glossary entries
+\newacronym{dft}{DFT}{Discrete Fourier Transform}
+\newacronym{stft}{STFT}{Short-Time Fourier Transform}
+\newacronym{ir}{IR}{Impulse Response}
+\newacronym{fir}{FIR}{Finite Impulse Response}
+\newacronym{iir}{IIR}{Infinte Impulse Response}
+\newacronym{rir}{RIR}{Room Impulse Response}
+\newacronym{brir}{BRIR}{Binarual Room Impulse Response}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{naf}{NAF}{Neural Acoustic Field}
+\newacronym{dsp}{DSP}{Digital Signal Processing}
+\newacronym{stft}{STFT}{Short-Time Fourier Transform}
+\newacronym{mse}{MSE}{Mean Squared Error}
+\newacronym{ar}{AR}{Augmented Reality}
+
 % Citing   use \autocite, \parencite, or \textcite rather than \cite.
 %  http://tex.stackexchange.com/questions/102662/harvard-reference-using-biblatex
 %  https://www.sharelatex.com/blog/2013/07/31/getting-started-with-biblatex.html
@@ -148,17 +170,20 @@
 \listofalgorithms%NOTE: Will generate a list of Algorithms in the Table of Contents Section
 % \lstlistoflistings%NOTE: Will generate a list of Program Listings in the Table of Contents Section
 
+\printnoidxglossary
+\cleardoublepage{}
+
 \pagenumbering{arabic}\setcounter{page}{1}
 
 % Chapters
-\include{1_intro/introduction}
-\include{2_background/background}
-\include{3_lit-review/litreview}
-\include{4_materials/materials}
-\include{5_rendering/acoustic_rendering}
+% \include{1_intro/introduction}
+% \include{2_background/background}
+% \include{3_lit-review/litreview}
+% \include{4_materials/materials}
+% \include{5_rendering/acoustic_rendering}
 \include{6_AR-pipeline/ar-pipeline}
-\include{7_evaluation/evaluation}
-\include{8_conclusions/conclude}
+% \include{7_evaluation/evaluation}
+% \include{8_conclusions/conclude}
 
 %\printbibliography[heading=bibintoc]
 \footnotesize
