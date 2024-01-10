@@ -1,15 +1,7 @@
 \documentclass{resources/template}
 \usepackage{graphicx, parskip, appendix, float, geometry, algorithm, algpseudocode, bigints, multirow}
 \usepackage{url, amsmath, amssymb, amsfonts, fancybox, listings, pdfpages, subcaption, rotating, booktabs}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{hyphenat}
-\usepackage{cuted}
-\usepackage{capt-of}
-\usepackage{mathtools}
-\usepackage{natbib}
-\usepackage{pdflscape}
-\usepackage{tabularx}
+\usepackage{textcomp, xcolor, hyphenat, capt-of, mathtools, natbib, pdflscape, tabularx}
 \usepackage[nodayofweek]{datetime}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
@@ -44,9 +36,9 @@
 \newacronym{api}{API}{Application Programming Interface}
 \newacronym{naf}{NAF}{Neural Acoustic Field}
 \newacronym{dsp}{DSP}{Digital Signal Processing}
-\newacronym{stft}{STFT}{Short-Time Fourier Transform}
 \newacronym{mse}{MSE}{Mean Squared Error}
 \newacronym{ar}{AR}{Augmented Reality}
+\newacronym{hmd}{HMD}{Head-Mounted Display}
 
 % Citing   use \autocite, \parencite, or \textcite rather than \cite.
 %  http://tex.stackexchange.com/questions/102662/harvard-reference-using-biblatex
@@ -176,14 +168,14 @@
 \pagenumbering{arabic}\setcounter{page}{1}
 
 % Chapters
-% \include{1_intro/introduction}
-% \include{2_background/background}
-% \include{3_lit-review/litreview}
-% \include{4_materials/materials}
-% \include{5_rendering/acoustic_rendering}
+\include{1_intro/introduction}
+\include{2_background/background}
+\include{3_lit-review/litreview}
+\include{4_materials/materials}
+\include{5_rendering/acoustic_rendering}
 \include{6_AR-pipeline/ar-pipeline}
-% \include{7_evaluation/evaluation}
-% \include{8_conclusions/conclude}
+\include{7_evaluation/evaluation}
+\include{8_conclusions/conclude}
 
 %\printbibliography[heading=bibintoc]
 \footnotesize
