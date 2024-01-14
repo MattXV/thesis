@@ -1,11 +1,29 @@
 \chapter{Conclusion}\label{ch:Conclusion}
 
-This chapter summarises the main positive outcomes and conclusions resulting from this body of work. One can explore the overall journey, problems encountered and solutions found. Of key importance is the ``Future Work'' section highlighting how the product may be further developed with new and improved features, futher resources and time. 
+The primary goal of this thesis has been to explore a novel system for acoustic rendering bespoke to \acrshort{ar} platforms, enabling context-aware rendering to consider characteristics of the environment surrounding the player. The objectives defined by this thesis developed and evaluated individual systems composing the pipeline proposed as a solution modularised into standalone contributions. Overall, the development of components evaluations conducted on test cases showed that the domain of acoustic rendering for \acrshort{ar} would benefit from applications of acoustic rendering pipelines, and the discussions on the results gathered open several potential avenues for future research heading towards more interactive and realistic auditory interactions.
+
+\section{Summary}
+Chapter~\ref{ch:ar-pipeline} illustrates the proposed pipeline, targeting the primary objective, illustrating its concept and design principles, demonstrating implementations and apparatus design, and outlining the vision and potential expansions. 
 
 \section{Discussion}
-This section brings together findings from all chapters and discusses the contributions and limitations of each component of the proposed system.
-\subsection{}
+As a high-level discussion around the interpreted results gathered from evaluating the system and its components, there are conclusions drawn that determine contributions towards the field of \acrfull{aar} and domains of computer graphics and vision in the context of simulating soundfields and generating realistic auditory stimuli. The following Sections will break these down, discussing their relevance to the broader research domains, target use cases, as well as their limitations, and how future work has the potential to overcome them.
 
+\subsection{System Overview}
+The primary contributions provided by the work on 
+it uses geometrical acoustics-based acoustic rendering techniques. It should look at leveraging modern radiance field approaches.
+
+\subsection{Acoustic Characteristics Retrieval Methods}
+The solutions proposed addressed the problem of extracting soundscape features in context-aware acoustic rendering target platforms equipped with space-sensing technology. The two proposed novel systems addressed the problem of retrieving acoustic characteristics from environments from their visual representations by adopting computer vision techniques. This thesis work and recent methods show that such a task is still an open research question due to the complexity in the mappings between visual representations of space and auditory stimuli generated from simulated soundfields based on properties assigned from inferring their visual appearance.\par
+Mapping acoustic properties to representations of space has been defined in this work as the ``material tagging'' process, expressing the task engineers face when constructing immersive, complex scenes in game engines, where portions of scene geometry are assigned acoustic material properties. As acoustic simulations become more feasible for increasing use cases and applications, material tagging will incur higher manual authoring, which the application of computer vision techniques can automate, enabling and rendering procedural workflows.\par
+There are benefits to the two proposed systems that aim at automating material tagging. With the camera-based acoustic material tagging system demonstrated in Section~\ref{sec:camera-tagging}, a novel system that uses camera renders to infer portions of scene geometry they depict, provides a solution that can adapt to cameras equipped by \acrshortpl{hmd}. It allows the system to scan and map acoustic characteristics to the environments as the user walks around their \acrshort{ar} scene.
+
+
+
+The texture-based alternative system demonstrated in Section~\ref{sec:texture-tagging} expanded towards a more efficient workflow that also has applications to \acrshortpl{hmd} by using spatial reconstruction systems that provide and update scene geometry as the user navigates the scene.
+
+
+\subsection{Acoustic Rendering}
+Geometrical acoustics-based rendering pipelines benefit from controlling the number of rays and other aspects associated with the simulated acoustic phenomena. Thus, perceptual evaluations aimed at measuring psychoacoustic factors associated with auditory stimuli produced from simulated soundfields benefit from control over the resolution of the sound propagation technique. The degree of control is crucial for evaluating perceptual responses and defining the minimum requirements for psychoacoustic factors of the generated stimuli.\par
 
 \section{Conclusions}
 
