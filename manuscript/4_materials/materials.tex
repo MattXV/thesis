@@ -10,11 +10,15 @@ The two methods predict acoustic characteristics of space from their visual repr
 
 \section{Introduction}
 % Camera-based approach
-Modern approaches to audio rendering can be broadly categorised into geometrical acoustics (GA) methods \cite{savioja2015overview} or finite or boundary element methods (FEM/BEM) \cite{hulusic2012acoustic}. Finite elements methods, such as wave-based audio renderers, often require the positions of sound sources and listeners, as well as the scene geometry and associated materials, tagged with acoustic absorption coefficients for each material \cite{deines2006comparative, raghuvanshi2014parametric}. 
+Modern approaches to audio rendering can be broadly categorised into geometrical acoustics (\acrshort{ga}) methods~\citep{savioja2015overview} or finite or boundary element methods (FEM/BEM) \citep{hulusic2012acoustic}. Finite elements methods, such as wave-based audio renderers, often require the positions of sound sources and listeners, as well as the scene geometry and associated materials, tagged with acoustic absorption coefficients for each material~\citep{deines2006comparative, raghuvanshi2014parametric}. This process is commonly performed manually, often at significant cost, due to the human-in-the-loop. This Chapter represents a first step towards creating an automatic process for the generation of such input data for pre-computed audio rendering pipelines in the absence of knowledge of geometry and material information of a complex scene. Specifically, we propose a proof-of-concept system for vision-based material information retrieval, which allows for tagging of an object's acoustic properties based on its image features, which are then mapped to frequency-dependent absorption coefficients. The system tags meshes in \acrshort{ve} representing boundaries in sound propagation paths having a noticeable perceptual impact, facilitating the use of GA or FEM/BEM-based acoustic renderers on complex scenes.
+The contributions of this Chapter are:
+\begin{itemize}
+    \item a novel methodology for acoustic material tagging using a camera-based system and computer vision techniques to infer from the scene;
+    \item an alternative system that abstracts from the use of cameras and operates on reconstructed virtual geometry;
+    \item objective and subjective methologies to evaluate the efficacy of the systems comparing against objective and subjective metrics;
+    \item a proof-of-concept demonstration stemming from the development of the two systems
+\end{itemize}
 
-This process is commonly performed manually, often at significant cost, due to the human-in-the-loop. Our work proposes a first step towards creating an automatic process for the generation of such input data for pre-computed audio rendering pipelines in the absence of knowledge of geometry and material information of a complex scene. Specifically, we propose a proof-of-concept system for vision-based material information retrieval, which allows for near-real-time tagging of an object's acoustic properties based on its image features, which are then mapped to frequency-dependent absorption coefficients. 
-The system tags meshes in VEs representing boundaries in sound propagation paths having a noticeable perceptual impact, facilitating the use of GA or FEM/BEM-based acoustic renderers on complex scenes.
-Our contributions are: 1) a system for material-based tagging of VEs; 2) a methodology for fine-tuning material-based semantic segmentation models; 3) an approach to reprojection of semantic labels back into the VE using level-of-detail.
 % Superpixel Introduction
 However, the accuracy of the acoustic simulation depends on material information assigned to the scene geometry. The scene geometry, tagged with frequency-dependent absorption and scattering information, determines how sound behaves in space and affects the resulting wavefield. In games development, the process of tagging materials with appropriate acoustic data often requires the work of experts, raising costs and resources needs for large scenes.\par
 Advances in acoustic modelling propose automatic tagging of acoustic data to scene geometry using convolutional neural networks to tag acoustic materials from stereo photographs of real environments \cite{li2018scene}. Alternatively, using a recent camera-based material tagging system tags geometry in VEs, applying scene understanding algorithms and filtering complex geometry based on its perceptual impact on the resulting acoustic model. At the core of these methods lies the problem of scene segmentation. In computer games, often, a set of meshes composes a scene, where each mesh represents an object in the scene. Acoustic materials are often assigned to all triangles composing a given mesh, allowing audio engineers to group scene geometry when assigning acoustic data. Hence, the resulting acoustic model's accuracy depends on the separation of the geometry, where ideal conditions would have each triangle mapped to its specific acoustic data. A naive approach would have the entire geometry mapping to a single acoustic material. Besides, the representation of materials in real and virtual environments adds further dimensions to the material tagging problem due to complex links between the visual representation of materials of an object and its perceptual effects on the soundscape of the environments in which it exists.\par
@@ -143,7 +147,7 @@ According to \cite{schwartz2019recognizing}, small image patches contain enough 
 \end{figure}
 We determine the visual material space by applying transfer learning to the OpenSurfaces dataset \cite{bell2013opensurfaces}, which comprises 36 classes of surface photographs. 
 The SLIC algorithm \cite{slic6205760} segments input surface photographs into a set of superpixel labels, which determine regions correlated with boundaries of objects. From these resulting superpixel labels, we then generate rectified image patches encapsulating their contours through edge detection \cite{ding2001canny}.
-The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of 32x32 pixel resolution input patches. We train the network on 13677819 input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \cite{kingma2014adam} to update the weights initialised from the ImageNet dataset \cite{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about 0.94 and 0.83 respectively. 
+The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of 32\times32 pixel resolution input patches. We train the network on 13677819 input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \cite{kingma2014adam} to update the weights initialised from the ImageNet dataset \cite{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about 0.94 and 0.83 respectively. 
 
 \subsubsection{Inference}
 \begin{figure}[htbp]
@@ -180,7 +184,6 @@ Material labels inferred from textures are associated with acoustic measurements
     \caption{Predicted Class labels from input image patches computed from the texture shown in Figure~\ref{fig:slic-generation}.}
     \label{fig:slic-labels}
 \end{figure}
-
 
 
 \subsection{Preliminary Evaluation}
@@ -298,7 +301,6 @@ RIR comparisons across single sources. Manually tagged and automatically tagged 
 
 \section{Results}
 Results from camera and superpixel.
-
 
 
 \section{Discussion}
