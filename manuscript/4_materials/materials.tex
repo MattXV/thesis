@@ -223,7 +223,7 @@ We conduct a perceptual comparison between simulated wavefields at the same posi
 \subsection{Evaluation Results}
 figures.
 
-\section{Experimental Evaluation}
+\section{Proof of Concept Demonstration}
 An experimental evaluation is designed to investigate the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The evaluation focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
 The evaluation uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes. \par
 The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
@@ -294,6 +294,33 @@ Manual segmentation of scene geometry via Blender.
 
 \subsection{Manual Acoustic Material Tagging}
 The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each sub mesh.
+
+UV Mapping of scene geometry to texture segments.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.75\textwidth}
+        \includegraphics[width=\textwidth]{floor0}
+        \caption{Scene Geometry: Floor}
+        \label{fig:floor}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.42\textwidth}
+        \includegraphics[width=\textwidth, height=\textwidth]{uv_floor0}
+        \caption{Texture Mapping 1}
+        \label{fig:uv_floor}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.42\textwidth}
+        \includegraphics[width=\textwidth, height=\textwidth]{uv_floor1}
+        \caption{Texture Mapping 2}
+        \label{fig:uv_floor2}
+    \end{subfigure}
+            
+    \caption{UV mapping of one scene geometry segment to many texture segments.}
+    \label{fig:uv_mapping_demo}
+\end{figure}
+
 
 \subsection{Testing methodology}
 RIR comparisons across single sources. Manually tagged and automatically tagged should be close perceptually.
