@@ -99,8 +99,7 @@ In acoustics for interactive applications, engineers often adopt the Discrete-Ti
     \label{fig:DFT}
 \end{figure}
 
-\subsubsection{Binaural Room Impulse Responses}
-\label{sec:ir-definition}
+\subsubsection{Binaural Room Impulse Responses}\label{sec:ir-definition}
 Common approaches to acoustic simulations involve the approximation of acoustic phenomena affecting a sound transmission occurring within a given environment between a sound source and a listener. To represent the result of such a simulation as a measurable process, where the environment is thought of as a dynamic system, Impulse Responses (IR) are used. IRs describe the effect that a system has on a sound transmission as a function of time. From DSP theory, there are several variations of IRs that the fields of immersive acoustics borrow to model several dynamic systems that affect how the human auditory system perceives soundscapes. Figure~\ref{fig:audio_rendering_chain} shows how the auditory display is affected by interconnected systems associated with aspects of the soundscape. Time invariance is the fundamental property of these systems, making it possible to model their effect as an IR by observing their response to a Dirac-Delta function, which is a function whose value is zero except at the origin, where it is infinite. In practical terms, the Diract-Delta function is an infinitely narrow spike of energy that is often used to excite the system and obtain a response across the frequency spectrum over time. In DSP terms, the function is simply represented as a finite sequence of numbers, the Finite Impulse Response (FIR), representing amplitude levels of the output of the system over time, given an input, commonly used to measure the effects of time-invariant linear systems like amplifiers or loudspeakers.\par
 In the acoustic domain, the FIR adapts to several tasks, like modelling the acoustic fingerprint of a space with respect to a source and listener by observing, at the listener, a Dirac-Delta-like signal being emitted by the source. Such IR is differentiated from standard IRs and referred to as a Room Impulse Response (RIR); such distinction has emerged from the ongoing research in techniques and methods for measuring responses from real spaces, also due to the chaotic nature of room acoustics and real soundfields \citep{farina07}. 
 IRs, as well as measuring the acoustic fingerprint of spaces, can extend as far as measuring the effect of the human auditory system on the perception of the soundscape, and there are methods for modelling how anthropometric characteristics of the human body affect sounds arriving at both ears. Such IRs are defined as Binaural Room Impulse Responses: they extend RIRs by providing individual responses for both ears. BRIRs are a representation of Head-Related Transfer Functions (HRTFs), a function that describes how the anatomic features, rotation and position with respect to a sound source, affect the arrival of sound to the ears. Figure~\ref{fig:rir-spectrum} is an example of a monaural RIR, shown both in the time and frequency domain. 
@@ -185,8 +184,7 @@ Room acoustics simulations may involve the concept of virtual environments to re
 Graphics rendering pipelines display objects of a complex scene to viewers, determining the appearance of materials and geometry of the environment. In VEs, meshes are composed of triangles enabling game engines to organise geometry based on the semantics of scene objects. For E.g. a mug can be represented by triangles grouped in a mesh. They are essentially a network of triangles that connect, having adjacent vertices, to form objects. They are responsible for transforming the scene geometry and applying further processing, such as rasterisation, which generates fragments from geometry combined to create frames. A series of frames generated at interactive rates compose a frame buffer that allows users to experience scenes in real-time. Graphics pipelines describe geometry as vertices and triangles, applying shading techniques to control the appearance of surfaces depending on their lighting conditions and the viewer’s spatial position. Here, texture images can also define the appearance of objects' geometry by painting their surfaces and controlling transparency \citep{mcallister2002efficient, marschner2015fundamentals}.\par
 Textures can determine the appearance of material composing objects in a scene adopting two-dimensional images. Texture mapping uses colour and transparency information contained in these images to paint triangles forming the geometry. Texture coordinates provide graphics pipelines with enough information to paint meshes.
 
-\subsection{Handling of Complex Scene Geometry}
-\label{sec:bg-geometry-handling}
+\subsection{Handling of Complex Scene Geometry}\label{sec:bg-geometry-handling}
 Spatial data structures are employed to handle geometry composing virtual environments. 
 Basic input to rendering pipelines. 
 
@@ -205,7 +203,6 @@ Absorption, diffusion, scattering and physical properties of materials.
 
 \section{Deep Learning}
 Material recognition.
-
 
 
 \section{Conclusions}
