@@ -147,7 +147,7 @@ According to \cite{schwartz2019recognizing}, small image patches contain enough 
 \end{figure}
 We determine the visual material space by applying transfer learning to the OpenSurfaces dataset \cite{bell2013opensurfaces}, which comprises 36 classes of surface photographs. 
 The SLIC algorithm \cite{slic6205760} segments input surface photographs into a set of superpixel labels, which determine regions correlated with boundaries of objects. From these resulting superpixel labels, we then generate rectified image patches encapsulating their contours through edge detection \cite{ding2001canny}.
-The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of 32\times32 pixel resolution input patches. We train the network on 13677819 input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \cite{kingma2014adam} to update the weights initialised from the ImageNet dataset \cite{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about 0.94 and 0.83 respectively. 
+The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of $32\times32$ pixel resolution input patches. We train the network on 13677819 input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \cite{kingma2014adam} to update the weights initialised from the ImageNet dataset \cite{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about 0.94 and 0.83 respectively. 
 
 \subsubsection{Inference}
 \begin{figure}[htbp]
@@ -222,6 +222,9 @@ We conduct a perceptual comparison between simulated wavefields at the same posi
 
 \subsection{Evaluation Results}
 figures.
+\input{poc-graphics}
+
+
 
 \section{Proof of Concept Demonstration}
 An experimental evaluation is designed to investigate the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The evaluation focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
