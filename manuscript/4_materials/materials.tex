@@ -225,10 +225,9 @@ figures.
 \input{poc-graphics}
 
 
-
 \section{Proof of Concept Demonstration}
-An experimental evaluation is designed to investigate the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The evaluation focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
-The evaluation uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes. \par
+A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
+The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes. \par
 The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
 
 \subsection{Test Scenes}
@@ -293,7 +292,8 @@ The test adopts three real spaces: a small, a medium, and a large environment, s
 
 
 \subsection{Mesh Segmentation}
-Manual segmentation of scene geometry via Blender.
+Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned, have limited knowledge of semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
+Such limitation is beyond the scope of this thesis work and is something that can be addressed with complex mappings between a definition of a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. 
 
 \subsection{Manual Acoustic Material Tagging}
 The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each sub mesh.
