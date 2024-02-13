@@ -51,8 +51,6 @@ Once the network is fit on the ground truth set, it is deployed to a set of test
     \label{fig:cog-inference}
 \end{figure}
 
-
-
 \subsection{Method}
 \label{sec:mat-method}
 Based on advances in scene understanding and the current state of wave-based audio renderers, we design an architecture that enables the process of semantic mesh labelling in complex scenes and associating every category with a frequency-dependent acoustic absorption function. Methods based on perceptual metrics should consider only meshes that are relevant to the acoustic environment. Scene understanding methods and inference should be optimised depending on the scene geometry.
@@ -226,8 +224,8 @@ figures.
 
 
 \section{Proof of Concept Demonstration}
-A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs. \par
-The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes. \par
+A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs.\par
+The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes.\par
 The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
 
 \subsection{Test Scenes}
@@ -274,26 +272,17 @@ The test adopts three real spaces: a small, a medium, and a large environment, s
 \label{fig:chi-scanning}
 \end{figure}
 
-
-% \begin{figure}[htp]
-% \centering 
-% \subfloat[St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second. ]{%
-%   \includegraphics[clip,width=0.5\textwidth]{guildhall}%
-% }\\
-% \subfloat[Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.]{%
-%   \includegraphics[clip,width=0.5\textwidth]{recital-hall}%
-% }\\
-% \subfloat[Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.]{%
-%   \includegraphics[clip,width=0.5\textwidth]{mastering_suite}%
-% }\\
-% \caption{Environments used for the evaluation of the two prototype systems for acoustic material tagging.}
-% \label{fig:material-testing-scenes-iso}
-% \end{figure}
-
-
 \subsection{Mesh Segmentation}
-Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned, have limited knowledge of semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
-Such limitation is beyond the scope of this thesis work and is something that can be addressed with complex mappings between a definition of a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. 
+Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned have limited knowledge of the semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
+Such limitation is beyond the scope of this thesis work. It is a problem that can be addressed with complex mappings between defining a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. A family of techniques exists to address the problem of segmenting 3D scenes expressed as triangulated meshes or point clouds. However, the complex nature of three-dimensional space reconstructions makes the problem an open challenge. The work by~\cite{chen2009benchmark} is a significant stepping stone towards the problem of defining a physical entity represented in a complex mesh or point cloud, as the authors gather annotations from humans to investigate the consistency in segmenting entities represented in reconstructed data.\par
+Such experiments have shown a consensus in the segmentation process and provided a benchmark as an evaluation tool and starting point for automated methods. There are techniques available that address the problem, such as~\cite{rusu2011pcl}'s work providing a set of algorithms in Point Cloud Library, as well as new methods leveraging geometrical \acrshortpl{cnn} to segment 3D meshes and point clouds, such as~\cite{feng2020semantic3d}'s work. Despite these techniques being available, there are still large margins of errors when deployed on in-the-wild reconstructions that require fine-tuning and human authoring.\par
+Hence, the mesh segmentation stage of the material recognition pipeline is performed manually, separating the reconstructed data into semantically meaningful segments with a minimum structural size of $70cm$, following~\cite{pelzer2010frequency}'s perceptual threshold for \acrshort{ga} pipelines. Using Blender as a 3D data editor\footnote{\url{https://www.blender.org/}}, the reconstruction obtained from the Matterport camera is separated into individual meshes, see Figure~\ref{fig:mesh-segmentation}.\par
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{mesh-segmentation}
+    \caption{Mesh segmentation process performed manually on a reconstructed scene.}
+    \label{fig:mesh-segmentation}
+\end{figure}
 
 \subsection{Manual Acoustic Material Tagging}
 The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each sub mesh.
@@ -325,16 +314,10 @@ UV Mapping of scene geometry to texture segments.
 \end{figure}
 
 
-\subsection{Testing methodology}
-RIR comparisons across single sources. Manually tagged and automatically tagged should be close perceptually.
-
-
-\section{Results}
-Results from camera and superpixel.
-
-
 \section{Discussion}
 Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
+
+Problem of mesh segmentation with semantics projection. Future work.
 
 \section{Conclusions}
 

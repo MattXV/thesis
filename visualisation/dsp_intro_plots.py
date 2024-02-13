@@ -1,9 +1,11 @@
 #%%
 import matplotlib.pyplot as plt
-import mplcyberpunk
+# import mplcyberpunk
 import numpy as np
 from scipy import fft
 # plt.style.use('cyberpunk')
+plt.rcParams["text.usetex"] = True
+plt.style.use('science')
 
 #%%
 
@@ -35,11 +37,11 @@ bx.stem(b, by, basefmt='k', markerfmt='ro')
 bx.set_xticks([], minor=False)
 bx.set_xticks(b, minor=True)
 bx.set_yticks(discrete_values)
-bx.grid(which='both', axis='y', linestyle='--')
+bx.grid(which='major', axis='y', linestyle='--')
 bx.tick_params(axis='x', which='minor', length=6, width=2, colors='r')
 # bx.grid(which='minor', axis='x', linestyle='-')
 bx.set_title('Digital Signal')
-fig.savefig('analogue_digital.png')
+fig.savefig('analogue_digital.pdf')
 plt.show()
 
 #%%

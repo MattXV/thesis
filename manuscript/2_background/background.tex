@@ -70,7 +70,7 @@ DSP applies to both, but in this book chapter, we will only focus on the branch 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{analogue_digital}
-    \caption{Analogue and digital signal: the top axis shows a continuous signal, and the bottom axis shows discrete digital signal samples.}
+    \caption{Analogue and digital signal: the left axes show a continuous signal, and the right axes show a discrete sampled representation.}
     \label{fig:analogue-digital-signal}
 \end{figure}
 
@@ -198,11 +198,35 @@ Representing space in virtual environments, capturing real space and synthetic s
 - Game Engine architecture book                             
 
 \subsection{Materials}
-Absorption, diffusion, scattering and physical properties of materials.
+Absorption, diffusion, scattering, and physical properties of materials.
 
 
 \section{Deep Learning}
-Material recognition.
+Subsequent chapters of this thesis will leverage deep learning techniques to solve a subset of problems associated with developing a system targeting the overarching aim. Specifically, acoustic materials are central to applying the system to realistic, complex scenes, as they contribute towards the perceived quality and realism evoked by the auditory display. The problem arises from the complexity of mapping the appearance of surfaces within the complex scene to acoustic materials. Many factors in complex virtual environments influence the appearance of surfaces, making it hard to distinguish surfaces and map them against acoustic materials automatically.\par
+Deep learning is a subset of machine learning comprising techniques and pipelines to address such mapping problems by learning from examples and providing a generalised model for unseen cases. The potential of deep learning lies in the feature extraction process, allowing models to learn from examples influenced by many factors. The term deep learning is associated with the feature extraction process, delegated to layered feature extraction components composing the model.\par
+The goal of a model is to provide inference on unseen data based on training on a set of representative examples, emulating basic human abilities.
+
+\subsection{General Machine Learning Tasks}
+\begin{itemize}
+    \item classification
+    \item regression
+    \item synthesis and sampling
+    \item extrapolation
+\end{itemize}
+
+
+\subsection{Application to Virtual Enviroments}
+Deep learning techniques are becoming increasingly popular in virtual environment pipelines due to the flexibility and potential of adapting to a variety of tasks. 
+\begin{itemize}
+    \item object detection
+    \item image segmentation
+    \item 3D scene segmentation
+    \item content recognition
+    \item pose estimation
+    \item scene reconstruction
+\end{itemize}
+
+
 
 
 \section{Conclusions}
