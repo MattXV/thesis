@@ -185,6 +185,14 @@ Graphics rendering pipelines display objects of a complex scene to viewers, dete
 Textures can determine the appearance of material composing objects in a scene adopting two-dimensional images. Texture mapping uses colour and transparency information contained in these images to paint triangles forming the geometry. Texture coordinates provide graphics pipelines with enough information to paint meshes.
 
 \subsection{Handling of Complex Scene Geometry}\label{sec:bg-geometry-handling}
+Implementing multimodal interactions in \ACRshortpl{ve} often requires handling and performing operations on the scene geometry, including searching interactions between entities and the environment. In computer games, physics systems are often fundamental components enabling game mechanics and interactions, which often involve computing intersections between scene entities and the environment. With the growing density of environment geometry and complexity of the scene elements, the computational requirements associated with evaluating these geometry searches have grown, demanding optimal solutions across the space and time domains.\par
+The goal of geometry handling systems is to allow searching intersections between volumes or primitives, such as rays or frustums, and the scene geometry and the engineering design of such systems are often tied to the computing platform targeted.
+Data structures space and time complexity
+
+
+\subsubsection{Binary Space Partitioning}
+
+
 Spatial data structures are employed to handle geometry composing virtual environments. 
 Basic input to rendering pipelines. 
 
@@ -206,7 +214,9 @@ Subsequent chapters of this thesis will leverage deep learning techniques to sol
 Deep learning is a subset of machine learning comprising techniques and pipelines to address such mapping problems by learning from examples and providing a generalised model for unseen cases. The potential of deep learning lies in the feature extraction process, allowing models to learn from examples influenced by many factors. The term deep learning is associated with the feature extraction process, delegated to layered feature extraction components composing the model.\par
 The goal of a model is to provide inference on unseen data based on training on a set of representative examples, emulating basic human abilities.
 
-\subsection{General Machine Learning Tasks}
+General Machine Learning Tasks
+
+\cite{goodfellow2016deep}
 \begin{itemize}
     \item classification
     \item regression
@@ -218,20 +228,20 @@ The goal of a model is to provide inference on unseen data based on training on 
 \subsection{Applications Within Immersive Media}
 Deep learning techniques are becoming increasingly popular in virtual environment pipelines due to the flexibility and potential to adapt to various tasks. 
 \begin{itemize}
-    \item object detection
-    \item image segmentation
-    \item 3D scene segmentation
-    \item content recognition
-    \item pose estimation
-    \item scene reconstruction
-    \item sound source separation
-    \item audio scene understanding
-    \item sound propagation
-    \item cross-modal perceptual similarity
+    \item object detection \cite{szeliski2022computer, Redmon_2016_CVPR}
+    \item image segmentation \cite{minae_segmentation} (review of techniques)
+    \item 3D scene segmentation and recognition \cite{kalogerakis20173d}
+    \item pose estimation \cite{andriluka20142d}
+    \item scene reconstruction \cite{patow2003survey}
+    \item sound source separation \cite{virtanen2006sound}
+    \item audio scene understanding \cite{abesser2020review}
+    \item sound propagation \cite{liu2022sound}
+    \item perceptual similarity \cite{Dolhasz_2020_CVPR}
+    \item agency in games \cite{yannakakis2018artificial}
 \end{itemize}
 
 
-
+ 
 
 \section{Conclusions}
 
