@@ -155,8 +155,8 @@ Interactive audio rendering algorithms benefit from such systems as they enable 
 The ability to auralising anechoic acoustic signals is one of the fundamental objectives in the domains of acoustics for surveying techniques, acoustics for interactive applications, and acoustics in extended reality. As seen in Section~\ref{sec:DSP-background}, there are DSP techniques that allow the application of acoustic fingerprints onto audio recordings by treating the acoustics phenomena as measurable functions that can be convolved to digital signals, see Equation \ref{eq:1d-convolution}. In higher-level terms, auralisation is the process of experiencing audio stimuli in a simulated soundscape, which can be perceiving an orchestra in a digital representation of a church, approximating how room acoustics affect the sound transmission between the orchestra and the listener in the virtual space. There are factors associated with this process that determine how well the resulting signal is able to fool the listener's auditory system into believing that the auralisation is real. Realism and presence are often a function of the performance of the components in the chain of the 3D audio reproduction system; see Figure~\ref{fig:audio_rendering_chain}.
 
 \subsection{Common methods for Auralisations}
-Methods for producing auralisation start from the creation of an environment, which is the first component of the system in Figure~\ref{fig:audio_rendering_chain} hosting the virtual sound-emitting objects, e.g. an orchestra, and the virtual sound-receiving objects, e.g. the listener. In computers, environments are generally represented using a broad range of computer graphics techniques, from simplistic Computer-Aided Design (CAD) to fully-featured virtual worlds engineered in modern game engines. Such a statement blurs the definition of a virtual environment, as one could represent a room by creating a photorealistic 3D model or by simply drawing a cuboid. Research on acoustic simulations conducted over the last decades has expanded towards defining what is required from a virtual environment to produce a believable simulation. The representation of the environment geometry is a determinant of the resolution and perceptual quality of the acoustics simulation results, and, as a general rule, the higher the level of details expressed by the geometry, the more accurate the acoustic simulator is able to simulate how sound interacts with the environment. However, beyond certain levels of details, the increase in resolution does not have a significant perceptual response \cite{pelzer2010frequency}. \par
-Combined with advances in real-space scanning technology and user-friendly 3D reconstruction software, it is now possible to create appropriate virtual environments for acoustic simulations without requiring expert computer graphics engineering knowledge. \par
+Methods for producing auralisation start from the creation of an environment, which is the first component of the system in Figure~\ref{fig:audio_rendering_chain} hosting the virtual sound-emitting objects, e.g. an orchestra, and the virtual sound-receiving objects, e.g. the listener. In computers, environments are generally represented using a broad range of computer graphics techniques, from simplistic Computer-Aided Design (CAD) to fully-featured virtual worlds engineered in modern game engines. Such a statement blurs the definition of a virtual environment, as one could represent a room by creating a photorealistic 3D model or by simply drawing a cuboid. Research on acoustic simulations conducted over the last decades has expanded towards defining what is required from a virtual environment to produce a believable simulation. The representation of the environment geometry is a determinant of the resolution and perceptual quality of the acoustics simulation results, and, as a general rule, the higher the level of details expressed by the geometry, the more accurate the acoustic simulator is able to simulate how sound interacts with the environment. However, beyond certain levels of details, the increase in resolution does not have a significant perceptual response \cite{pelzer2010frequency}.\par
+Combined with advances in real-space scanning technology and user-friendly 3D reconstruction software, it is now possible to create appropriate virtual environments for acoustic simulations without requiring expert computer graphics engineering knowledge.\par
 
 \subsubsection{Geometrical Acoustics Modelling Techniques}\label{sec:bg-raytracing}
 Geometrical acoustics is a family of acoustic modelling methods based on representing propagating sound waves with geometrical primitives, such as rays or cones. The foundations of these methods have sound propagating as straight lines, as opposed to moving particles, approximating the complex nature of acoustic energy transfer but neglecting phenomena related to the wave phenomena.
@@ -186,8 +186,7 @@ Textures can determine the appearance of material composing objects in a scene a
 
 \subsection{Handling of Complex Scene Geometry}\label{sec:bg-geometry-handling}
 Implementing multimodal interactions in \ACRshortpl{ve} often requires handling and performing operations on the scene geometry, including searching interactions between entities and the environment. In computer games, physics systems are often fundamental components enabling game mechanics and interactions, which often involve computing intersections between scene entities and the environment. With the growing density of environment geometry and complexity of the scene elements, the computational requirements associated with evaluating these geometry searches have grown, demanding optimal solutions across the space and time domains.\par
-The goal of geometry handling systems is to allow searching intersections between volumes or primitives, such as rays or frustums, and the scene geometry and the engineering design of such systems are often tied to the computing platform targeted.
-Data structures space and time complexity
+The goal of geometry handling systems is to allow searching intersections between volumes or primitives, such as rays or frustums, and the scene geometry and the engineering design of such systems are closely related to data structures and algorithm design. Data structures space and time complexity
 
 
 \subsubsection{Binary Space Partitioning}
@@ -197,6 +196,37 @@ Spatial data structures are employed to handle geometry composing virtual enviro
 Basic input to rendering pipelines. 
 
 BSPs
+
+\subsubsection{Bounding Volume Hierarchies}
+A \acrfull{bvh} is a method for handling scene geometry that facilitates intersections between rays and the scene by adopting a binary tree to subdivide primitives that compose the scene geometry. A \acrshort{bvh} can represent a scene by constructing a binary tree partitioning geometry primitives into a hierarchy of disjoint sets. In physically-based rendering applications, mesh triangles are often the primitives indexed by the constructed tree; see Figure~\ref{fig:bvh-diagram} \citep{pharr2023physically}.\par
+In a tree, bounding volumes are generated to fit primitives from a given triangulated mesh (Figure~\ref{fig:sub_bvh1}) and aggregated based on proximity (Figure~\ref{fig:sub_bvh2}). Bounding volumes encapsulating multiple primitives generate branches, and recursively, branches are encapsulated in volume until a root volume fits the entire input scene. A constructed tree can be queried and traversed by navigating branches from the root node to primitives within leaf nodes.\par
+
+Tree rotations and fast implementations.
+\citep{kopta2012fast}
+ 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.3\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{bvh1}\label{fig:sub_bvh1}
+       \caption{Triangulated Mesh}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{bvh2}\label{fig:sub_bvh2}
+       \caption{Bounding Volumes}
+    \end{subfigure}
+
+    \begin{subfigure}[t]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{bvh3}\label{fig:sub_bvh3}
+        \caption{Tree}
+    \end{subfigure}
+    \caption{A bounding volume hierarchy constructed on a given input scene represented as a triangulated mesh (a). Bounding volumes encapsulate mesh primitives, (b), which then represent nodes of the tree, (c).}\label{fig:bvh-diagram}
+\end{figure}
+        
 
 
 \subsection{Sound Sources in Virtual Environments}
