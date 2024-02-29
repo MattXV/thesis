@@ -56,7 +56,7 @@ Sound pressure, amplitude, sampling
 \end{itemize}
 
 
-\section{Digital Representation of Acoustic Information}
+\section{Digital Representation of Audiovisual Information}
 \label{sec:DSP-background}
 The following section will introduce background knowledge on Digital Signal Processing relevant to the representation of acoustic signals in digital systems and the manipulation of auditory stimuli in virtual environments. Digital Signal Processing methods and techniques provide building blocks for the construction of realistic 3D auditory displays in immersive technology.
 
@@ -95,6 +95,13 @@ In acoustics for interactive applications, engineers often adopt the Discrete-Ti
     \caption{A basic chain for signal processing aimed at analysing or manipulating signal in auralisation, visualisation, or interactive applications. Analysis and processing of digital signals in the time domain is generally a hard task due to the complex nature of the function representing audio. The frequency-domain representation eases analysis and manipulation problems even with the added computational load of transforming between the two domains.}
     \label{fig:DFT}
 \end{figure}
+
+\subsection{Image Processing Fundamentals}\label{sec:image-processing}
+\begin{itemize}
+    \item digital images
+    \item basic imge processing techniques
+    \item filters
+\end{itemize}
 
 \subsubsection{Binaural Room Impulse Responses}\label{sec:ir-definition}
 Common approaches to acoustic simulations involve the approximation of acoustic phenomena affecting a sound transmission occurring within a given environment between a sound source and a listener. To represent the result of such a simulation as a measurable process, where the environment is thought of as a dynamic system, Impulse Responses (IR) are used. IRs describe the effect that a system has on a sound transmission as a function of time. From DSP theory, there are several variations of IRs that the fields of immersive acoustics borrow to model several dynamic systems that affect how the human auditory system perceives soundscapes. Figure~\ref{fig:audio_rendering_chain} shows how the auditory display is affected by interconnected systems associated with aspects of the soundscape. Time invariance is the fundamental property of these systems, making it possible to model their effect as an IR by observing their response to a Dirac-Delta function, which is a function whose value is zero except at the origin, where it is infinite. In practical terms, the Diract-Delta function is an infinitely narrow energy spike often used to excite the system and obtain a response across the frequency spectrum over time. In DSP terms, the function is simply represented as a finite sequence of numbers, the Finite Impulse Response (FIR), representing amplitude levels of the output of the system over time, given an input, commonly used to measure the effects of time-invariant linear systems like amplifiers or loudspeakers.\par
@@ -283,7 +290,7 @@ General Machine Learning Tasks
 Deep learning techniques are becoming increasingly popular in virtual environment pipelines due to the flexibility and potential to adapt to various tasks. 
 
 \subsection{Object Detection}
-Detecting the presence of certain objects in an image represents a milestone in the development of \acrshortpl{cnn} and computer vision techniques as it emulates a basic task of the human visual system \cite{szeliski2022computer}.
+Detecting the presence of certain objects in an image represents a milestone in the development of \acrshortpl{cnn} and computer vision techniques as it emulates a basic task of the human visual system. Due to the nature of image representations in computers, as described in Section~\ref{sec:image-processing}, recognising entities depicted in a \citep{szeliski2022computer}.
 
 labelled datasets \cite{deng2009imagenet}
 
