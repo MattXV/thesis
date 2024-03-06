@@ -43,10 +43,9 @@ Improvements and new approaches to solving the task are being explored at increa
 \cite{ratnarajah2022mesh2ir} present a pioneering approach to neural networks for sound rendering as an alternative to physics-based \acrshort{ir} computation methods like geometrical acoustics or wave-based methods. The core task of their method is to match auditory stimuli with visuals of a \acrshort{ve} for applications around audio-visual navigation, auralisations, speech enhancement, dereverberation and more.\par
 Their method takes a triangulated mesh representing the environment, which is fed into a series of graph \acrshort{nn} to process vertex and edge information to create a graph encoding of the input scene, simplifying topology information. A modified \acrfull{gan} uses the constructed graph representation to generate an \acrshort{ir} by computing a decay curve and optimising acoustic characteristics encoded in the graph representation using a generator and discriminator. Their method is tested on indoor scenes, evaluating $T_{60}$ reverberation, direct-to-reverberant ratio and early decay times. The evaluation shows less than $10\%$ error across all metrics, placing the method amongst one of the pioneering \acrshort{nn}-based approaches.\par
 
-\cite{yang2020fast} present a method for synthesising Room Impulse Responses (RIRs), reproducing perceptually-convincing acoustics of real environments based on a small number of ultrasonic measurements.\par
+\cite{yang2020fast} present a method for synthesising \acrshortpl{rir}, reproducing perceptually-convincing acoustics of real environments based on a small number of ultrasonic measurements.\par
 
-
-\cite{li2018scene} identify a novel method for acoustic simulations using convolutional neural networks to perform acoustic analysis on videos, veering away from more formal 3D scene definition. This approach synthesises RIRs for environments' representations from audio-visual scenes. Their system extracts high-level acoustic properties such as reverberation time T\textsubscript{60} and frequency-dependent amplitude level (EQ).\par
+\cite{li2018scene} identify a novel method for acoustic simulations using convolutional neural networks to perform acoustic analysis on videos, veering away from more formal 3D scene definition. This approach synthesises RIRs for environments' representations from audio-visual scenes. Their system extracts high-level acoustic properties such as reverberation time T\textsubscript{60} and frequency-dependent amplitude level equaliser.\par
 
 \input{visual-acoustic-mapping}
 
@@ -70,10 +69,7 @@ A crucial finding within this area derives from \cite{schissler2017acoustic}, wh
 \section{Human Factors and Perceptual Rendering}
 \cite{bonneel2010bimodal}'s study investigates the influence of audio-visual stimuli, as well as the interaction of graphics and audio, on material perception. They designed an experiment testing whether graphics and audio have significant effects on the subjective perception of material qualities. The goal is to determine the minimum level of detail expressed by visual stimuli needed to evoke realism in observers, establishing a set of guidelines that can improve the performance of rendering techniques by culling and simplifying geometry maintaining significant perceptual responses.
 
-\cite{Dolhasz_2020_CVPR}'s work around areas of perceptually-informed rendering expands the goal of investigating \acrshort{lod} threshold in image compositions, though the authors expand towards encoding perceptual responses into a latent space than automate the generation of perceptually-valid stimuli. 
-
-DPAM
-
+\cite{Dolhasz_2020_CVPR}'s work around areas of perceptually-informed rendering expands the goal of investigating \acrshort{lod} threshold in image compositions, though the authors expand towards encoding perceptual responses into a latent space than automate the generation of perceptually-valid stimuli. The authors sample a large dataset of perceptual responses by prescribing a test to 
 
 
 \cite{slater2009visual} Realistic rendering affects presence and interactions
