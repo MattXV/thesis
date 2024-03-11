@@ -1,0 +1,20 @@
+\begin{landscape}
+    \begin{table}[tbp]
+        \centering
+        \caption{A summary of key techniques for material recognition that can apply to \acrshortpl{ve}. These are largely based on convolutional neural network layers extracting features from input image data, which virtual cameras can often provide as renders. These methods predict semantic features of materials represented in the input image data, allowing mappings visual features to acoustic characteristics of enviroment geometry.}
+            
+            \begin{tabularx}{\linewidth}{lcccXr}
+                \toprule
+                Method                                            & Task                     & Architecture   & Requirements             & Outputs             & Type       \\ \midrule
+                \cite{schissler2017acoustic}                      & Classification           & GoogleLeNet    & Camera renders           & Semantic Materials  & Supervised \\
+                \cite{dourado2019edgenet}                         & Scene completion         & EdgeNet        & RGB-D                    & Semantic Materials  & Supervised \\
+                \cite{kim2019immersive}                           & Scene segmentation       & SegNet         & $360^\circ$ stereo \newline{} photographs & Materials,\newline env.\ geometry  & Supervised \\
+                
+                \cite{schwartz2019recognizing}                    & Classification           & MAC-CNN       & RGB                       & Material attributes  & Supervised \\
+                \cite{gaur2019superpixel}                         & Segmentation             & UNet-like     & RGB                       & Semantic materials   & Unsupervised \\
+                \cite{xia2017w}                                   & Segmentation             & W-Net         & RGB                       & Segmentation Map     & Unsupervised \\
+                \cite{kiechle2018model}                           & Segmentation             & Conv filters  & RGB                       & Semantics            & Unsupervised \\ \bottomrule 
+            \end{tabularx}\label{tab:material-recongition-techniques}
+        \end{table}
+
+\end{landscape}
