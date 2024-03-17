@@ -1,8 +1,5 @@
 \chapter{Introduction}\label{ch:introduction}
 
-
-A short paragraph introducing the topic the chapter examines.
-
 Audio interactions are becoming ubiquitous in common media platforms, consumer hardware and immersive technology \cite{yang2019audio}.
 
 Virtual Environments (VEs), have received growing attention in the past decades \citep{rubio2017immersive}, due to their ability to reproduce real worlds in digital systems. Their applications range from computer games, including serious and educational games, to digital museums, cultural preservation and architectural design. Such applications have raised the need to realistic and compelling representations of VEs, which is achieved by emulating the physics of the real world. Performance of tasks, such as interacting with scene objects and navigating space, depends on audio-visual displays \citep{zimmons2003influence, lokki2005navigation}. Sound cues alone are sufficient to enable users in VEs to pinpoint locations of sound-emitting entities in a scene by using auditory sound localisation, a natural ability associated with the human auditory system. \par
@@ -32,6 +29,12 @@ The need for realistic audio in computer games is of growing importance as it al
 Activities in VEs using auditory cues, such as navigation in space and sound localisation are fundamental in simulations and training applications \citep{lokki2005navigation}. Hence, sound rendering systems are of crucial importance in these fields.
 
 \section{Research Aim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{phd_functional_diagram}
+    \caption{Overview of the interactive acoustic rendering system for AR proposed as part of the thesis work.}
+    \label{fig:proposed-system-diagram}
+\end{figure}
 The proposed work aims to explore rendering pipelines with respect to sound propagation in VEs, studying the relationship between the perceived wavefield and the environment’s visual representation: materials, structural geometry and physicals characteristics of objects in complex scenes.
 
 
@@ -43,14 +46,6 @@ The proposed work aims to explore rendering pipelines with respect to sound prop
     \item To study the relationship between visual representations of materials and their subjective perception in simulated wavefields.
     \item To design and develop a system for fast acoustic simulations integrating vision-based material recognition methodologies for acoustic material tagging in unseen complex scenes.
 \end{itemize}
-
-\section{Contributions}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\linewidth]{phd_functional_diagram}
-    \caption{Overview of the interactive acoustic rendering system for AR proposed as part of the thesis work.}
-    \label{fig:proposed-system-diagram}
-\end{figure}
 
 \section{Thesis Structure}
 
@@ -76,5 +71,16 @@ The proposed work aims to explore rendering pipelines with respect to sound prop
 
 \textbf{Chapter \ref{ch:Conclusion}} Conclusions provides a high-level discussion on the results gathered from objective and subjective experiments gathered by testing components of the proposed system, reflecting on broader impact, detailing potential use cases, and recommending future expansion avenues.
 
-\section{Conclusion}
-A short conclusion summarising the chapter.
+\section{Contributions}
+The main contributions of this thesis are the proposal, design, prototyping, and testing of a novel pipeline for generating realistic auditory displays in augmented reality platforms, leveraging the potential that modern hardware for holographic rendering has unveiled over the last decades. These contributions represent a stepping stone towards realistic and physically-based auditory interactions in immersive applications, allowing users to understand, reason, and act within a virtual environment from acoustic information conveyed by the augmented reality platform.
+These contributions stem from components of the pipeline developed and tested, addressing research questions associated with the design of an end-to-end system. Chapters~\ref{ch:Materials},~\ref{ch:acousticrendering}, and~\ref{ch:Evaluation} present novel systems to address such research questions adopting bespoke methodologies and evaluations. The following list briefly summarises the contributions of this work:
+\begin{itemize}
+    \item a novel pipeline for realistic acoustic displays for augmented reality platforms;
+    \item two novel systems for retrieving acoustic characteristics from virtual environments;
+    \item novel testing methodologies for evaluating system for acoustic characteristics retrieval, comparing simulated against real soundfields;
+    \item two sound rendering systems integrating methods for acoustic characteristics retrieval;
+    \item a study evaluating the proposed sound rendering methods;
+    \item a perceptual evaluation investigating psychoacoustic factors of a prototype of the proposed system.
+\end{itemize}
+
+% \fullcite{colombo2021texture}
