@@ -3,8 +3,11 @@
 The primary goal of this thesis has been to explore a novel system for acoustic rendering bespoke to \acrshort{ar} platforms, enabling context-aware rendering to consider characteristics of the environment surrounding the player. The objectives defined by this thesis developed and evaluated individual systems composing the pipeline proposed as a solution modularised into standalone contributions. Overall, the development of components evaluations conducted on test cases showed that the domain of acoustic rendering for \acrshort{ar} would benefit from applications of acoustic rendering pipelines, and the discussions on the results gathered open several potential avenues for future research heading towards more interactive and realistic auditory interactions.
 
 \section{Summary}
-Chapter~\ref{ch:ar-pipeline} illustrates the proposed pipeline, targeting the primary objective, illustrating its concept and design principles, demonstrating implementations and apparatus design, and outlining the vision and potential expansions. 
+The following Sections will reflect on the objectives posed by the introductory chapter of this work (Section~\ref{sec:thesis-objectives}), highlighting significant results by connecting findings gathered from studies conducted throughout the development of the pipeline. For contextualisation, clarity, and accessibility, Table~\ref{tab:objectives-contributions} summarises the thesis aims and how Chapters contribute to each objective.
+\input{objectives-contributions}
 
+Overall, the significance of this thesis work lies in the proposal of a novel rendering pipeline, expressed by Chapter~\ref{ch:ar-pipeline}, which illustrates a design of the end-to-end system, targeting the primary objective, illustrating its concept and design principles, demonstrating implementations and apparatus design, and outlining the vision and potential expansions.\par
+Chapter\ref{ch:Evaluation} evaluated a prototype deployed to an \acrshort{ar} platform, evaluating psychoacoustic factors in auditory displays, demonstrating the validity of the overarching aim by proving that a pipeline for realistic auditory displays has effects on interactions in virtual environments. 
 
 \begin{itemize}
     \item objective of each chapter
@@ -14,6 +17,7 @@ Chapter~\ref{ch:ar-pipeline} illustrates the proposed pipeline, targeting the pr
 
 \section{Towards Integrating Computer Vision into Audio Augmented Reality}
 As a high-level discussion around the interpreted results gathered from evaluating the system and its components, there are conclusions drawn that determine contributions towards the field of \acrfull{aar} and domains of computer graphics and vision in the context of simulating soundfields and generating realistic auditory stimuli. The following Sections will break these down, discussing their relevance to the broader research domains, target use cases, as well as their limitations, and how future work has the potential to overcome them.
+
 \begin{itemize}
     \item contributions in terms of methodologies presented
     \item novel testing techniques
@@ -21,8 +25,6 @@ As a high-level discussion around the interpreted results gathered from evaluati
     \item application to real-world examples 
     \item measuring user performance
 \end{itemize}
-
-
 
 \subsection{System Overview}
 The primary contributions provided by the work on 
@@ -43,7 +45,10 @@ Geometrical acoustics-based rendering pipelines benefit from controlling the num
 \subsection{Psychoacoustic and Human Factors}
 
 \section{Limitations}
-There are limitations around findings obtained from the study
+There are limitations around findings obtained from the study.
+
+Despite Chapter~\ref{ch:Evaluation} demonstrating the validity of the overarching aim of the thesis, some limitations require addressing to generalise towards a unified model for auditory interactions in \acrshort{ar}.
+
 \begin{itemize}
     \item prototype limited to offline rendering
     \item sound rendering based on geometrical acoustics
@@ -82,5 +87,5 @@ Fast image-to-image network to manipulate existing IRs by using depth maps. Inpu
 \end{itemize}
 
 \section{Conclusive Remarks}
-The thesis work builds on decades of advances towards systems for realistic auditory interactions for immersive media, adopting classic techniques for simulating soundfields and leveraging recent works within the domains of graphics and vision to optimise and automate several tasks associated with rendering believable auditory displays.\par
+This thesis work builds on decades of advances towards systems for realistic auditory interactions for immersive media, adopting classic techniques for simulating soundfields and leveraging recent works within the domains of graphics and vision to optimise and automate several tasks associated with rendering believable auditory displays.\par
 The primary goal of researching and proposing a novel system for \acrshort{ar} platforms was achieved, grounding its design choices on data collected from a series of experimental tests.
