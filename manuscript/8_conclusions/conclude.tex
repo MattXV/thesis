@@ -1,5 +1,4 @@
 \chapter{Conclusion}\label{ch:Conclusion}
-
 The primary goal of this thesis has been to explore a novel system for acoustic rendering bespoke to \acrshort{ar} platforms, enabling context-aware rendering to consider characteristics of the environment surrounding the player. The objectives defined by this thesis developed and evaluated individual systems composing the pipeline proposed as a solution modularised into standalone contributions. Overall, the development of components evaluations conducted on test cases showed that the domain of acoustic rendering for \acrshort{ar} would benefit from applications of acoustic rendering pipelines, and the discussions on the results gathered open several potential avenues for future research heading towards more interactive and realistic auditory interactions.
 
 \section{Summary}
@@ -34,7 +33,6 @@ it uses geometrical acoustics-based acoustic rendering techniques. It should loo
 The solutions proposed addressed the problem of extracting soundscape features in context-aware acoustic rendering target platforms equipped with space-sensing technology. The two proposed novel systems addressed the problem of retrieving acoustic characteristics from environments from their visual representations by adopting computer vision techniques. This thesis work and recent methods show that such a task is still an open research question due to the complexity in the mappings between visual representations of space and auditory stimuli generated from simulated soundfields based on properties assigned from inferring their visual appearance.\par
 Mapping acoustic properties to representations of space has been defined in this work as the ``material tagging'' process, expressing the task engineers face when constructing immersive, complex scenes in game engines, where portions of scene geometry are assigned acoustic material properties. As acoustic simulations become more feasible for increasing use cases and applications, material tagging will incur higher manual authoring, which the application of computer vision techniques can automate, enabling and rendering procedural workflows.\par
 There are benefits to the two proposed systems that aim at automating material tagging. With the camera-based acoustic material tagging system demonstrated in Section~\ref{sec:camera-tagging}, a novel system that uses camera renders to infer portions of scene geometry they depict, provides a solution that can adapt to cameras equipped by \acrshortpl{hmd}. It allows the system to scan and map acoustic characteristics to the environments as the user walks around their \acrshort{ar} scene.
-
 
 The texture-based alternative system demonstrated in Section~\ref{sec:texture-tagging} expanded towards a more efficient workflow that also has applications to \acrshortpl{hmd} by using spatial reconstruction systems that provide and update scene geometry as the user navigates the scene.
 
@@ -75,19 +73,14 @@ Fast image-to-image network to manipulate existing IRs by using depth maps. Inpu
 
 \subsection{Perceptual Response Analysis}
 Chapter~\ref{ch:ch:acousticrendering} conducts extensive testing on the acoustic rendering pipeline employed by the \acrshort{ar} prototype and analyses objective and subjective factors of simulated soundfields. However, some unexplored avenues could expand the testing conducted, providing generalised guidelines for future sound rendering methods. A crucial expansion point here is the definition of a minimum input to a rendering pipeline to obtain a perceptually valid response --- an investigation that could be performed both on \acrshort{ga} and deep learning-based acoustic rendering systems.\par
-Future work should analyse the minimum number of  \acrshort{ga} pipelines
-
-\begin{itemize}
-    \item Perceptual analysis of geometry reduction processes.
-\end{itemize}
+Future work should analyse the minimum simulation resolution required for \acrshort{ga} pipelines, such as the number of rays or the order, as well as investigates the disparity between the reconstructed environment and the real space with respect to perceptual factors. The study would provide insights into the margins of error before the listener starts noticing discrepancies in perceived realism evoked by the simulated auditory display.
 
 \subsection{Further Psychoacoustic Analysis}
+The significance of the findings obtained from conducting the psychoacoustic study illustrated by Chapter~\ref{ch:Evaluation} has contributed towards creating guidelines for designing realistic interactions in \acrshort{ar}. When designing tasks in AR involving the application of psychoacoustic abilities, such as pinpointing the position of sound-emitting objects or resolving the nature of concurrent sound sources, acoustic modelling based on a virtual reconstruction of the space can suffice to affect task performance. From this practical implication stems the main theoretical contribution that transfers the established psychoacoustic characterisation of sound propagation effects to AR space, which has unlocked new potential in the realm of audio interactions. However, the theoretical contribution will require a set of complex scenes with diverse architectural and acoustic characteristics, evaluating the generalisability of the findings discussed in this work. Future work could benefit from the application of the testing methodology to a generalisable set of soundfields, including environments from high absorption and controlled acoustics such as audio production rooms to reverberant spaces such as churces.\par
 
-
-\begin{itemize}
-    \item Ablation study for the resolution of generated acoustic responses
-\end{itemize}
 
 \section{Conclusive Remarks}
 This thesis work builds on decades of advances towards systems for realistic auditory interactions for immersive media, adopting classic techniques for simulating soundfields and leveraging recent works within the domains of graphics and vision to optimise and automate several tasks associated with rendering believable auditory displays.\par
-The primary goal of researching and proposing a novel system for \acrshort{ar} platforms was achieved, grounding its design choices on data collected from a series of experimental tests.
+The primary goal of researching and proposing a novel system for \acrshort{ar} platforms was achieved, grounding its design choices on data collected from a series of experimental tests. Overall, the findings not only advance the understanding of sound rendering integrated with computer vision but also lay the groundwork for significant advances towards realistic auditory interactions in immersive virtual environments. This has implications not only for the entertainment industry, where enhanced immersive experiences can greatly elevate user engagement but also for educational and training simulations, where realism can significantly improve learning outcomes and user task performance.\par
+Finally, the potential for these technologies to assist visually impaired individuals, by providing more intuitive and context-aware navigational aids, represents a meaningful step towards inclusive technology that bridges accessibility gaps. 
+Final commments
