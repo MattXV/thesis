@@ -1,24 +1,19 @@
 \chapter{Background}\label{ch:Background}
 
-% This chapter provides some background research on the project and examines some previous work.
-% what does the reader need to understand this work
-This Chapter introduces a body of knowledge from domains intersecting the overarching aim of this work, providing the reader with the necessary tools to dissect the components presented throughout the thesis. This Chapter begins from introducing basic sound physics, wave theory, and human perception as they define basic concepts of auditory interactions in the physical and in virtual worlds.\par
-Since a human listener is a link in the chain of the system proposed as part of this work, this Chapter will introduce some 
+The following Sections introduce a body of knowledge from domains intersecting the overarching aim of this work, providing the reader with the necessary tools to dissect the components presented throughout the thesis. This Chapter begins by introducing basic sound physics, wave theory, and human perception as they define basic concepts of auditory interactions in the physical and virtual worlds.\par
+Since a human listener is a link in the chain of the system proposed as part of this work, this Chapter will introduce basic psychoacoustic concepts linking the objective and technical aspects of sound rendering systems to human factors and subjective perception.
 
 \section{Background on Human Hearing}
 \subsection{Characteristics of the Human Hearing System}
 The \acrfull{has} generally comprises two ears on either side of the human head, and each ear is a system that can be divided into three main parts: the outer ear, commonly referred to as the ear; the middle ear; and the inner ear. The outer ear, also referred to as the pinna, is shaped like a shell, is made of cartilage and skin, and serves both as protection for the system of receptors, ossicles, and nerves within the middle and the inner ear and a funnel that collects sound energy and transmits it to the middle ear via the outer ear canal. The outer ear canals are largely responsible for the frequency response of the \acrshort{has}. 
 Auditory stimuli are sent to the brain via sensory cells that are surrounded by fluids displacing according to the received sound pressure. The middle ear converts sound pressure from the ear canal to displacement to these fluids, which send signals to the brain. This part of the ear is able to withstand variations of air pressure arriving at the outer ear and is responsible for matching different impedance magnitudes between the air or the medium in which sound is arriving at the apparatus and the impedance of the fluids in the inner ear.
-The inner ear comprehends the vestibular system, a sensory system that allows humans to sense their spatial position, perceive rotation or displacement, and achieve balance and the cochlea. The cochlea, shaped like a snail, is embedded in the hard temporal bone, part of the skull.
+The inner ear comprehends the vestibular system, a sensory system that allows humans to sense their spatial position, perceive rotation or displacement, and achieve balance and the cochlea. The cochlea, shaped like a snail, is embedded in the hard temporal bone, part of the skull \citep{zwicker2013psychoacoustics}.
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth, trim={0cm 0cm 0cm 0cm}, clip]{human_ear}
+    \includegraphics[width=1\linewidth]{human_ear}
     \caption[Overview of the human hearing system]{Overview of the human hearing system \citep{zwicker2013psychoacoustics}}
     \label{fig:human_hearing_system}
 \end{figure}
-
-\cite{zwicker2013psychoacoustics}
-
 
 \subsection{Introduction to Psychoacoustics}\label{sec:bg-psychoacoustics}
 The \acrshort{has} enables one of the fundamental functions of perception of surrounding space. In humans and species of the animal kingdom, hearing is the basis of many mechanisms, such as communication or survival instincts. Such mechanisms are neural processing applied to auditory stimuli arriving at the hearing system in order to compute tasks or solve problems, such as communicating using acoustical data or pinpointing the location of a sound-emitting entity relying on auditory stimuli. These are example applications or problems that can be solved by processing acoustical data interpreted by the \acrshort{has}.
@@ -28,12 +23,17 @@ Psychoacoustics investigates how the \acrshort{has} responds to auditory stimuli
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{localisation_example}
-    \caption{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
+    \caption[Sound localisation visualised]{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
     \label{fig:localisation-listener}
 \end{figure}
 
+\subsection{Masking}
+types of Masking
+
+\subsection{Just-Noticeable Differences}
+
 \section{Acoustic Theory}
-\subsection{Wave theory}
+\subsection{Sound Propagation in Real and Virtual Environments}
 Sound propagation is a transmission of energy in a sound field, which can be thought of as a superposition of sound waves travelling in a medium. In this work, we consider air as the sound propagation medium, which is assumed to be homogeneous, i.e., determining a constant velocity of sound $c$ expressed as: 
 \begin{equation}
 c = (331.4 + 0.6\Theta)~\frac{m}{s}   
