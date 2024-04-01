@@ -48,6 +48,33 @@ ax.add_artist(ab)
 ax.set_label('')
 
 plt.show()
+fig.savefig('loc_example.pdf')
+
+# %%
+t = np.arange(0, 4, 0.01)
+a = np.sin(2 * np.pi * t)
+
+pos = [225, 215, 235]
+dis = [0.6, .6, .6]
+head = plt.imread('listener_head_topview.png')
+head = OffsetImage(head, zoom=0.2)
+ab = AnnotationBbox(head, (0, 0), xycoords='data', frameon=False)
+
+
+fig, ax = plt.subplots(
+    subplot_kw={'projection': 'polar'},
+    figsize=(4, 4),
+    dpi=300,
+    tight_layout=True)
+ax.plot(np.radians(pos), dis, 'bo')
+ax.plot((np.radians(90)), (.6), 'ro')
+ax.add_patch(plt.Circle((np.radians(225), 0.6), 0.25, color='b', fill=False))
+ax.add_artist(ab)
+ax.set_ylim(0, 1)
+ax.set_label('')
+
+plt.show()
+fig.savefig('masking_example.pdf')
 
 # %%
 fig, ax = plt.subplots(

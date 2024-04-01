@@ -20,12 +20,33 @@ The \acrshort{has} enables one of the fundamental functions of perception of sur
 Psychoacoustics investigates how the \acrshort{has} responds to auditory stimuli and investigates applications like loudness perception, localisation, lateralisation, or room volume estimation. The understanding of psychophysical responses of the \acrshort{has} to acoustical data in environments influences everyday activities that involve communicating, listening to musical instruments, or delivering messages to an audience of multiple listeners. The design process of built environments, infrastructure, or concert halls takes into account psychoacoustic factors to facilitate or improve human perception in specific environments during specific activities.
 
 \subsection{Sound Localisation}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1\linewidth]{localisation_example}
+%     \caption[Sound localisation visualised]{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
+%     \label{fig:localisation-listener}
+% \end{figure}
+
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{localisation_example}
-    \caption[Sound localisation visualised]{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
-    \label{fig:localisation-listener}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{loc_example}
+        \caption{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
+        \label{fig:loc-example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{masking_example}
+        \caption{Masking is a phenomenon that occurs when the presence of one sound makes it difficult or impossible to hear another sound at the same time.}
+        \label{fig:masking-example}
+    \end{subfigure}
+
+       \caption[Visualisation of sound localisation and masking]{Visualisation of sound localisation and masking.}
+       \label{fig:loc-masking-examples}
 \end{figure}
+
 Sound localisation is a natural ability of the \acrshort{has} that allows the determination of the direction and distance of a sound-emitting entity. This ability is essential for humans, animals, and autonomous agents, enabling sensing and discovering environments. In \acrshortpl{ve}, accurate sound localisation can greatly enhance immersion, making the experience more realistic and interactive by replicating a natural phenomenon in a virtual space.\par
 The \acrshort{has} localises sound based on the acoustic cues that reach the ears; they can be binaural or monoaural. Binaural cues simultaneously involve the two ears (or receiving points), while monoaural cues consider mechanisms relating to individual receiving points. Binaural cues are the most significant for performing sound localisation as they consider differences in the arrival of sound at the two ears, revealing distance information between the source and each receiving point. These cues are often subdivided into \acrfull{itd} and \acrfull{ild}, referring to the differences in time and sound pressure level, respectively, at the time of arrival at the two receiving points.\par
 Monoaural cues consider aspects relating to the physical and anatomical characteristics of the listener affecting propagating sound waves being perceived by the pinna, middle, and inner ear. Physical characteristics can include the shape of the pinna or the ear canal and other parts of the hearing system involved in the perception of sound pressure. These effects can transform or alter the spectrum of the perceived auditory stimuli \citep{blauert1997spatial, howard2013acoustics}.
@@ -57,32 +78,31 @@ where $\Theta$ is the temperature in centigrade.
 A vibrating object in a sound field causes air particles to move, initiating the transmission of energy in the field. Such an object is defined as a sound source, and if the intensity and frequency of the vibrations are within the perceptible range of the human hearing system, a listener may experience sound emitted by the said sound source.
 In everyday sound transmissions, the air within sound fields is not at rest and features many inhomogeneities caused by external factors affecting the state of its particles, such as windows or air conditioning systems. However, according to \citep{kuttruff2016room}, such inhomogeneities are imperceptible, and generally, the air temperature has a perceptual effect on sound transmissions, especially in large concert halls and open spaces. Air temperature effects can be neglected in indoor sound propagation.
 
-\subsection{Sound Transmissions}
-Energy in the sound field, transferring from a vibrating sound source to the hearing system of a listener, is perceived as an acoustic signal characterised by varying intensity and frequency. 
-The intensity of 
-Sound pressure, amplitude, sampling 
+% \subsection{Sound Transmissions}
+% Energy in the sound field, transferring from a vibrating sound source to the hearing system of a listener, is perceived as an acoustic signal characterised by varying intensity and frequency. 
+% The intensity of 
+% Sound pressure, amplitude, sampling 
 
-\subsection{Acoustics in Real Environments}
-\begin{itemize}
-    \item Definition of a sound field
-    \item Characterisation of sound fields
-    \item Objective metrics describing sound fields; Farina's descriptors.
+% \subsection{Acoustics in Real Environments}
+% \begin{itemize}
+%     \item Definition of a sound field
+%     \item Characterisation of sound fields
+%     \item Objective metrics describing sound fields; Farina's descriptors.
     
-\end{itemize}
+% \end{itemize}
 
 
-\section{Digital Representation of Audiovisual Information}
+\subsection{Digital Representation of Audiovisual Information}
 \label{sec:DSP-background}
-The following section will introduce background knowledge on Digital Signal Processing relevant to the representation of acoustic signals in digital systems and the manipulation of auditory stimuli in virtual environments. Digital Signal Processing methods and techniques provide building blocks for the construction of realistic 3D auditory displays in immersive technology.
+The following Sections will introduce background knowledge on Digital Signal Processing relevant to the representation of acoustic signals in digital systems and the manipulation of auditory stimuli in virtual environments. Digital Signal Processing methods and techniques provide building blocks for the construction of realistic 3D auditory displays in immersive technology.
 
-\subsection{Digital Signal Processing for Acoustic Rendering}
 \acrfull{dsp} is the science of analysing time-dependent physical processes. The acoustics realm deals with analogue signals and digital signals, terms used to indicate a continuous variation of amplitude values in a physical process. Electricity utilised to drive loudspeakers is an example of an analogue signal, expressing continuous changes in voltage applied to magnets to displace the position of a cone. The cone displacement causes pressure differences in air particles, transforming such changes in voltage to changes in air pressure, which the human auditory system interprets as sound. Acoustic signals consist of one or multiple sound waves oscillating, where each wave is an oscillation of energy at regular intervals; the duration of each interval determines the wavelength $\lambda$, and oscillations are measured as frequency in Hertz (Hz). \par
 On the other hand, a digital signal is a discrete representation of a continuous physical process, resulting in a sequence of measurement samples of an analogue signal expressed as amplitude values over time. Figure~\ref{fig:analogue-digital-signal} shows the difference between a continuous signal and a discrete signal: digital signal is represented with stems to indicate its nature of quantised measurements over time, abscissa, as opposed to a continuous change in amplitude, ordinate. The discrete nature of a digital signal has inherent problems and advantages that relate to the time interval between measurements: a digital signal representing an analogue one will always be an approximation of the continuous process as the system may change its state between measurement intervals. The approximated nature of digital signals causes information loss, which is counteracted by theories shown later, but allows digital systems to store and process acoustical data efficiently.\par
-DSP applies to both, but in this book chapter, we will only focus on the branch of DSP that deals with digital signals. Digital systems like computers are used to process stored acoustical signals for several reasons, such as storing recordings of anechoic acoustic signals that simulation software can then process to generate realistic acoustic simulations, expressed as a processed digital signal. \par
+DSP applies to both, but in this book chapter, we will only focus on the branch of \acrshort{dsp} that deals with digital signals. Digital systems like computers are used to process stored acoustical signals for several reasons, such as storing recordings of anechoic acoustic signals that simulation software can then process to generate realistic acoustic simulations, expressed as a processed digital signal. \par
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{analogue_digital}
-    \caption{Analogue and digital signal: the left axes show a continuous signal and the right axes show a discrete sampled representation.}
+    \caption[Analogue and digital signals]{Analogue and digital signal: the left axes show a continuous signal and the right axes show a discrete sampled representation.}
     \label{fig:analogue-digital-signal}
 \end{figure}
 
@@ -92,7 +112,7 @@ The Nyquist-Shannon sampling theorem is used to ensure a digital system reconstr
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{aliasing}
-    \caption{The blue signal is being sampled at a sampling frequency lower than the Nyquist frequency, causing aliasing, an incorrect reconstruction of the digital signal, as opposed to Figure~\ref{fig:analogue-digital-signal} that shows a correctly reconstructed signal. As a result, the dotted green signal is created instead, having a frequency between $0Hz$ and the sampling frequency.}
+    \caption[Digital reconstruction of analogue signal]{The blue signal is being sampled at a sampling frequency lower than the Nyquist frequency, causing aliasing, an incorrect reconstruction of the digital signal, as opposed to Figure~\ref{fig:analogue-digital-signal} that shows a correctly reconstructed signal. As a result, the dotted green signal is created instead, having a frequency between $0Hz$ and the sampling frequency.}
 \label{fig:aliasing}
 \end{figure}
 
@@ -106,25 +126,25 @@ In acoustics for interactive applications, engineers often adopt the Discrete-Ti
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\textwidth]{DFT}
-    \caption{A basic chain for signal processing aimed at analysing or manipulating signal in auralisation, visualisation, or interactive applications. Analysis and processing of digital signals in the time domain is generally a hard task due to the complex nature of the function representing audio. The frequency-domain representation eases analysis and manipulation problems even with the added computational load of transforming between the two domains.}
+    \caption[Basic signal processing chains]{A basic chain for signal processing aimed at analysing or manipulating signal in auralisation, visualisation, or interactive applications. Analysis and processing of digital signals in the time domain is generally a hard task due to the complex nature of the function representing audio. The frequency-domain representation eases analysis and manipulation problems even with the added computational load of transforming between the two domains.}
     \label{fig:DFT}
 \end{figure}
 
-\subsection{Image Processing Fundamentals}\label{sec:image-processing}
-\begin{itemize}
-    \item digital images
-    \item basic imge processing techniques
-    \item filters
-\end{itemize}
+% \subsection{Image Processing Fundamentals}\label{sec:image-processing}
+% \begin{itemize}
+%     \item digital images
+%     \item basic imge processing techniques
+%     \item filters
+% \end{itemize}
 
-\subsubsection{Binaural Room Impulse Responses}\label{sec:ir-definition}
-Common approaches to acoustic simulations involve the approximation of acoustic phenomena affecting a sound transmission occurring within a given environment between a sound source and a listener. To represent the result of such a simulation as a measurable process, where the environment is thought of as a dynamic system, Impulse Responses (IR) are used. IRs describe the effect that a system has on a sound transmission as a function of time. From DSP theory, there are several variations of IRs that the fields of immersive acoustics borrow to model several dynamic systems that affect how the human auditory system perceives soundscapes. Figure~\ref{fig:audio_rendering_chain} shows how the auditory display is affected by interconnected systems associated with aspects of the soundscape. Time invariance is the fundamental property of these systems, making it possible to model their effect as an IR by observing their response to a Dirac-Delta function, which is a function whose value is zero except at the origin, where it is infinite. In practical terms, the Diract-Delta function is an infinitely narrow energy spike often used to excite the system and obtain a response across the frequency spectrum over time. In DSP terms, the function is simply represented as a finite sequence of numbers, the Finite Impulse Response (FIR), representing amplitude levels of the output of the system over time, given an input, commonly used to measure the effects of time-invariant linear systems like amplifiers or loudspeakers.\par
-In the acoustic domain, the FIR adapts to several tasks, like modelling the acoustic fingerprint of a space with respect to a source and listener by observing, at the listener, a Dirac-Delta-like signal being emitted by the source. Such IR is differentiated from standard IRs and referred to as a Room Impulse Response (RIR); such distinction has emerged from the ongoing research in techniques and methods for measuring responses from real spaces, also due to the chaotic nature of room acoustics and real soundfields \citep{farina07}. 
-IRs, as well as measuring the acoustic fingerprint of spaces, can extend as far as measuring the effect of the human auditory system on the perception of the soundscape, and there are methods for modelling how anthropometric characteristics of the human body affect sounds arriving at both ears. Such IRs are defined as Binaural Room Impulse Responses: they extend RIRs by providing individual responses for both ears. BRIRs are a representation of Head-Related Transfer Functions (HRTFs), a function that describes how the anatomic features, rotation, and position with respect to a sound source affect the arrival of sound to the ears. Figure~\ref{fig:rir-spectrum} is an example of a monaural RIR, shown both in the time and frequency domain. 
+\subsection{Binaural Room Impulse Responses}\label{sec:ir-definition}
+Common approaches to acoustic simulations involve the approximation of acoustic phenomena affecting a sound transmission occurring within a given environment between a sound source and a listener. To represent the result of such a simulation as a measurable process, where the environment is thought of as a dynamic system, Impulse Responses (IR) are used. IRs describe the effect that a system has on a sound transmission as a function of time. From DSP theory, there are several variations of IRs that the fields of immersive acoustics borrow to model several dynamic systems that affect how the human auditory system perceives soundscapes. Figure~\ref{fig:audio_rendering_chain} shows how the auditory display is affected by interconnected systems associated with aspects of the soundscape. Time invariance is the fundamental property of these systems, making it possible to model their effect as an IR by observing their response to a Dirac-Delta function, which is a function whose value is zero except at the origin, where it is infinite. In practical terms, the Diract-Delta function is an infinitely narrow energy spike often used to excite the system and obtain a response across the frequency spectrum over time. In DSP terms, the function is simply represented as a finite sequence of numbers, the \acrfull{fir}, representing amplitude levels of the output of the system over time, given an input, commonly used to measure the effects of time-invariant linear systems like amplifiers or loudspeakers.\par
+In the acoustic domain, the FIR adapts to several tasks, like modelling the acoustic fingerprint of a space with respect to a source and listener by observing, at the listener, a Dirac-Delta-like signal being emitted by the source. Such IR is differentiated from standard IRs and referred to as a \acrfull{rir}; such distinction has emerged from the ongoing research in techniques and methods for measuring responses from real spaces, also due to the chaotic nature of room acoustics and real soundfields \citep{farina07}. 
+IRs, as well as measuring the acoustic fingerprint of spaces, can extend as far as measuring the effect of the human auditory system on the perception of the soundscape, and there are methods for modelling how anthropometric characteristics of the human body affect sounds arriving at both ears. Such IRs are defined as Binaural Room Impulse Responses: they extend RIRs by providing individual responses for both ears. BRIRs are a representation of \acrshort{hrtf}, a function that describes how the anatomic features, rotation, and position with respect to a sound source affect the arrival of sound to the ears. Figure~\ref{fig:rir-spectrum} is an example of a monaural RIR, shown both in the time and frequency domain. 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{rir_spectrum}
-    \caption{Both time and frequency-domain, left and right respectively, representations of a Room Impulse Response (RIR). The time domain representation shows the magnitude of sound paths from a sound source to a receiver over time. The frequency domain representation shows how the energy of sound paths is distributed across the frequency spectrum over time, which is visualised with an infrared colour map.}
+    \caption[Time and frequency-domain visualisation of a RIR]{Both time and frequency-domain, left and right respectively, representations of a Room Impulse Response (RIR). The time domain representation shows the magnitude of sound paths from a sound source to a receiver over time. The frequency domain representation shows how the energy of sound paths is distributed across the frequency spectrum over time, which is visualised with an infrared colour map.}
     \label{fig:rir-spectrum}
 \end{figure}
 
@@ -136,7 +156,7 @@ Sound reproduction for immersive acoustics can be defined as a rendering problem
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{spatialiser_system_overview}
-    \caption{An example chain of 3D reproduction based on acoustic simulators: an environment is fed into acoustic simulators to produce BRIRs. A spatialiser system consumes these to generate an audio signal considering the listener and scene elements.}
+    \caption[Basic spatialisation chain]{An example chain of 3D reproduction based on acoustic simulators: an environment is fed into acoustic simulators to produce BRIRs. A spatialiser system consumes these to generate an audio signal considering the listener and scene elements.}
     \label{fig:spatialiser-overview}
 \end{figure}
 
@@ -165,18 +185,18 @@ Interactive audio rendering algorithms benefit from such systems as they enable 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{audio_rendering}
-    \caption{Common spatial audio pipeline: the listener's position and rotation in the scene is used to sample an interpolated HRTF from the currently loaded bank, combined with the generated IR, the real-time convolution algorithm applies the BRIR to an anechoic audio signal. The result is an audio signal arriving at the listener, taking into account their position and rotation with respect to the sound-emitting object in the virtual environment.}
+    \caption[Standard audio rendering pipeline]{Common spatial audio pipeline: the listener's position and rotation in the scene is used to sample an interpolated HRTF from the currently loaded bank, combined with the generated IR, the real-time convolution algorithm applies the BRIR to an anechoic audio signal. The result is an audio signal arriving at the listener, taking into account their position and rotation with respect to the sound-emitting object in the virtual environment.}
     \label{fig:audio_rendering_chain}
 \end{figure}
 
-\section{Auralisations}
+\subsection{Auralisations}
 The ability to auralising anechoic acoustic signals is one of the fundamental objectives in the domains of acoustics for surveying techniques, acoustics for interactive applications, and acoustics in extended reality. As seen in Section~\ref{sec:DSP-background}, there are DSP techniques that allow the application of acoustic fingerprints onto audio recordings by treating the acoustics phenomena as measurable functions that can be convolved to digital signals, see Equation \ref{eq:1d-convolution}. In higher-level terms, auralisation is the process of experiencing audio stimuli in a simulated soundscape, which can be perceiving an orchestra in a digital representation of a church, approximating how room acoustics affect the sound transmission between the orchestra and the listener in the virtual space. There are factors associated with this process that determine how well the resulting signal is able to fool the listener's auditory system into believing that the auralisation is real. Realism and presence are often a function of the performance of the components in the chain of the 3D audio reproduction system; see Figure~\ref{fig:audio_rendering_chain}.
 
 \subsection{Common methods for Auralisations}
 Methods for producing auralisation start from the creation of an environment, which is the first component of the system in Figure~\ref{fig:audio_rendering_chain} hosting the virtual sound-emitting objects, e.g. an orchestra, and the virtual sound-receiving objects, e.g. the listener. In computers, environments are generally represented using a broad range of computer graphics techniques, from simplistic Computer-Aided Design (CAD) to fully-featured virtual worlds engineered in modern game engines. Such a statement blurs the definition of a virtual environment, as one could represent a room by creating a photorealistic 3D model or by simply drawing a cuboid. Research on acoustic simulations conducted over the last decades has expanded towards defining what is required from a virtual environment to produce a believable simulation. The representation of the environment geometry is a determinant of the resolution and perceptual quality of the acoustics simulation results, and, as a general rule, the higher the level of details expressed by the geometry, the more accurate the acoustic simulator is able to simulate how sound interacts with the environment. However, beyond certain levels of details, the increase in resolution does not have a significant perceptual response \cite{pelzer2010frequency}.\par
 Combined with advances in real-space scanning technology and user-friendly 3D reconstruction software, it is now possible to create appropriate virtual environments for acoustic simulations without requiring expert computer graphics engineering knowledge.\par
 
-\subsubsection{Geometrical Acoustics Modelling Techniques}\label{sec:bg-raytracing}
+\subsection{Geometrical Acoustics Modelling Techniques}\label{sec:bg-raytracing}
 Geometrical acoustics is a family of acoustic modelling methods based on representing propagating sound waves with geometrical primitives, such as rays or cones. The foundations of these methods have sound propagating as straight lines, as opposed to moving particles, approximating the complex nature of acoustic energy transfer but neglecting phenomena related to the wave phenomena.
 
 \citep{savioja2015overview}.
@@ -189,7 +209,7 @@ On the other hand, wave-ray hybrid techniques present a more complex picture, co
 \subsubsection{Wave-based Modelling Techniques}
 Wave-based techniques stand out for their precision, solving the wave equation to simulate how sound waves propagate through space, accurately modelling diffraction, scattering, and other complex wave phenomena. While highly accurate, wave-based techniques often require substantial computational resources, making them less suited for real-time or large-scale applications. \cite{hamilton2017fdtd, raghuvanshi2014parametric}.\par
 
-\subsubsection{Summary}
+\subsection{Summary}
 Ray-based techniques offer a compelling option for interactive applications. Their computational efficiency, relative simplicity, and adaptability in handling various scenarios effectively capture the essential acoustic characteristics of sounscapes. Unlike wave-based or hybrid methods, ray-based techniques can easily adapt to dynamic environments, aligning with the objectives of this work and constraints often found in \acrshort{ar} platforms. Therefore, while the high accuracy of wave-based methods or the comprehensive nature of hybrid methods may have specific applications in areas of high-fidelity and complex propagation effects, it is the ray-based techniques (such as those employed by acoustic simulation software such as ODEON) that generally stand out as the most appropriate choice for fast and efficient acoustic simulation in immersive applications.
 
 % ---------------------------------------------------------------------------------
@@ -224,7 +244,7 @@ The goal of geometry handling systems is to allow searching intersections betwee
         \includegraphics[width=\textwidth]{bvh3}
         \caption{Tree}\label{fig:sub_bvh3}
     \end{subfigure}
-    \caption{A bounding volume hierarchy constructed on a given input scene represented as a triangulated mesh (a). Bounding volumes encapsulate mesh primitives, (b), which then represent nodes of the tree, (c).}\label{fig:bvh-diagram}
+    \caption[Visualisation of a Bounding Volume Hierarchy]{A bounding volume hierarchy constructed on a given input scene represented as a triangulated mesh (a). Bounding volumes encapsulate mesh primitives, (b), which then represent nodes of the tree, (c).}\label{fig:bvh-diagram}
 \end{figure}
 
 
@@ -238,15 +258,15 @@ A \acrfull{bvh} is a method closely related to \acrshort{bsp} for handling scene
 In a tree, bounding volumes are generated to fit primitives from a given triangulated mesh (Figure~\ref{fig:sub_bvh1}) and aggregated based on proximity (Figure~\ref{fig:sub_bvh2}). Bounding volumes encapsulating multiple primitives generate branches, and recursively, branches are encapsulated in volume until a root volume fits the entire input scene. A constructed tree (Figure~\ref{fig:sub_bvh3}) can be queried and traversed by navigating branches from the root node to primitives within leaf nodes.\par
 Thanks to branch subdivisions, ray-volume intersection tests performed on nodes allow filtering out entire segments of the scene, reducing the set of primitives that potentially intersect the ray to a subset of the input scene triangle set and improving the space complexity of the operation, much like in \acrshort{bsp} techniques. Recent research trends are exploring tree rotations and balancing of branches in real-time, optimising search operations even further, and allowing the tree to reflect dynamic changes to the scene geometry \citep{kopta2012fast}.
  
-\subsection{Sound Sources in Virtual Environments}
-Representing space in virtual environments, capturing real space and synthetic scenes.
-- Game Engine architecture book                             
+% \subsection{Sound Sources in Virtual Environments}
+% Representing space in virtual environments, capturing real space and synthetic scenes.
+% - Game Engine architecture book                             
 
 \subsection{Materials}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{brdf1}
-    \caption{A simplistic material system visualised as a ray of light emitted by a source and colliding with a surface. The ray reflects around a surface normal and is detected by a virtual camera.}\label{fig:material-vis}
+    \caption[Basic material system in virtual environments]{A simplistic material system visualised as a ray of light emitted by a source and colliding with a surface. The ray reflects around a surface normal and is detected by a virtual camera.}\label{fig:material-vis}
 \end{figure}
 In computer graphics and multi-modal rendering, assigning physical properties to surfaces of the scene geometry has been addressed with the definition of materials. The definition of materials is often intrinsic to the rendering technique and to the engineering design of the rendering apparatus. In physically-based graphics rendering techniques,~\cite{pharr2023physically} define materials as a
 \begin{quotation}
@@ -273,10 +293,9 @@ Modern game engines and acoustic simulation software aim to replicate the behavi
        \includegraphics[width=\textwidth]{brdf3}
        \caption{Glossy Material}\label{fig:brdf2}
     \end{subfigure}
-  \caption{Example \acrshortpl{brdf} applied to a surface, defining a rough material (a) and glossy material (b). These functions emulate how properties of real surfaces respond to colliding light: glossy materials will reflect energy specularly, whereas uneven rough surfaces will cause diffuse scattering.}\label{fig:brdf-vis}
+  \caption[Visualisation of example BRDFs]{Example \acrshortpl{brdf} applied to a surface, defining a rough material (a) and glossy material (b). These functions emulate how properties of real surfaces respond to colliding light: glossy materials will reflect energy specularly, whereas uneven rough surfaces will cause diffuse scattering.}\label{fig:brdf-vis}
 \end{figure}
 
-% Absorption, diffusion, scattering, and physical properties of materials.
 
 \section{Deep Learning}
 Subsequent chapters of this thesis will leverage deep learning techniques to solve a subset of problems associated with developing a system targeting the overarching aim. Specifically, acoustic materials are central to applying the system to realistic, complex scenes, as they contribute towards the perceived quality and realism evoked by the auditory display. The problem arises from the complexity of mapping the appearance of surfaces within the complex scene to acoustic materials. Many factors in complex virtual environments influence the appearance of surfaces, making it hard to distinguish surfaces and map them against acoustic materials automatically.\par
@@ -286,7 +305,7 @@ The goal of a model is to provide inference on unseen data based on training on 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{nn}
-    \caption{A visualisation of a basic neural network with fully-connected hidden layers.}\label{fig:nn}
+    \caption[Diagram of a fully-connected neural network]{A visualisation of a basic neural network with fully-connected hidden layers.}\label{fig:nn}
 \end{figure}
 
 \cite{goodfellow2016deep}
