@@ -68,7 +68,7 @@ fig, ax = plt.subplots(
     tight_layout=True)
 ax.plot(np.radians(pos), dis, 'bo')
 ax.plot((np.radians(90)), (.6), 'ro')
-ax.add_patch(plt.Circle((np.radians(225), 0.6), 0.25, color='b', fill=False))
+ax.add_patch(plt.Circle((np.radians(225), 0.6), 0.25, color='r', fill=False))
 ax.add_artist(ab)
 ax.set_ylim(0, 1)
 ax.set_label('')
