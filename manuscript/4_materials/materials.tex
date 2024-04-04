@@ -118,7 +118,7 @@ One crucial advantage of a camera-based acoustic material recognition system is 
 % Case for artistic material tags
 
 \section{Texture-based Acoustic Material Tagging}\label{sec:texture-tagging}
-Here, we propose a novel architecture for tagging acoustic material in virtual environments, which improves upon recent work by abstracting away from camera-based systems and tests vision-based material recognition methods in real environments. By working on virtual reconstructions of complex scenes, the approach is agnostic of the technology and architecture of the target platform. Despite the significant progress made in sound propagation over the last decades, there are still many limitations in simulations for indoor and outdoor environments due to the complexity of the factors that describe a wavefield \cite{liu2020sound}. This improved system expands from the camera-based methods by contributing towards:
+In this Section, a novel architecture for tagging acoustic material in virtual environments, abstracting away from camera-based systems, is developed and tested. By working on virtual reconstructions of complex scenes, this approach is agnostic of the technology and architecture of the target platform. Despite the significant progress made in sound propagation over the last decades, there are still many limitations in simulations for indoor and outdoor environments due to the complexity of the factors that describe a wavefield \citep{liu2020sound}. The texture-based system considers the discussion around the camera approach and expands towards:
 \begin{itemize}
     \item a more efficient application of acoustic rendering to virtual environments;
     \item a novel architecture for recognising materials from textured meshes in complex scenes, reducing the need for manual tagging of acoustic materials and eliminating the needs for camera-based workflows; 
@@ -126,7 +126,8 @@ Here, we propose a novel architecture for tagging acoustic material in virtual e
 \end{itemize}
 
 \subsection{Method}
-We present a method for processing scene geometry generating acoustic models by predicting materials of objects composing complex scenes. A breakdown of the system shown in Figure~\ref{fig:pipeline_overview} illustrates how visual representations of the environment map to acoustic data used by sound renderers to model sound propagation in a scene. The unwrapped texture of each mesh in the scene geometry provides representations of their materials, which provide input for a convolutional neural network. The network, based on features extracted from textures, recognises different material labels in textures and maps them to acoustic data from a database, expressed as acoustic materials.
+The texture-based system is presented as a method for processing scene geometry, generating input for sound rendering pipelines by predicting materials of objects composing complex scenes. A system overview shown in Figures~\ref{fig:texture-tagging-training} and~\ref{fig:texture-tagging-inference} illustrates how visual representations of the environment map to acoustic data used by sound renderers to model sound propagation in a scene. Similarly to the camera-based approach, there is a \emph{training} and \emph{inference} phase.\par
+In summary, the unwrapped texture of each mesh in the scene geometry provides representations of their materials, which provide input for a convolutional neural network. Based on features extracted from textures, the network recognises different material labels in textures and maps them to acoustic data from a database, expressed as acoustic materials.
 
 \subsubsection{Material Recognition}
 According to \cite{schwartz2019recognizing}, small image patches contain enough information to distinguish materials and hence, we decompose input image textures into small image patches.
@@ -135,7 +136,7 @@ According to \cite{schwartz2019recognizing}, small image patches contain enough 
     \centering
     \includegraphics[width=1\linewidth]{chi-training}
     \caption{}
-    \label{fig:chi-inference}
+    \label{fig:texture-tagging-training}
 \end{figure}
 We determine the visual material space by applying transfer learning to the OpenSurfaces dataset \cite{bell2013opensurfaces}, which comprises 36 classes of surface photographs. 
 The SLIC algorithm \cite{slic6205760} segments input surface photographs into a set of superpixel labels, which determine regions correlated with boundaries of objects. From these resulting superpixel labels, we then generate rectified image patches encapsulating their contours through edge detection \cite{ding2001canny}.
@@ -146,7 +147,7 @@ The rectified image patches are fed through a ResNet50 \cite{he2016deep}, used a
     \centering
     \includegraphics[width=1\linewidth]{chi-inference}
     \caption{}
-    \label{fig:chi-inference}
+    \label{fig:texture-tagging-inference}
 \end{figure}
 Given the set of textured meshes in a scene, we unwrap textures as images to predict materials represented. The trained ResNet50 extracts features from input image textures in complex scenes, whose embeddings enable the classifier to predict class labels associated with each input superpixels. The most frequent prediction maps to an acoustic measurement database, defining the output acoustic material. On average, the classifier takes $11.2s$ to determine the acoustic material for a given texture, see Figure~\ref{fig:superpixel_labels}, divided in $3.8s$ for generating rectified patches and $7.3s$ to extract features and compute the mapping.%
 

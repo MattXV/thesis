@@ -1,8 +1,10 @@
 \documentclass{resources/template}
 \usepackage{graphicx, parskip, appendix, float, geometry, algorithm, algpseudocode, bigints, multirow}
 \usepackage{url, amsmath, amssymb, amsfonts, fancybox, listings, pdfpages, subcaption, rotating, booktabs}
-\usepackage{textcomp, xcolor, hyphenat, capt-of, mathtools, natbib, pdflscape, tabularx}
+\usepackage{textcomp, xcolor, hyphenat, capt-of, mathtools, natbib, pdflscape, tabularx, array}
 \usepackage[nodayofweek]{datetime}
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bath}
