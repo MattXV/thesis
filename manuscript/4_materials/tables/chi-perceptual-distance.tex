@@ -1,0 +1,15 @@
+\begin{table}[htbp]%
+    \centering
+    \caption[Texture-based material recognition correlation scores]{A table showing Pearson $r$ scores for correlation measuring similarity across audio stimuli from simulated soundfields using different acoustic material sets. Generic acoustic materials are defined as $0.1$ acoustic absorption across all frequency bands. Tagged materials are manually assigned, and Predicted materials are inferred from the texture-based material recognition system}%
+    \begin{tabular}{lllll}%
+    \toprule
+              &                     & Generic & Tagged        & Predicted  \\ \midrule 
+    Generic   & $r$                 & 1       & 0.85          & 0.854 \\
+              & Sig. (2-tailed)     &         & 0             & 0     \\ 
+    Tagged    & $r$                 & 0.85    & 1             & 0.96  \\
+              & Sig. (2-tailed)     & 0       &               & 0     \\ 
+    Predicted & $r$                 & 0.854   & \textbf{0.96} & 1     \\
+              & Sig. (2-tailed)     & 0       & \textbf{0}    &       \\ \bottomrule
+    \end{tabular}%
+    \label{tab:chi-perceptual-distance}%
+\end{table}%
