@@ -10,9 +10,9 @@ import numpy as np
 plt.rcParams["text.usetex"] = True
 plt.style.use('science')
 
-
-#%%
 FS = 48000
+
+#%% Book Chapter
 
 
 brir_name = 'Kiti Byzantine Church 70cm simplification.J01.Wav'
@@ -76,4 +76,91 @@ fig.savefig('kiti-rir-plots.jpg', dpi=300)
 # %%
 
 fig.savefig('kiti-rir-plots_uc.pdf')
+#%% 
+
+# *******************************************************************************
+# ************************************* Ch 4 Rirs *******************************
+# *******************************************************************************
+
+# %% Ch4 Rirs
+
+gt_name      = 'ch4-rirs/gt_dc.wav'
+generic_name = 'ch4-rirs/generic-dc.wav'
+predicted_name = 'ch4-rirs/tagged-dc.wav'
+tagged_name = 'ch4-rirs/predicted-dc.wav'
+
+gt        = st.normalise(np.abs(st.trim_from_to(st.read_audio(gt_name, FS), 0.1, 0.8, FS)))
+predicted = st.normalise(np.abs(st.trim_from_to(st.read_audio(predicted_name, FS), 0.11, 0.8, FS)))
+tagged    = st.normalise(np.abs(st.trim_from_to(st.read_audio(tagged_name, FS), 0.1, 0.8, FS)))
+generic   = st.normalise(np.abs(st.trim_from_to(st.read_audio(generic_name, FS), 0.09, 0.8, FS)))
+
+
+# %% Ch 4 Rirs
+
+title_fontsize = 12
+label_fontsize = 10
+
+fig, axes = plt.subplots(4, figsize=(8, 6))
+fig.set_layout_engine('tight')
+
+st.plot_waveform(gt, FS, axes[0])
+axes[0].set_title('Ground Truth', fontsize=title_fontsize)
+
+st.plot_waveform(predicted, FS, axes[1])
+axes[1].set_title('Predicted', fontsize=title_fontsize)
+axes[1].set_ylabel('Magnitude', fontsize=label_fontsize)
+
+st.plot_waveform(tagged, FS, axes[2])
+axes[2].set_title('Tagged', fontsize=title_fontsize)
+
+st.plot_waveform(generic, FS, axes[3])
+axes[3].set_title('Generic', fontsize=title_fontsize)
+axes[3].set_xlabel('Time (s)', fontsize=label_fontsize)
+
+plt.show()
+
+# %%
+
+fig.savefig('rir-texture-testing.pdf')
+
+# %%
+
+title_fontsize = 12
+label_fontsize = 10
+
+gt_name      = 'ch4-rirs/gt_dc.wav'
+generic_name = 'ch4-rirs/generic-dc.wav'
+predicted_name = 'ch4-rirs/tagged-dc.wav'
+tagged_name = 'ch4-rirs/predicted-dc.wav'
+
+gt        = st.normalise(st.trim_from_to(st.read_audio(gt_name, FS), 0.1, 0.8, FS))
+predicted = st.normalise(st.trim_from_to(st.read_audio(predicted_name, FS), 0.11, 0.8, FS))
+tagged    = st.normalise(st.trim_from_to(st.read_audio(tagged_name, FS), 0.1, 0.8, FS))
+generic   = st.normalise(st.trim_from_to(st.read_audio(generic_name, FS), 0.09, 0.8, FS))
+
+
+
+fig, axes = plt.subplots(4, figsize=(8, 6))
+fig.set_layout_engine('tight')
+
+st.plot_spectrogram(gt, FS, axes[0], scale=10)
+axes[0].set_title('Ground Truth', fontsize=title_fontsize)
+
+st.plot_spectrogram(predicted, FS, axes[1], scale=10)
+axes[1].set_title('Predicted', fontsize=title_fontsize)
+axes[1].set_ylabel('Frequency (Hz)', fontsize=label_fontsize)
+
+st.plot_spectrogram(tagged, FS, axes[2], scale=10)
+axes[2].set_title('Tagged', fontsize=title_fontsize)
+
+st.plot_spectrogram(generic, FS, axes[3], scale=10)
+axes[3].set_title('Generic', fontsize=title_fontsize)
+axes[3].set_xlabel('Time (s)', fontsize=label_fontsize)
+
+plt.show()
+
+
+# %%
+fig.savefig('rir-texture-testing-spectrograms.pdf')
+
 # %%
