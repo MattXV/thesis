@@ -230,11 +230,64 @@ The \acrfull{ism} is a crucial technique in geometrical acoustics, particularly 
 For each real sound source and reflective surface, a corresponding image source is created on the opposite side of the surface, at an equal but mirrored distance from the point of reflection. This setup mimics the path that sound would travel if it directly reached the listener after reflecting off the surface. In environments with multiple reflective surfaces, image sources for higher-order reflections are generated recursively. Each new image source becomes a parent source for further reflections, potentially creating a complex network of sources depending on the geometry of the room and the number of reflections considered.The sound path from the real source to the listener is calculated directly. Paths from image sources are treated as if the image sources were real, with the distance and attenuation calculated based on the geometry and acoustic properties of the environment. The total sound field at the listener's position is the superposition of sound from the direct path and all reflected paths. Each component is adjusted for delay (based on distance) and attenuation (due to both distance and material absorption properties).
 %Add visualisation of source paths.
 
-\subsubsection{Hybrid Modelling Techniques}
-On the other hand, wave-ray hybrid techniques present a more complex picture, combining aspects of ray-based and wave-based methods. Rays are utilised to model the high-frequency components of the sound, while wave equations handle the low-frequency behaviour, attempting to capture the best attributes of both methods. However, the hybrid nature often means more computational resources are needed, and it might not always be the most suitable choice for fast applications where platforms offer limited computational resources. \cite{hulusic2012acoustic}
 
 \subsubsection{Wave-based Modelling Techniques}
-Wave-based techniques stand out for their precision, solving the wave equation to simulate how sound waves propagate through space, accurately modelling diffraction, scattering, and other complex wave phenomena. While highly accurate, wave-based techniques often require substantial computational resources, making them less suited for real-time or large-scale applications. \cite{hamilton2017fdtd, raghuvanshi2014parametric}.\par
+
+
+
+Wave-based techniques stand out for their precision, solving the wave equation to simulate how sound waves propagate through space, accurately modelling diffraction, scattering, and other complex wave phenomena. While highly accurate, wave-based techniques often require substantial computational resources, making them less suited for real-time or large-scale applications. \citep{hamilton2017fdtd, raghuvanshi2014parametric}.\par
+Wave-based methods account for the full complexity of sound waves, including diffraction, interference, and wavefront curvature—phenomena typically ignored by geometrical acoustics. These methods are based on solving the wave equation, which describes how sound pressure levels vary in space and time.
+Amongst popular techniques for sound propagation are \acrfull{fdtd} methods. They method discretise the wave equation in both time and spatial domains, using a grid to simulate how waves propagate through a medium. \acrshort{fdtd} methods are widely used in engineering and physics to model sound propagation in complex environments and to study the effects of diffraction and absorption or to model natural phenomena outside the sound domain \citep{teixeira2023finite}.
+These techniques cna model wave phenomena with high accuracy and can account for varying medium properties but at the cost of high computational resource requirements. In large environments, such computational costs can limit their application for certain tasks.
+
+
+
+
+
+
+
+
+
+
+
+
+Alongside \acrshort{fdtd} techniques, Boundary Element Methods solve the Helmholtz equation, a form of the wave equation applicable to steady-state problems, for the boundaries of a domain, reducing the dimensionality of the problem from the volume to the surface.
+
+How do BEM methods work
+
+Boundary methods are particularly effective for exterior problems, such as noise propagation in an open environment, or noise profiling \citep{kirkup2019boundary}.
+They reduces the problem size significantly which can decrease computational demands.
+The method is less effective for high-frequency sounds where the wavelength is small relative to the dimensions of the modeling domain, as the surface elements need to be sufficiently small.
+
+
+
+Principle: FEM subdivides a large problem (such as a room or an outdoor environment) into smaller, simpler parts called finite elements. The sound field in each element is approximated by basis functions.
+Application: Commonly used in architectural acoustics and automotive industry, FEM helps in designing quieter and more acoustically pleasant spaces.
+Strengths: Highly accurate and versatile, capable of modeling complex material properties and geometries.
+Limitations: Computationally intensive, especially for three-dimensional problems and high frequencies.
+Spectral Element Method (SEM)
+
+Principle: Similar to FEM, but uses high-degree polynomials for the basis functions, which can achieve high accuracy with fewer elements under certain conditions.
+Application: Used in scenarios where precision is crucial, such as in the design of concert halls and critical listening environments.
+Strengths: Combines the flexibility of FEM with the accuracy of spectral methods.
+Limitations: Like FEM, SEM can be computationally demanding and requires significant expertise to implement effectively.
+Comparison with Geometrical Acoustics
+Accuracy at Low Frequencies: Unlike geometrical methods, wave-based methods remain accurate even as the wavelength approaches or exceeds other characteristic dimensions in the problem.
+Handling Wave Phenomena: Wave-based methods excel in scenarios where interference, diffraction, and wavefront curvature are important, which are often approximated or ignored in geometrical acoustics.
+Applications
+Architectural Acoustics: Designing spaces with specific acoustic properties, such as concert halls and lecture theaters.
+Environmental Acoustics: Assessing the impact of noise on communities and designing sound barriers to mitigate unwanted noise.
+Product Design: Creating quieter and more pleasing products, from household appliances to large industrial machines.
+Conclusion
+Wave-based methods provide a detailed and rigorous approach to acoustic modeling, ideal for scenarios where high fidelity and accuracy are necessary, and particularly when dealing with low frequencies and complex interactions. While computationally more intensive than geometrical acoustics methods, the depth and realism they offer make them indispensable in many advanced acoustic studies and applications.
+
+
+
+
+
+
+\subsubsection{Hybrid Modelling Techniques}
+On the other hand, wave-ray hybrid techniques present a more complex picture, combining aspects of ray-based and wave-based methods. Rays are utilised to model the high-frequency components of the sound, while wave equations handle the low-frequency behaviour, attempting to capture the best attributes of both methods. However, the hybrid nature often means more computational resources are needed, and it might not always be the most suitable choice for fast applications where platforms offer limited computational resources. \cite{hulusic2012acoustic}
 
 \subsection{Summary}
 Ray-based techniques offer a compelling option for interactive applications. Their computational efficiency, relative simplicity, and adaptability in handling various scenarios effectively capture the essential acoustic characteristics of sounscapes. Unlike wave-based or hybrid methods, ray-based techniques can easily adapt to dynamic environments, aligning with the objectives of this work and constraints often found in \acrshort{ar} platforms. Therefore, while the high accuracy of wave-based methods or the comprehensive nature of hybrid methods may have specific applications in areas of high-fidelity and complex propagation effects, it is the ray-based techniques (such as those employed by acoustic simulation software such as ODEON) that generally stand out as the most appropriate choice for fast and efficient acoustic simulation in immersive applications.
