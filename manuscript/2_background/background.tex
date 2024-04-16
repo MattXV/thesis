@@ -253,7 +253,7 @@ These techniques cna model wave phenomena with high accuracy and can account for
 
 Alongside \acrshort{fdtd} techniques, Boundary Element Methods solve the Helmholtz equation, a form of the wave equation applicable to steady-state problems, for the boundaries of a domain, reducing the dimensionality of the problem from the volume to the surface.
 
-How do BEM methods work
+How do BEM methods work \citep{gumerov2021fast}.
 
 Boundary methods are particularly effective for exterior problems, such as noise propagation in an open environment, or noise profiling \citep{kirkup2019boundary}.
 They reduces the problem size significantly which can decrease computational demands.
@@ -265,14 +265,7 @@ Principle: FEM subdivides a large problem (such as a room or an outdoor environm
 Application: Commonly used in architectural acoustics and automotive industry, FEM helps in designing quieter and more acoustically pleasant spaces.
 Strengths: Highly accurate and versatile, capable of modeling complex material properties and geometries.
 Limitations: Computationally intensive, especially for three-dimensional problems and high frequencies.
-Spectral Element Method (SEM)
 
-Principle: Similar to FEM, but uses high-degree polynomials for the basis functions, which can achieve high accuracy with fewer elements under certain conditions.
-Application: Used in scenarios where precision is crucial, such as in the design of concert halls and critical listening environments.
-Strengths: Combines the flexibility of FEM with the accuracy of spectral methods.
-Limitations: Like FEM, SEM can be computationally demanding and requires significant expertise to implement effectively.
-Comparison with Geometrical Acoustics
-Accuracy at Low Frequencies: Unlike geometrical methods, wave-based methods remain accurate even as the wavelength approaches or exceeds other characteristic dimensions in the problem.
 Handling Wave Phenomena: Wave-based methods excel in scenarios where interference, diffraction, and wavefront curvature are important, which are often approximated or ignored in geometrical acoustics.
 Applications
 Architectural Acoustics: Designing spaces with specific acoustic properties, such as concert halls and lecture theaters.
