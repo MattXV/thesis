@@ -198,10 +198,6 @@ Methods for producing auralisation start from the creation of an environment, wh
 Combined with advances in real-space scanning technology and user-friendly 3D reconstruction software, it is now possible to create appropriate virtual environments for acoustic simulations without requiring expert computer graphics engineering knowledge.\par
 
 \subsection{Geometrical Acoustics Modelling Techniques}\label{sec:bg-raytracing}
-Geometrical acoustics is a family of acoustic modelling methods based on representing propagating sound waves with geometrical primitives, such as rays or cones. The foundations of these methods have sound propagating as straight lines, as opposed to moving particles, approximating the complex nature of acoustic energy transfer but neglecting phenomena related to the wave phenomena.
-
-\citep{savioja2015overview}.
-
 \begin{figure}
     \begin{subfigure}[t]{\linewidth}
         \centering
@@ -215,9 +211,9 @@ Geometrical acoustics is a family of acoustic modelling methods based on represe
         \caption[Image Source b]{image source b}
     \end{subfigure}
 \end{figure}
-
-
-Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have emerged as prominent methods to generate impulse responses in the field of acoustics, each contributing to understanding how sound propagates within a given space. Ray-based techniques, rooted in geometric acoustics, simulate sound by tracing rays that emanate from a source and bounce off various surfaces within a space. This method creates echoes and reverberations, contributing to the overall impulse response. Notably, it offers efficiency as it is computationally less demanding than wave-based techniques, making it suitable for real-time applications or large-scale spaces often found in cultural heritage contexts. The geometrical nature of ray-based methods allows for easier integration with virtual reconstructions of space and dynamic geometry, and the method's inherent flexibility makes it easily adjustable to different acoustic scenarios. \cite{vorlander2008simulation}
+Geometrical acoustics is a family of acoustic modelling methods based on representing propagating sound waves with geometrical primitives, such as rays or cones. The foundations of these methods have sound propagating as straight lines, as opposed to moving particles, approximating the complex nature of acoustic energy transfer but neglecting phenomena related to the wave phenomena \citep{savioja2015overview}.\par
+Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have emerged as prominent methods to generate impulse responses in the field of acoustics, each contributing to understanding how sound propagates within a given space. Ray-based techniques, rooted in geometric acoustics, simulate sound by tracing rays that emanate from a source and bounce off various surfaces within a space. This method approximates reflections and reverberation, contributing to the overall energy expressed as an impulse response.\par
+Geometrical acoustics are generally efficient as they are computationally less demanding than wave-based techniques, making them suitable for real-time applications or large-scale spaces often found in cultural heritage contexts. The geometrical nature of ray-based methods allows for easier integration with virtual reconstructions of space and dynamic geometry, and the method's inherent flexibility makes it easily adjustable to different acoustic scenarios \citep{vorlander2008simulation}.
 
 \subsubsection{Image-Source Model}
 \begin{figure}
@@ -227,18 +223,44 @@ Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have
     \label{fig:ga_shoebox}
 \end{figure}
 The \acrfull{ism} is a crucial technique in geometrical acoustics, particularly effective in modelling sound reflections within enclosed spaces. This method simplifies the calculation of reverberant sound fields by treating reflections as emitted from imaginary sources.
-For each real sound source and reflective surface, a corresponding image source is created on the opposite side of the surface, at an equal but mirrored distance from the point of reflection. This setup mimics the path that sound would travel if it directly reached the listener after reflecting off the surface. In environments with multiple reflective surfaces, image sources for higher-order reflections are generated recursively. Each new image source becomes a parent source for further reflections, potentially creating a complex network of sources depending on the geometry of the room and the number of reflections considered.The sound path from the real source to the listener is calculated directly. Paths from image sources are treated as if the image sources were real, with the distance and attenuation calculated based on the geometry and acoustic properties of the environment. The total sound field at the listener's position is the superposition of sound from the direct path and all reflected paths. Each component is adjusted for delay (based on distance) and attenuation (due to both distance and material absorption properties).
+For each real sound source and reflective surface, a corresponding image source is created on the opposite side of the surface, at an equal but mirrored distance from the point of reflection. This setup mimics the path that sound would travel if it directly reached the listener after reflecting off the surface. In environments with multiple reflective surfaces, image sources for higher-order reflections are generated recursively. Each new image source becomes a parent source for further reflections, potentially creating a complex network of sources depending on the geometry of the room and the number of reflections considered. The sound path from the real source to the listener is calculated directly. Paths from image sources are treated as if the image sources were real, with the distance and attenuation calculated based on the geometry and acoustic properties of the environment. The total sound field at the listener's position is the superposition of sound from the direct path, and all reflected paths. Each component is adjusted for delay (based on distance) and attenuation (due to both distance and material absorption properties).
 %Add visualisation of source paths.
 
 
 \subsubsection{Wave-based Modelling Techniques}
+\begin{figure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{fdtd1}
+        \caption[FDTD]{fdtd ts 1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{fdtd2}
+        \caption[FDTD]{fdtd ts 1}
+    \end{subfigure}
 
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{fdtd3}
+        \caption[FDTD]{fdtd ts 1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{fdtd4}
+        \caption[FDTD]{fdtd ts 1}
+    \end{subfigure}
+    \caption[Visualisations of Finite-Difference Time-Domain simulation timesteps]{Visualisations of Finite-Difference Time-Domain simulation timesteps.}
+\end{figure}
 
 
 Wave-based techniques stand out for their precision, solving the wave equation to simulate how sound waves propagate through space, accurately modelling diffraction, scattering, and other complex wave phenomena. While highly accurate, wave-based techniques often require substantial computational resources, making them less suited for real-time or large-scale applications. \citep{hamilton2017fdtd, raghuvanshi2014parametric}.\par
 Wave-based methods account for the full complexity of sound waves, including diffraction, interference, and wavefront curvature—phenomena typically ignored by geometrical acoustics. These methods are based on solving the wave equation, which describes how sound pressure levels vary in space and time.
-Amongst popular techniques for sound propagation are \acrfull{fdtd} methods. They method discretise the wave equation in both time and spatial domains, using a grid to simulate how waves propagate through a medium. \acrshort{fdtd} methods are widely used in engineering and physics to model sound propagation in complex environments and to study the effects of diffraction and absorption or to model natural phenomena outside the sound domain \citep{teixeira2023finite}.
-These techniques cna model wave phenomena with high accuracy and can account for varying medium properties but at the cost of high computational resource requirements. In large environments, such computational costs can limit their application for certain tasks.
+Amongst popular techniques for sound propagation are \acrfull{fdtd} methods. These methods discretise the wave equation in both time and spatial domains, using a grid to simulate how waves propagate through a medium. \acrshort{fdtd} methods are widely used in engineering and physics to model sound propagation in complex environments and to study the effects of diffraction and absorption or to model natural phenomena outside the sound domain \citep{teixeira2023finite}.
+
+% In FDTD, the simulation domain is the space truncated by the simulation region and discretized by the mesh. When an FDTD simulation runs, the electromagnetic (EM) fields are calculated from Maxwell’s equations in every mesh cell and the solutions are repeatedly time-stepped. Spatial discretization allows for the representation of complex geometries and structures, while temporal discretization captures the evolution of EM fields over time.
+
+These techniques can model wave phenomena with high accuracy and can account for varying medium properties but at the cost of high computational resource requirements. In large environments, such computational costs can limit their application for certain tasks.
 
 
 
