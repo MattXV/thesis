@@ -226,6 +226,39 @@ The \acrfull{ism} is a crucial technique in geometrical acoustics, particularly 
 For each real sound source and reflective surface, a corresponding image source is created on the opposite side of the surface, at an equal but mirrored distance from the point of reflection. This setup mimics the path that sound would travel if it directly reached the listener after reflecting off the surface. In environments with multiple reflective surfaces, image sources for higher-order reflections are generated recursively. Each new image source becomes a parent source for further reflections, potentially creating a complex network of sources depending on the geometry of the room and the number of reflections considered. The sound path from the real source to the listener is calculated directly. Paths from image sources are treated as if the image sources were real, with the distance and attenuation calculated based on the geometry and acoustic properties of the environment. The total sound field at the listener's position is the superposition of sound from the direct path, and all reflected paths. Each component is adjusted for delay (based on distance) and attenuation (due to both distance and material absorption properties).
 %Add visualisation of source paths.
 
+\subsubsection{Ray Tracing Techniques}
+Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \arshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to 
+
+Principles of Ray Tracing
+Ray tracing begins with the emission of rays from a sound source. These rays represent paths along which sound energy travels through the environment. As rays encounter surfaces, they can be absorbed, reflected, or transmitted based on the properties of the materials they encounter:
+
+Specular Reflections: This occurs when rays bounce off smooth surfaces at angles equal to their incidence angles, akin to how light reflects off a mirror. Ray tracing's accuracy in modeling these reflections can vary based on the complexity of the environment and the precision of the reflection model used.
+Diffuse Reflections: Occurs when sound rays strike rough surfaces and scatter in many directions. Modeling diffuse reflections requires more complex algorithms to accurately predict the distribution of reflected sound energy.
+Reflection Models
+Before proceeding to the actual ray-tracing algorithm, it's crucial to define the reflection models that will govern how rays interact with surfaces:
+
+Specular Reflection Model: Assumes that rays reflect off surfaces in a single, predictable direction. This model is simpler and computationally less demanding but can miss complex interactions in environments with varied surface textures.
+Diffuse Reflection Model: More complex, this model assumes that rays scatter randomly upon striking a surface. This requires probabilistic methods to simulate and is more computationally intensive but provides a more accurate depiction of real-world acoustic behaviors.
+Combined Models: Some advanced ray-tracing implementations use a combination of specular and diffuse models to capture a broader range of acoustic phenomena and improve realism.
+Computational Aspects of Ray Tracing
+Ray tracing's computational load is generally lower than that of the image-source method, especially at higher orders of reflection. This efficiency makes ray tracing advantageous for:
+
+Scalability: It can more easily scale to larger and more complex environments.
+Real-time Applications: Useful in applications requiring real-time sound simulation, such as virtual reality and gaming.
+Higher Reflection Orders: Maintains efficiency even as reflections become more complex, whereas the image-source method's computational cost increases exponentially with each added reflection order.
+Limitations of Ray Tracing
+While ray tracing is versatile and efficient, it has limitations, particularly in environments where acoustic accuracy is critical:
+
+High-Frequency Bias: Ray tracing tends to be more accurate at higher frequencies, where the wavelength is much smaller than the objects and spaces involved. At lower frequencies, its accuracy diminishes as wave effects like diffraction become more significant.
+Specular Bias: Traditional ray tracing may over-emphasize specular reflections, leading to inaccuracies in environments where diffuse reflections dominate.
+Conclusion
+Ray tracing is a robust and versatile technique in geometrical acoustics, widely used for modeling room acoustics due to its computational efficiency and adaptability to different reflection models. While it offers broad applicability and scalability, its accuracy in certain scenarios—particularly in complex, diffuse environments and at lower frequencies—may be limited. Understanding these strengths and weaknesses is crucial for effectively applying ray tracing in acoustic modeling.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{rt-diagram}
+    \caption[ray tracing diagram]{ray tracing}\label{fig:ray-tracing-diagram}
+\end{figure}
+ 
 
 \subsubsection{Wave-based Modelling Techniques}
 \begin{figure}
