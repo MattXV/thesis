@@ -149,6 +149,35 @@ IRs, as well as measuring the acoustic fingerprint of spaces, can extend as far 
 \end{figure}
 
 \subsection{Measuring Real Soundfields}
+A fundamental process in the field of acoustic is capturing acoustic characteristics of physical spaces. Over the last decades, both research and industry have developed technique for capturing soundscapes using \acrshortpl{rir}. Captured responses can encode fingerprints of unique soundfields, which are relevant to various applications like audio engineering or audio production, architectural acoustics, and virtual reality. 
+
+The recorded impulse response can be analyzed to determine acoustic parameters such as reverberation time, early decay time, and clarity. These parameters are crucial for acoustical analysis and for simulating the space's acoustics in audio production. Impulse responses allow engineers to apply the acoustic characteristics of actual spaces to studio recordings, creating authentic aural experiences in a controlled environment.
+
+a sound source that can produce a brief, broadband noise (like a starter pistol, balloon pop, or sine wave sweep) and a recording device equipped with a microphone.
+
+This process helps audio professionals and acousticians accurately reproduce and study the acoustic behaviors of different environments, enhancing audio productions and architectural designs.
+
+\citep{farina07} \citep{holters2009impulse} \citep{liebetrau2014revision}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{rir-recording1}
+        \caption{RIR measurement in a large space}
+        \label{fig:rir-recording1}
+    \end{subfigure}
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{rir-recording2}
+        \caption{RIR measurement in a small space}
+        \label{fig:rir-recording2}
+    \end{subfigure}
+
+       \caption[RIR measurement apparatus]{Photographs showing an apparatus for recording Room Impulse Responses in real spaces, adopting the swept sine method. The method involves using a speaker to emit a logarithmically-swept sine to excite, generating a test signal that is then captured by the microphone. Through the process of deconvolution, the recorded signal can be used to produce an impulse response of the system composed by the speaker, microphone, and environment.}
+       \label{fig:rir-recording-examples}
+\end{figure}
 
 \section{Common Approaches to Immersive Acoustics}
 Achieving a convincing immersive acoustic experience is no trivial task, and various techniques and methodologies have been developed to address this complex challenge. These approaches must consider sound's spatial, temporal, and perceptual aspects and the HAS's intricate response to auditory stimuli.
@@ -227,7 +256,7 @@ For each real sound source and reflective surface, a corresponding image source 
 %Add visualisation of source paths.
 
 \subsubsection{Ray Tracing Techniques}
-Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \arshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to 
+Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \acrshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to 
 
 Principles of Ray Tracing
 Ray tracing begins with the emission of rays from a sound source. These rays represent paths along which sound energy travels through the environment. As rays encounter surfaces, they can be absorbed, reflected, or transmitted based on the properties of the materials they encounter:
