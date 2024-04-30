@@ -8,6 +8,12 @@ Since a human listener is a link in the chain of the system proposed as part of 
 The \acrfull{has} generally comprises two ears on either side of the human head, and each ear is a system that can be divided into three main parts: the outer ear, commonly referred to as the ear; the middle ear; and the inner ear. The outer ear, also referred to as the pinna, is shaped like a shell, is made of cartilage and skin, and serves both as protection for the system of receptors, ossicles, and nerves within the middle and the inner ear and a funnel that collects sound energy and transmits it to the middle ear via the outer ear canal. The outer ear canals are largely responsible for the frequency response of the \acrshort{has}. 
 Auditory stimuli are sent to the brain via sensory cells that are surrounded by fluids displacing according to the received sound pressure. The middle ear converts sound pressure from the ear canal to displacement to these fluids, which send signals to the brain. This part of the ear is able to withstand variations of air pressure arriving at the outer ear and is responsible for matching different impedance magnitudes between the air or the medium in which sound is arriving at the apparatus and the impedance of the fluids in the inner ear.
 The inner ear comprehends the vestibular system, a sensory system that allows humans to sense their spatial position, perceive rotation or displacement, and achieve balance and the cochlea. The cochlea, shaped like a snail, is embedded in the hard temporal bone, part of the skull \citep{zwicker2013psychoacoustics}.
+Understanding basic functionalities of the \acrshort{has} is fundamental to reasoning auditory perception within virtual environments. When designing or evaluating sound rendering pipelines for immersive applications, factors influencing the perception of sound need to be considered.
+Anthropometric features of humans affect how propagating sound waves are interpreted by listeners. Designing systems to simulate auditory perception in virtual environments requires considerations of key features of the \acrshort{has}. Section~\ref{sec:bg-psychoacoustics} will demonstrate how existing methods can simulate aspects of human listeners in digital systems.
+Hearing, as a human ability, does not work in isolation and it is influenced by vision and other functions of human perception. The interaction of different senses, particularly how sound influences visual perception in virtual reality scenarios, affects how environments are perceived. The interaction of different senses, particularly how sound influences visual perception in virtual reality scenarios, affects how soundfields are perceived. Auditory stimuli can affect visual perception and vice-versa, adding dimensions of complexity to the process of designing an audio apparatus for immersive technology \citep{malpica2020crossmodal}.
+The feature mismatch between visual and auditory cues can affect the externalization and perception of sounds. For instance, differences in quality between acoustic and visual stimuli can hinder the ability of a listener or observer to understand their surroundings from perceived stimuli, demonstrating the importance and validity of congruent sensory cues for effective auditory perception in virtual environments \citep{bonneel2010bimodal}.
+With matching and coherent audio-visual stimuli, the human perception system can infer and ``fill in the blanks'', understanding spatial or semantic information of a sound-emitting object when visual information is scarce or missing. Replicating such ability in digital systems can be crucial for accessibility applications, allowing users with vision impairments to understand their surroundings by understanding acoustic characteristics.
+
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{human_ear}
@@ -18,15 +24,9 @@ The inner ear comprehends the vestibular system, a sensory system that allows hu
 \subsection{Introduction to Psychoacoustics}\label{sec:bg-psychoacoustics}
 The \acrshort{has} enables one of the fundamental functions of perception of surrounding space. In humans and species of the animal kingdom, hearing is the basis of many mechanisms, such as communication or survival instincts. Such mechanisms are neural processing applied to auditory stimuli arriving at the hearing system in order to compute tasks or solve problems, such as communicating using acoustical data or pinpointing the location of a sound-emitting entity relying on auditory stimuli. These are example applications or problems that can be solved by processing acoustical data interpreted by the \acrshort{has}.
 Psychoacoustics investigates how the \acrshort{has} responds to auditory stimuli and investigates applications like loudness perception, localisation, lateralisation, or room volume estimation. The understanding of psychophysical responses of the \acrshort{has} to acoustical data in environments influences everyday activities that involve communicating, listening to musical instruments, or delivering messages to an audience of multiple listeners. The design process of built environments, infrastructure, or concert halls takes into account psychoacoustic factors to facilitate or improve human perception in specific environments during specific activities.
+Psychoacoustic models significantly enhance the design and functionality of auditory displays by ensuring that sound reproduction systems are more aligned with the natural processing capabilities of the \acrshort{has}. Over the course of this thesis, several designs of audio rendering apparatuses will be discussed, comparing their effectiveness and efficiency. Psychoacoustic metrics provide an essential benchmark to test these systems, as they can indicate how effective is a method towards allowing users to perform natural abilities on a given stimulus. Studies such as~\cite{rungta2016psychoacoustic}'s indicate how well listeners can apply psychoacoustic abilities, like localisation or room volume estimation, on stimuli generated by experimental sound rendering pipelines.
 
 \subsection{Sound Localisation}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=1\linewidth]{localisation_example}
-%     \caption[Sound localisation visualised]{Sound localisation is the ability of the \acrshort{has} to pinpoint the position and direction of sound sources, red dots, at different directions and distances around the listener, centre.}
-%     \label{fig:localisation-listener}
-% \end{figure}
-
 \begin{figure}
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
@@ -51,7 +51,7 @@ Sound localisation is a natural ability of the \acrshort{has} that allows the de
 The \acrshort{has} localises sound based on the acoustic cues that reach the ears; they can be binaural or monoaural. Binaural cues simultaneously involve the two ears (or receiving points), while monoaural cues consider mechanisms relating to individual receiving points. Binaural cues are the most significant for performing sound localisation as they consider differences in the arrival of sound at the two ears, revealing distance information between the source and each receiving point. These cues are often subdivided into \acrfull{itd} and \acrfull{ild}, referring to the differences in time and sound pressure level, respectively, at the time of arrival at the two receiving points.\par
 Monoaural cues consider aspects relating to the physical and anatomical characteristics of the listener affecting propagating sound waves being perceived by the pinna, middle, and inner ear. Physical characteristics can include the shape of the pinna or the ear canal and other parts of the hearing system involved in the perception of sound pressure. These effects can transform or alter the spectrum of the perceived auditory stimuli \citep{blauert1997spatial, howard2013acoustics}.
 Sound rendering pipelines often use \acrfullpl{hrtf} to model monoaural and binaural cues in virtual environments. They describe how sound is affected by the listener's head, ears, and torso before reaching the ears. \acrshortpl{hrtf} are often individualised, i.e. modelled after an individual hearing system, and can be used to simulate how the listener perceives sounds from different directions. Modelling and creation of these functions often involve measurement systems to capture sound from varying distances and directions arriving at the hearing system \citep{zotkin2003hrtf}. However, sound localisation can also be affected by cognitive and psychological factors such as experience, expectation, and attention, as the brain can use past experiences and contextual information to make educated guesses about the location of sound sources.\par
-In immersive applications, \acrshortpl{hrtf} have become fundamental in allowing sound localisation of virtual sound-emitting entities, though they can vary significantly between individuals, and creating a one-size-fits-all model for all listeners is still an open research question.
+In immersive applications, \acrshortpl{hrtf} have become fundamental in allowing sound localisation of virtual sound-emitting entities, though they can vary significantly between individuals, and creating a one-size-fits-all model for all listeners is still an open research question \citep{plugnplayAuralisations}.
 
 % Individualized HRTFs: Some systems allow for the measurement or approximation of individual HRTFs to improve localization accuracy.
 % Dynamic Binaural Rendering: Advanced algorithms can dynamically adjust binaural cues based on the listener's position and orientation within the virtual environment.
@@ -149,15 +149,12 @@ IRs, as well as measuring the acoustic fingerprint of spaces, can extend as far 
 \end{figure}
 
 \subsection{Measuring Real Soundfields}
-A fundamental process in the field of acoustic is capturing acoustic characteristics of physical spaces. Over the last decades, both research and industry have developed technique for capturing soundscapes using \acrshortpl{rir}. Captured responses can encode fingerprints of unique soundfields, which are relevant to various applications like audio engineering or audio production, architectural acoustics, and virtual reality. 
-
-The recorded impulse response can be analyzed to determine acoustic parameters such as reverberation time, early decay time, and clarity. These parameters are crucial for acoustical analysis and for simulating the space's acoustics in audio production. Impulse responses allow engineers to apply the acoustic characteristics of actual spaces to studio recordings, creating authentic aural experiences in a controlled environment.
-
-a sound source that can produce a brief, broadband noise (like a starter pistol, balloon pop, or sine wave sweep) and a recording device equipped with a microphone.
-
-This process helps audio professionals and acousticians accurately reproduce and study the acoustic behaviors of different environments, enhancing audio productions and architectural designs.
-
-\citep{farina07} \citep{holters2009impulse} \citep{liebetrau2014revision}
+A fundamental process in the field of acoustic is capturing the acoustic characteristics of physical spaces. Over the last decades, both research and industry have developed techniques for capturing soundscapes using \acrshortpl{rir}. Captured responses can encode fingerprints of unique soundfields, which are relevant to various applications like audio engineering or audio production, architectural acoustics, and virtual reality.\par
+By means of the convolution operation, acoustic characteristics expressed by these responses can be applied to unpropagated audio signals. Commonly referred to as ``auralisation'', it allows rendering audio to a listener, giving the impression that it propagated within the response recording apparatus. Section~\ref{sec:real-time-conv} will discuss technical aspects and implementations of the operation.\par
+The recorded impulse response can be analysed to determine acoustic parameters such as reverberation time, early decay time, and clarity \citep{farina07}. These parameters are crucial for acoustical analysis and for simulating the space's acoustics in audio production. Impulse responses allow engineers to apply the acoustic characteristics of actual spaces to studio recordings, creating authentic aural experiences in a controlled environment \citep{lima_RIR_Parameters}.\par
+Over time the process of measuring soundfields with speakers and microphones has been standardised by international standards such as \citep{liebetrau2014revision}. The standard provides recommendations to maximise the representation quality of the acoustics features captured by the response. To record a response the technical apparatus may consist of a sound source that can produce a broadband audio signal, a microphone, and A/D and D/A converters to emit and capture signals from the sound system. A logarithmically swept sine is then emitted by the speaker and captured by the microphone. Ideally, the sound system should not introduce distortion into the captured signal and emitter and received should have minimal impact on the spectrum. \par
+\cite{farina07} presented techniques for recovering \acrshortpl{rir} from the signal captured by the measurement microphone. The most notable technique is the convolution of the captured swept sine by the time reversal of the unpropagated sine sweep, resulting in the recovered \acrshort{rir}, Figure~\ref{fig:rir-spectrum} shown an example recovered response.\par
+This process helps audio professionals and acousticians accurately reproduce and study the acoustic behaviours of different environments, enhancing audio productions and architectural designs \citep{holters2009impulse}.
 
 \begin{figure}[htbp]
     \centering
@@ -256,12 +253,15 @@ For each real sound source and reflective surface, a corresponding image source 
 %Add visualisation of source paths.
 
 \subsubsection{Ray Tracing Techniques}
-Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \acrshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to 
+Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \acrshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to the approximation of acoustic reflections by means of random sampling. At a high level, the technique has rays propagating from uniformly distributed origin points across a sphere, see Figure~\ref{fig:ray-tracing-diagram}.
 
-Principles of Ray Tracing
+
+\citep{thompsonRayTracing}.
+
 Ray tracing begins with the emission of rays from a sound source. These rays represent paths along which sound energy travels through the environment. As rays encounter surfaces, they can be absorbed, reflected, or transmitted based on the properties of the materials they encounter:
 
-Specular Reflections: This occurs when rays bounce off smooth surfaces at angles equal to their incidence angles, akin to how light reflects off a mirror. Ray tracing's accuracy in modeling these reflections can vary based on the complexity of the environment and the precision of the reflection model used.
+A specular reflection occurs when rays bounce off smooth surfaces at angles equal to their incidence angles, akin to how light reflects off a mirror. Ray tracing's accuracy in modeling these reflections can vary based on the complexity of the environment and the precision of the reflection model used.
+
 Diffuse Reflections: Occurs when sound rays strike rough surfaces and scatter in many directions. Modeling diffuse reflections requires more complex algorithms to accurately predict the distribution of reflected sound energy.
 Reflection Models
 Before proceeding to the actual ray-tracing algorithm, it's crucial to define the reflection models that will govern how rays interact with surfaces:
@@ -272,22 +272,37 @@ Combined Models: Some advanced ray-tracing implementations use a combination of 
 Computational Aspects of Ray Tracing
 Ray tracing's computational load is generally lower than that of the image-source method, especially at higher orders of reflection. This efficiency makes ray tracing advantageous for:
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{rt-diagram}
+    \caption[ray tracing diagram]{ray tracing}\label{fig:ray-tracing-diagram}
+\end{figure}
+
+
 Scalability: It can more easily scale to larger and more complex environments.
 Real-time Applications: Useful in applications requiring real-time sound simulation, such as virtual reality and gaming.
 Higher Reflection Orders: Maintains efficiency even as reflections become more complex, whereas the image-source method's computational cost increases exponentially with each added reflection order.
 Limitations of Ray Tracing
 While ray tracing is versatile and efficient, it has limitations, particularly in environments where acoustic accuracy is critical:
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{rt-example}
+    \caption[ray tracing diagram 2]{ray tracing}\label{fig:ray-tracing-diagram2}
+\end{figure}
+ 
 High-Frequency Bias: Ray tracing tends to be more accurate at higher frequencies, where the wavelength is much smaller than the objects and spaces involved. At lower frequencies, its accuracy diminishes as wave effects like diffraction become more significant.
 Specular Bias: Traditional ray tracing may over-emphasize specular reflections, leading to inaccuracies in environments where diffuse reflections dominate.
 Conclusion
 Ray tracing is a robust and versatile technique in geometrical acoustics, widely used for modeling room acoustics due to its computational efficiency and adaptability to different reflection models. While it offers broad applicability and scalability, its accuracy in certain scenarios—particularly in complex, diffuse environments and at lower frequencies—may be limited. Understanding these strengths and weaknesses is crucial for effectively applying ray tracing in acoustic modeling.
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1\textwidth]{rt-diagram}
-    \caption[ray tracing diagram]{ray tracing}\label{fig:ray-tracing-diagram}
+    \includegraphics[width=1\textwidth]{rt-full-example}
+    \caption[ray tracing diagram 2]{ray tracing \citep{funkhouser:inria-00606737}}\label{fig:ray-tracing-diagram3}
 \end{figure}
- 
+
+
 
 \subsubsection{Wave-based Modelling Techniques}
 \begin{figure}
@@ -325,6 +340,11 @@ Amongst popular techniques for sound propagation are \acrfull{fdtd} methods. The
 These techniques can model wave phenomena with high accuracy and can account for varying medium properties but at the cost of high computational resource requirements. In large environments, such computational costs can limit their application for certain tasks.
 
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{wavefield-coding}
+    \caption[wave field coding]{wfc \citep{raghuvanshi2014parametric}}\label{fig:wavefield-coding}
+\end{figure}
 
 
 
@@ -503,6 +523,8 @@ As the acoustic principles that govern how sound propagates in space are difficu
 There is a large tree of techniques and methods to simulate sound propagation, reflecting acoustic properties to any given sound source in a VE, adapting to perceptual requirements and computational budgets available \cite{doukakis2019audio}. As a general rule, the more computational budget available, the more complex techniques can be employed, allowing realistic sound rendering. Finite-difference Time Domain (FDTD) approaches shown by \cite{hamilton2017fdtd}, or wave-based by~\cite{raghuvanshi2014parametric} methods, on this end of the spectrum, obtain high degrees of accuracy and realism, but often require pre-computation stages or GPU implementations to produce acoustic simulations at interactive rates. On the other end of the spectrum, there are fast geometrical acoustics methods, widely adopted in real-time applications due to their low computational requirements and highly parallelisable implementations \citep{cowan2010gpu}, which reduce simulated sound waves to rays or beams, that are much simpler to compute. Finally, hybrid methods also exist to combine the strengths of the main families. \par
 Acousticians and engineers have always employed classic sound rendering to solve practical problems as it requires the work of experts to adjust parameters and define the acoustic characteristics of a virtual scene. A constant here is the requirement of an accurate description of the environment, detailing the geometry of architectural components and objects contained within with acoustic information such as acoustic energy absorption, reflection, or scattering --- this is essential to model the behaviour of sound waves interacting with the environment. \par
 Only recently, with the increase of processing power available in computers, it has gained popularity in computer games and immersive technology for entertainment and serious applications \citep{zhang18}. Augmented Reality (AR) technology can particularly benefit from this as the increase in processing allows sound rendering on mobile devices, enabling listeners to experience virtual sound sources propagating in the reconstruction of real geometry, which is the main avenue that the planned thesis work aims to explore. \par
+
+Hearing is a complex function that requires modelling of a human listener as well as considering environmental aspects.
 
 % Acoustic materials
 % Deep learning for acoustic materials
