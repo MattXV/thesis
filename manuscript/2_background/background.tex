@@ -52,12 +52,7 @@ The \acrshort{has} localises sound based on the acoustic cues that reach the ear
 Monoaural cues consider aspects relating to the physical and anatomical characteristics of the listener affecting propagating sound waves being perceived by the pinna, middle, and inner ear. Physical characteristics can include the shape of the pinna or the ear canal and other parts of the hearing system involved in the perception of sound pressure. These effects can transform or alter the spectrum of the perceived auditory stimuli \citep{blauert1997spatial, howard2013acoustics}.
 Sound rendering pipelines often use \acrfullpl{hrtf} to model monoaural and binaural cues in virtual environments. They describe how sound is affected by the listener's head, ears, and torso before reaching the ears. \acrshortpl{hrtf} are often individualised, i.e. modelled after an individual hearing system, and can be used to simulate how the listener perceives sounds from different directions. Modelling and creation of these functions often involve measurement systems to capture sound from varying distances and directions arriving at the hearing system \citep{zotkin2003hrtf}. However, sound localisation can also be affected by cognitive and psychological factors such as experience, expectation, and attention, as the brain can use past experiences and contextual information to make educated guesses about the location of sound sources.\par
 In immersive applications, \acrshortpl{hrtf} have become fundamental in allowing sound localisation of virtual sound-emitting entities, though they can vary significantly between individuals, and creating a one-size-fits-all model for all listeners is still an open research question \citep{plugnplayAuralisations}.
-
-% Individualized HRTFs: Some systems allow for the measurement or approximation of individual HRTFs to improve localization accuracy.
-% Dynamic Binaural Rendering: Advanced algorithms can dynamically adjust binaural cues based on the listener's position and orientation within the virtual environment.
-% Cross-Modal Integration: Ensuring that auditory and visual cues are closely matched and coherent is critical for maintaining immersion and preventing sensory conflict.
-% Conclusion
-% Sound localization is a complex but essential aspect of how we interact with our surroundings, playing a critical role in the realism and immersion of virtual environments. Advances in psychoacoustic research and audio technology continue to improve our ability to simulate realistic soundscapes, making virtual experiences more engaging and lifelike.
+There are research trends that focus on systems for individualising \acrshortpl{hrtf} automatically by predicting functions based on features of the target listener. Modern techniques make use of computer vision systems to infer \acrshort{hrtf} data from a virtual representation of a human head; i.e., a 3D scan of the listener's head and upper body \citep{zotkin2003hrtf}.
 
 \subsection{Masking}
 Masking occurs when the presence of one sound makes it difficult or impossible to hear another sound at the same time. This effect can significantly influence how sounds are perceived in everyday environments and is critical in the design of sound rendering pipelines for several reasons, including emulating how hearing systems operate or managing computational resources by avoiding rendering sounds that listeners cannot hear.
@@ -66,9 +61,9 @@ Masking varies by individual and is influenced by cognitive factors, context, en
 
 \subsection{Just-Noticeable Differences}
 The \acrfull{jnd} is the smallest change in a stimulus that can be detected by the sensory system. In the realm of hearing, it applies to various acoustic parameters, such as frequency (pitch), intensity (loudness), and duration (length of sound). The JND is not a fixed quantity but varies depending on the baseline intensity and frequency of the sound, as well as the listener's sensory acuity and environmental factors \citep{dolhasz2021perceptually}
-Psychoacoustic models, which predict human auditory perception, incorporate \acrshortpl{jnd} to simulate how various sounds are processed and understood.  The concept of just-noticeable differences is vital for understanding human perception and forms the basis of numerous applications in psychoacoustics and to replicate phenomena of the \acrshort{has} in virtual environments. As research advances, our grasp of JNDs continues to refine the development and optimisation of sound rendering pipelines.
+Psychoacoustic models, which predict human auditory perception, incorporate \acrshortpl{jnd} to simulate how various sounds are processed and understood.  The concept of just-noticeable differences is vital for understanding human perception and forms the basis of numerous applications in psychoacoustics and to replicate phenomena of the \acrshort{has} in virtual environments. As research advances, our grasp of \acrshortpl{jnd} continues to refine the development and optimisation of sound rendering pipelines.
 
-\section{Sound Propagation Fundamentals}
+\section{Sound Propagation Background}
 \subsection{Sound Propagation in Real and Virtual Environments}
 Sound propagation is a transmission of energy in a sound field, which can be thought of as a superposition of sound waves travelling in a medium. In this work, we consider air as the sound propagation medium, which is assumed to be homogeneous, i.e., determining a constant velocity of sound $c$ expressed as: 
 \begin{equation}
@@ -78,27 +73,29 @@ where $\Theta$ is the temperature in centigrade.
 A vibrating object in a sound field causes air particles to move, initiating the transmission of energy in the field. Such an object is defined as a sound source, and if the intensity and frequency of the vibrations are within the perceptible range of the human hearing system, a listener may experience sound emitted by the said sound source.
 In everyday sound transmissions, the air within sound fields is not at rest and features many inhomogeneities caused by external factors affecting the state of its particles, such as windows or air conditioning systems. However, according to \citep{kuttruff2016room}, such inhomogeneities are imperceptible, and generally, the air temperature has a perceptual effect on sound transmissions, especially in large concert halls and open spaces. Air temperature effects can be neglected in indoor sound propagation.
 
-% \subsection{Sound Transmissions}
-% Energy in the sound field, transferring from a vibrating sound source to the hearing system of a listener, is perceived as an acoustic signal characterised by varying intensity and frequency. 
-% The intensity of 
-% Sound pressure, amplitude, sampling 
-
-% \subsection{Acoustics in Real Environments}
-% \begin{itemize}
-%     \item Definition of a sound field
-%     \item Characterisation of sound fields
-%     \item Objective metrics describing sound fields; Farina's descriptors.
-    
-% \end{itemize}
-
+\subsection{Metrics and Descriptors of Real and Virtual Soundfields}
+Standard acoustic parameters are crucial for measuring and evaluating soundfields, particularly in diverse environments like concert halls, studios, or public spaces. These parameters help in quantifying aspects such as sound quality, clarity, and diffusion, and they can express high-level characteristics of the behaviour of propagating sound waves in a given environment.\par
+One of the most common acoustic parameters, reverberation time is essential for understanding one of the most characteristic aspects of an environment. It allows listeners to infer information about the size or basic architectural features of the space. $T_{60}$ reverberation time is defined as the time it takes for acoustic energy levels to drop by \qty{60}{\decibel} after a sound source has stopped emitting \citep{eckhardt1923acoustics}.\par
+Similar to reverberation time but focused on the early part of the decay, providing a better description of the acoustic environment in terms of initial sound fading, Early Decay Time is another metric that provides insights into how energy behaves in environments. It is often calculated by fitting a curve on energy levels registered over time by a receiver \citep{jordan1970acoustical}.
+The clarity index, also a commonly adopted metric, measures the clarity of sound in terms of its impact or sharpness.  It quantifies the ratio of early (within \qty{80}{\ms} or \qty{50}{\ms}) to late reflections \citep{reichardt1975definition}. Equation~\ref{eq:c80-def} shows how the ratio between early and late reflections is calculated: $\mathrm{p}$ denotes energy from a source, registered at the listener point at the time $\mathrm{t}$.
+\begin{equation}\label{eq:c80-def}
+    C_{80} = 10 \log \frac{\bigint_{0}^{80ms}\mathrm{p^2(t)d}t}{\bigint_{80ms}^{\infty}\mathrm{p^2(t)d}t}
+\end{equation}
+Similarly to clarity, the definition metric $D_{50}$ analyses early and late reflections, expressing sharpness and definition of propagating sound waves. The metric differs from clarity by quantifying the ratio between early reflections and the total aggregate reflections, see Equation~\ref{eq:d50-def}.
+\begin{equation}\label{eq:d50-def}
+    D_{50} = 10 \log \frac{\bigint_{0}^{50ms}\mathrm{p^2(t)d}t}{\bigint_{0}^{\infty}\mathrm{p^2(t)d}t}
+\end{equation}
+These metrics have strong relationships with subjective factors, like perceived quality or perceived resolution. As humans are often the target of digital systems that simulate soundfields, subjective factors need to be considered. This is crucial in the context of generating and validating acoustic simulations: although objective metrics can quantify and evaluate acoustic characteristics of soundfields, they require validation against human perception to assess psychoacoustic factors.\par
+MUlti-Stimulus with Hidden Reference tests (MUSHRA) can be used to compare auditory stimuli subjectively. These tests are typically employed to assess digital signal processing algorithms, such as compression, and involve subjective testing. Subjects are often asked to rank a set of stimuli, expressing the perceptual distance between each stimulus and a reference.
+Such testing methodologies can be adapted effectively to compare different soundfield reproductions, particularly in evaluating spatial audio and soundfield reproduction systems within immersive environments to assess perceived audio quality, as demonstrated by~\cite{rummukainen2018audio}.
 
 \subsection{Digital Representation of Audiovisual Information}
 \label{sec:DSP-background}
 The following Sections will introduce background knowledge on Digital Signal Processing relevant to the representation of acoustic signals in digital systems and the manipulation of auditory stimuli in virtual environments. Digital Signal Processing methods and techniques provide building blocks for the construction of realistic 3D auditory displays in immersive technology.
 
-\acrfull{dsp} is the science of analysing time-dependent physical processes. The acoustics realm deals with analogue signals and digital signals, terms used to indicate a continuous variation of amplitude values in a physical process. Electricity utilised to drive loudspeakers is an example of an analogue signal, expressing continuous changes in voltage applied to magnets to displace the position of a cone. The cone displacement causes pressure differences in air particles, transforming such changes in voltage to changes in air pressure, which the human auditory system interprets as sound. Acoustic signals consist of one or multiple sound waves oscillating, where each wave is an oscillation of energy at regular intervals; the duration of each interval determines the wavelength $\lambda$, and oscillations are measured as frequency in Hertz (Hz). \par
+\acrfull{dsp} is the science of analysing time-dependent physical processes. The acoustics realm deals with analogue signals and digital signals, terms used to indicate a continuous variation of amplitude values in a physical process. Electricity utilised to drive loudspeakers is an example of an analogue signal, expressing continuous changes in voltage applied to magnets to displace the position of a cone. The cone displacement causes pressure differences in air particles, transforming such changes in voltage to changes in air pressure, which the human auditory system interprets as sound. Acoustic signals consist of one or multiple sound waves oscillating, where each wave is an oscillation of energy at regular intervals; the duration of each interval determines the wavelength $\lambda$, and oscillations are measured as frequency in \unit{\hertz}. \par
 On the other hand, a digital signal is a discrete representation of a continuous physical process, resulting in a sequence of measurement samples of an analogue signal expressed as amplitude values over time. Figure~\ref{fig:analogue-digital-signal} shows the difference between a continuous signal and a discrete signal: digital signal is represented with stems to indicate its nature of quantised measurements over time, abscissa, as opposed to a continuous change in amplitude, ordinate. The discrete nature of a digital signal has inherent problems and advantages that relate to the time interval between measurements: a digital signal representing an analogue one will always be an approximation of the continuous process as the system may change its state between measurement intervals. The approximated nature of digital signals causes information loss, which is counteracted by theories shown later, but allows digital systems to store and process acoustical data efficiently.\par
-DSP applies to both, but in this book chapter, we will only focus on the branch of \acrshort{dsp} that deals with digital signals. Digital systems like computers are used to process stored acoustical signals for several reasons, such as storing recordings of anechoic acoustic signals that simulation software can then process to generate realistic acoustic simulations, expressed as a processed digital signal. \par
+\acrshort{dsp} applies to both, but in this book chapter, we will only focus on the branch of \acrshort{dsp} that deals with digital signals. Digital systems like computers are used to process stored acoustical signals for several reasons, such as storing recordings of anechoic acoustic signals that simulation software can then process to generate realistic acoustic simulations, expressed as a processed digital signal. \par
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{analogue_digital}
@@ -107,17 +104,16 @@ DSP applies to both, but in this book chapter, we will only focus on the branch 
 \end{figure}
 
 The process of converting continuous signals to digital information involves taking measurements of the amplitude of a continuous signal at regular time intervals. There are two dimensions in which the analogue signal is measured during this process, the amplitude and time, respectively, the abscissa and the ordinate of Figure~\ref{fig:analogue-digital-signal}. Due to the physical limitations of digital technology, A/D converters can only take a finite number of measurements between time intervals, and they have limited accuracy in representing amplitude levels. In Figure \ref{fig:analogue-digital-signal}-b, it is possible to see how an A/D converter sees analogue signals: given an acoustic continuous signal as input, it takes amplitude samples at every time step, marked with by red ticks, and measures using the available amplitude levels (the dotted horizontal lines). As a result, the process outputs a series of data points, the red dots, approximating the input, and the resolution and fidelity of the approximation depend on the time elapsed between time steps and the available amplitude level points. There are standards to ensure the reproduction and manipulation of acoustical signals in digital systems with an appropriate fidelity, such as the ``Red Book'' IEC 60908 standard, adopted for the Compact Disc music format, determining that digital signals must be represented by 44.100 measurement samples per second, at 16bit amplitude resolution. 16-bit refers to the binary representation adopted by digital systems to store amplitude values, allowing $2\textsuperscript{16}=65,535$ possible amplitude levels. The sampling frequency, the number of measurements per second, is calculated in Hertz (Hz), and it is a fundamental property of digital signals that must be taken into account for almost all types of audio manipulation and analysis involved in acoustical applications and it paramount to correct reconstructions of any acoustic information in any digital system. \par
-The Nyquist-Shannon sampling theorem is used to ensure a digital system reconstructs an analogue signal correctly. The theorem proves that a wave must be sampled at least twice during each oscillation period. A periodic wave oscillating at $20kHz$, which is around the maximum perceivable frequency in the human hearing range, would need to be sampled at least $40,000$ per second; hence, the standard $44.1kHz$ sampling rate. In Figure~\ref{fig:aliasing}, for instance, a $50Hz$ signal is sampled at $90Hz$, below the $100Hz$ Nyquist sampling frequency, causing aliasing, an incorrectly reconstructed signal that will be able to oscillate at a maximum frequency of $45Hz$.\par
-
+The Nyquist-Shannon sampling theorem is used to ensure a digital system reconstructs an analogue signal correctly. The theorem proves that a wave must be sampled at least twice during each oscillation period. A periodic wave oscillating at $20kHz$, which is around the maximum perceivable frequency in the human hearing range, would need to be sampled at least $40,000$ per second; hence, the standard $44.1kHz$ sampling rate. In Figure~\ref{fig:aliasing}, for instance, a \qty{50}{\hertz} signal is sampled at  \qty{90}{\hertz}, below the  \qty{100}{\hertz} Nyquist sampling frequency, causing aliasing, an incorrectly reconstructed signal that will be able to oscillate at a maximum frequency of  \qty{45}{\hertz}.\par
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{aliasing}
-    \caption[Digital reconstruction of analogue signal]{The blue signal is being sampled at a sampling frequency lower than the Nyquist frequency, causing aliasing, an incorrect reconstruction of the digital signal, as opposed to Figure~\ref{fig:analogue-digital-signal} that shows a correctly reconstructed signal. As a result, the dotted green signal is created instead, having a frequency between $0Hz$ and the sampling frequency.}
+    \caption[Digital reconstruction of analogue signal]{The blue signal is being sampled at a sampling frequency lower than the Nyquist frequency, causing aliasing, an incorrect reconstruction of the digital signal, as opposed to Figure~\ref{fig:analogue-digital-signal} that shows a correctly reconstructed signal. As a result, the dotted green signal is created instead, having a frequency between \qty{0}{\hertz} and the sampling frequency.}
 \label{fig:aliasing}
 \end{figure}
 
 \subsubsection{Analysis of Digital Signals}
-Acoustical signals are often analysed in the time domain, as varying sound pressure levels over time, or in the frequency domain. By considering acoustical signals as a Fourier series, a function composed of sine or cosine primitives, the frequency domain representation determines how the power of an acoustical signal is distributed in a range of sine and cosine functions with wavelengths usually ranging from the minimum to the maximum perceivable frequencies of the human auditory system - low to high frequencies. Time- and frequency-domain representations are often used for both analysis and manipulation of acoustical signals, often adopted in tasks like determining the effects of an environment in the perception of sound emitted by an object and arriving to a listener in said environment \cite{ballou2013handbook}. \par 
+Acoustical signals are often analysed in the time domain, as varying sound pressure levels over time, or in the frequency domain. By considering acoustical signals as a Fourier series, a function composed of sine or cosine primitives, the frequency domain representation determines how the power of an acoustical signal is distributed in a range of sine and cosine functions with wavelengths usually ranging from the minimum to the maximum perceivable frequencies of the human auditory system --- low to high frequencies. Time- and frequency-domain representations are often used for both analysis and manipulation of acoustical signals, often adopted in tasks like determining the effects of an environment in the perception of sound emitted by an object and arriving to a listener in said environment~\cite{ballou2013handbook}.\par 
 In acoustics for interactive applications, engineers often adopt the \acrfull{dtft}, a Fourier series for digital signals, which is one of the fundamental concepts in \acrshort{dsp}. It takes a sequence, such as the signal represented in Figure\ref{fig:analogue-digital-signal}-b and generates $N$ complex numbers, representing power across $N$ sinusoids. The \acrshort{dtft}, as defined by classic DSP theory \cite{shenoi2005introduction}, transforms a signal $x_n$ containing samples $x_0, x_1,~\dots, x_{N-1}$ into a series $X_k$ of complex numbers $X_0, X_1,~\dots, X_{N-1}$. $X_k$ is defined by:
 \begin{equation}
     X_k = \sum_{n=0}^{N-1} x_n~\cdot~e^{-\frac{i2\pi}{N}kn}
@@ -177,7 +173,8 @@ This process helps audio professionals and acousticians accurately reproduce and
 \end{figure}
 
 \section{Common Approaches to Immersive Acoustics}
-Achieving a convincing immersive acoustic experience is no trivial task, and various techniques and methodologies have been developed to address this complex challenge. These approaches must consider sound's spatial, temporal, and perceptual aspects and the HAS's intricate response to auditory stimuli.
+Achieving a convincing immersive acoustic experience is no trivial task, and various techniques and methodologies have been developed to address this complex challenge. These approaches must consider sound's spatial, temporal, and perceptual aspects and the \acrshort{has}'s intricate response to auditory stimuli. Realistic audio plays a crucial role in immersive entertainment, regardless of how a virtual environment is experienced, as it allows users to perceive the location and movement of objects and characters in a three-dimensional space, making the virtual environment more believable and engaging. 
+In games or \acrshort{vr} environments where visual cues are limited or absent, high-quality spatialised audio can significantly enhance immersion and realism \citep{rubio2017immersive}. Complex sound models that include realistic sound effects such as echoes and reverberations can provide users with more information about their environment, aiding in navigation and interaction \citep{lokki2005navigation}. In virtual reality gaming, the integration of realistic audio significantly influences player experience by enhancing immersion and engagement. This effect is crucial in genres like horror or adventure, where sound contributes significantly to the atmosphere and tension of the game \citep{poeschl13}.
 
 \subsection{3D Sound Reproduction Techniques}
 Sound reproduction for immersive acoustics can be defined as a rendering problem concerning providing a listener with synthetic believable auditory stimuli perceived as belonging to a specific space. The rendering is often engineered by adopting a system that has complex scenes and scene elements as input and an acoustic signal as output. 
@@ -190,8 +187,8 @@ Sound reproduction for immersive acoustics can be defined as a rendering problem
 
 \subsection{Spatial Audio Rendering Algorithms}
 \label{sec:real-time-conv}
-Audio rendering refers to the process of affecting anechoic audio with acoustic phenomena approximated by simulations. It utilises generated IRs and takes into account the characteristics of a human listener from the perspectives of a sound-perceiving object in a virtual environment and a human receiver with psychoacoustic abilities.\par
-One of the fundamental operations in audio rendering is the manipulation of anechoic audio with a filter encapsulating the acoustic effect of an environment to a sound transmission, expressed as an IR. Given anechoic audio expressed as a digital sequence $x$ containing $x_0, x_1,~\dots,x_n$ elements, and an IR expressed as a digital sequence $h$ containing $h_0, h_1,~\dots,h_n$, through the convolution operation $*$ we can obtain the resulting sequence $y$ containing $y_0, y_1,~\dots, y_n$ samples, expressing the resulting signal with the applied IR. The following mathematical notation shows how a new function is created as a result of the convolution operation:
+Audio rendering refers to the process of affecting anechoic audio with acoustic phenomena approximated by simulations. It utilises generated \acrshortpl{ir} and takes into account the characteristics of a human listener from the perspectives of a sound-perceiving object in a virtual environment and a human receiver with psychoacoustic abilities.\par
+One of the fundamental operations in audio rendering is the manipulation of anechoic audio with a filter encapsulating the acoustic effect of an environment to a sound transmission, expressed as an \acrshort{ir}. Given anechoic audio expressed as a digital sequence $x$ containing $x_0, x_1,~\dots,x_n$ elements, and an IR expressed as a digital sequence $h$ containing $h_0, h_1,~\dots,h_n$, through the convolution operation $*$ we can obtain the resulting sequence $y$ containing $y_0, y_1,~\dots, y_n$ samples, expressing the resulting signal with the applied \acrshort{ir}. The following mathematical notation shows how a new function is created as a result of the convolution operation:
 \begin{equation}
     y[n] = x[n] * h[n].
 \label{eq:1d-convolution}
@@ -206,8 +203,8 @@ As shown in Figure~\ref{fig:DFT}, frequency-domain representation makes specific
     \label{eq:fft_convolution}
 \end{equation}
 where $DTFT_N$ and $IDTFT_N$ are, respectively, the \acrshort{dtft} and the inverse \acrshort{dtft} of both the signal and the filter calculated over $N$ frequency points.
-The Overlap-Add or the Overlap-Save are examples of real-time convolution algorithms often adopted in DSP to implement a wide range of audio effects. They are solutions to the problem of applying BRIR to long signals or to implementing interactive systems, where the listener is displayed rendered audio from a dynamic virtual environment. Thanks to the advances in such algorithms, it is now computationally feasible to manipulate anechoic audio signals with simulated acoustics on the fly, evoking a sense of immersion in the listener due to the auditory stimuli responding to changes in the dynamic environment at interactive rates. \par
-The Overlap-Add algorithm adopts the divide-and-conquer approach towards an acoustic signal by segmenting an input digital sequence into multiple parts, processing the individual parts, and assembling the resulting sequence to produce a whole manipulated sequence. The goal is to evaluate Equation~\ref{eq:fft_convolution} over small chunks of audio, storing resulting convolved chunks into a queue from which samples are summed together into an output sequence. \par
+The Overlap-Add or the Overlap-Save are examples of real-time convolution algorithms often adopted in DSP to implement a wide range of audio effects. They are solutions to the problem of applying BRIR to long signals or to implementing interactive systems, where the listener is displayed rendered audio from a dynamic virtual environment. Thanks to the advances in such algorithms, it is now computationally feasible to manipulate anechoic audio signals with simulated acoustics on the fly, evoking a sense of immersion in the listener due to the auditory stimuli responding to changes in the dynamic environment at interactive rates.\par
+The Overlap-Add algorithm adopts the divide-and-conquer approach towards an acoustic signal by segmenting an input digital sequence into multiple parts, processing the individual parts, and assembling the resulting sequence to produce a whole manipulated sequence. The goal is to evaluate Equation~\ref{eq:fft_convolution} over small chunks of audio, storing resulting convolved chunks into a queue from which samples are summed together into an output sequence.\par
 Interactive audio rendering algorithms benefit from such systems as they enable on-the-fly convolution with live audio streams, which are generally implemented as a circular audio buffer. In the case of an immersive application, such audio buffers may be storing audio propagating from sound-emitting objects that interact with the user. As illustrated in Figure~\ref{fig:audio_rendering_chain}, spatialiser systems or acoustic simulation systems provide filters in the forms of IRs that can be applied to audio chunks from the audio buffer.
 \begin{figure}
     \centering
@@ -228,14 +225,15 @@ Combined with advances in real-space scanning technology and user-friendly 3D re
     \begin{subfigure}[t]{\linewidth}
         \centering
         \includegraphics{ga_is_a}
-        \caption[Image Source]{image source}
+        \caption{Visualisation of the basic principle of an image source: a wavefront propagating from an emitter collides with a reflective surface. Specular reflections are computed by creating a mirrored `image source' reflected around the colliding surface.}
     \end{subfigure}
 
     \begin{subfigure}[b]{\linewidth}
         \centering
         \includegraphics{ga_is_b}
-        \caption[Image Source b]{image source b}
+        \caption{With the definition of a receiver (blue circle), an image source can determine propagation paths from an emitter (red circle).}
     \end{subfigure}
+    \caption[Image Source Visualisation]{A specular reflection calculated using the Image Source Model, demonstrated with a single reflective surface.}
 \end{figure}
 Geometrical acoustics is a family of acoustic modelling methods based on representing propagating sound waves with geometrical primitives, such as rays or cones. The foundations of these methods have sound propagating as straight lines, as opposed to moving particles, approximating the complex nature of acoustic energy transfer but neglecting phenomena related to the wave phenomena \citep{savioja2015overview}.\par
 Ray-based techniques, wave-ray hybrid techniques, and wave-based techniques have emerged as prominent methods to generate impulse responses in the field of acoustics, each contributing to understanding how sound propagates within a given space. Ray-based techniques, rooted in geometric acoustics, simulate sound by tracing rays that emanate from a source and bounce off various surfaces within a space. This method approximates reflections and reverberation, contributing to the overall energy expressed as an impulse response.\par
@@ -245,7 +243,7 @@ Geometrical acoustics are generally efficient as they are computationally less d
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{ga_is_c}
-    \caption[Image source shoebox]{Image source shoebox}
+    \caption[Image Source Model demonstration]{Visualisation of specular reflections from an emitter (red circle) to a receiver (blue circle) computed in a shoebox room. Image sources (orange circles) determine reflection points on the room geometry. The direct path (red segment) plus specular reflections computed by the Image Source Model can be used to approximate the basic acoustic features of a space.}
     \label{fig:ga_shoebox}
 \end{figure}
 The \acrfull{ism} is a crucial technique in geometrical acoustics, particularly effective in modelling sound reflections within enclosed spaces. This method simplifies the calculation of reverberant sound fields by treating reflections as emitted from imaginary sources.
@@ -255,53 +253,39 @@ For each real sound source and reflective surface, a corresponding image source 
 \subsubsection{Ray Tracing Techniques}
 Ray tracing, expanding from \acrshort{ism} techniques, is commonly used to model how sound propagates in an environment by simulating the path of sound rays. As a core method for implementing \acrshort{ga} principles, ray tracing simplifies the sound field into discrete rays that carry sound energy, which are traced as they interact with various surfaces in a modeled space \citep{savioja2015overview}. Ray tracing can be considered a Monte Carlo method due to the approximation of acoustic reflections by means of random sampling. At a high level, the technique has rays propagating from uniformly distributed origin points across a sphere, see Figure~\ref{fig:ray-tracing-diagram}.
 
-
+Ray tracing begins with the emission of rays from a sound source; they represent paths along which sound energy travels through the environment. As rays encounter surfaces, they can be absorbed, reflected, or transmitted based on the properties of the materials they encounter. Rays can typically form specular or diffuse reflections. A specular reflection occurs when rays bounce off smooth surfaces at angles equal to their incidence angles, akin to how light reflects off a mirror. Ray tracing's accuracy in modelling these reflections can vary based on the complexity of the environment, the number of rays emitted from the source and the number of bounces off geometry the model is able to compute 
 \citep{thompsonRayTracing}.
-
-Ray tracing begins with the emission of rays from a sound source. These rays represent paths along which sound energy travels through the environment. As rays encounter surfaces, they can be absorbed, reflected, or transmitted based on the properties of the materials they encounter:
-
-A specular reflection occurs when rays bounce off smooth surfaces at angles equal to their incidence angles, akin to how light reflects off a mirror. Ray tracing's accuracy in modeling these reflections can vary based on the complexity of the environment and the precision of the reflection model used.
-
-Diffuse Reflections: Occurs when sound rays strike rough surfaces and scatter in many directions. Modeling diffuse reflections requires more complex algorithms to accurately predict the distribution of reflected sound energy.
-Reflection Models
-Before proceeding to the actual ray-tracing algorithm, it's crucial to define the reflection models that will govern how rays interact with surfaces:
-
-Specular Reflection Model: Assumes that rays reflect off surfaces in a single, predictable direction. This model is simpler and computationally less demanding but can miss complex interactions in environments with varied surface textures.
-Diffuse Reflection Model: More complex, this model assumes that rays scatter randomly upon striking a surface. This requires probabilistic methods to simulate and is more computationally intensive but provides a more accurate depiction of real-world acoustic behaviors.
-Combined Models: Some advanced ray-tracing implementations use a combination of specular and diffuse models to capture a broader range of acoustic phenomena and improve realism.
-Computational Aspects of Ray Tracing
-Ray tracing's computational load is generally lower than that of the image-source method, especially at higher orders of reflection. This efficiency makes ray tracing advantageous for:
-
+Diffuse Reflections occur when sound rays strike rough surfaces and scatter in many directions; they require more complex algorithms to accurately predict the distribution of reflected sound energy.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{rt-diagram}
-    \caption[ray tracing diagram]{ray tracing}\label{fig:ray-tracing-diagram}
+    \caption[Ray Tracing source visualisation]{Visualisation of a ray tracing source: In a 3D environment, a given number of rays is often emitted from uniformly distributed points across the azimuth and elevation of the emitter surface. Rays emitted from the source and colliding with geometry are reflected around the surface normal at the collision point, generating a new ray.}\label{fig:ray-tracing-diagram}
 \end{figure}
-
-
-Scalability: It can more easily scale to larger and more complex environments.
-Real-time Applications: Useful in applications requiring real-time sound simulation, such as virtual reality and gaming.
-Higher Reflection Orders: Maintains efficiency even as reflections become more complex, whereas the image-source method's computational cost increases exponentially with each added reflection order.
-Limitations of Ray Tracing
-While ray tracing is versatile and efficient, it has limitations, particularly in environments where acoustic accuracy is critical:
-
+Specular reflections make the assumption that rays reflect off surfaces in a single, predictable direction. This model is simpler and computationally less demanding but can miss complex interactions in environments with varied surface textures, see Figure~\ref{fig:ray-tracing-diagram2}.
+Diffuse reflections scatter randomly upon striking a surface, often require probabilistic methods to compute, and can be computationally intensive but provide a more accurate depiction of realistic wave behaviors.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{rt-example}
-    \caption[ray tracing diagram 2]{ray tracing}\label{fig:ray-tracing-diagram2}
+    \caption[Ray Tracing Model Visualisation]{Visualisation of a basic Ray Tracing Model for computing specular reflections. Propagation paths from an emitter (red circle) to a receiver (blue circle) are calculated by checking whether reflecting rays intersect the receiver.}\label{fig:ray-tracing-diagram2}
 \end{figure}
- 
-High-Frequency Bias: Ray tracing tends to be more accurate at higher frequencies, where the wavelength is much smaller than the objects and spaces involved. At lower frequencies, its accuracy diminishes as wave effects like diffraction become more significant.
-Specular Bias: Traditional ray tracing may over-emphasize specular reflections, leading to inaccuracies in environments where diffuse reflections dominate.
-Conclusion
-Ray tracing is a robust and versatile technique in geometrical acoustics, widely used for modeling room acoustics due to its computational efficiency and adaptability to different reflection models. While it offers broad applicability and scalability, its accuracy in certain scenarios—particularly in complex, diffuse environments and at lower frequencies—may be limited. Understanding these strengths and weaknesses is crucial for effectively applying ray tracing in acoustic modeling.
-
+Some advanced ray-tracing implementations use a combination of specular and diffuse models to capture a broader range of acoustic phenomena and improve realism.
+The computational load of ray tracing is generally lower than \acrshort{ism} implementations, especially at higher orders of reflection. This efficiency makes ray tracing advantageous for scalability as it can more easily scale to larger and more complex environments \citep{schissler2014high}.
+Fast implementations also enable real-time applications and make it feasible for integration into game engines.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{rt-full-example}
-    \caption[ray tracing diagram 2]{ray tracing \citep{funkhouser:inria-00606737}}\label{fig:ray-tracing-diagram3}
+    \caption[Ray Tracing, shoebox room demonstration]{A Ray Tracing model computing specular reflections in a shoebox room. The example shows that the model lacks the ability to simulate diffraction effects caused by sound bending through a portal \citep{funkhouser:inria-00606737}.}\label{fig:ray-tracing-diagram3}
+\end{figure}
+Fast ray tracing implementations also allow for higher reflection order, achieving realism in simulating acoustic phenomena, whereas the \acrshort{ism}'s computational cost increases exponentially with each added reflection order.
+However, while ray tracing is versatile and efficient, it still carries \acrshort{ga} limitations, such as the high-frequency bias. Ray tracing tends to be more accurate at higher frequencies, where the wavelength is much smaller than the objects and spaces involved, and a ray can better approximate the path of a propagating wave. At lower frequencies, its accuracy diminishes as wave effects like diffraction become more significant as rays are unable to bend around obstacles, see Figure~\ref{fig:ray-tracing-diagram3}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{source-paths}
+    \caption[Geometrical Acoustic source paths visualisation]{Diagram showing the anatomy of a reflection. Geometrical Acoustic techniques consider source directivity profiles and receiver descriptions (human listeners). The diagram shows how a reflection is generated from the source and is affected by source characteristics (directivity profiles). Bounces off the geometry and environment characteristics influence the reflection path through materials. Finally, Head-Related Transfer Functions can be used to produce binaural Impulse Responses \citep{schroder2011physically}.}\label{fig:ga-source-paths}
 \end{figure}
 
+Ray tracing is a robust and versatile technique in geometrical acoustics, widely used for modeling room acoustics due to its computational efficiency and adaptability to different reflection models. While it offers broad applicability and scalability, its accuracy in certain scenarios, particularly in complex, diffuse environments and at lower frequencies, may be limited.
 
 
 \subsubsection{Wave-based Modelling Techniques}
@@ -309,23 +293,23 @@ Ray tracing is a robust and versatile technique in geometrical acoustics, widely
     \begin{subfigure}{0.5\textwidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd1}
-        \caption[FDTD]{fdtd ts 1}
+        \caption{FDTD simulation timestep 1}
     \end{subfigure}
     \begin{subfigure}{0.5\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd2}
-        \caption[FDTD]{fdtd ts 1}
+        \caption{FDTD simulation timestep 2}
     \end{subfigure}
 
     \begin{subfigure}{0.5\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd3}
-        \caption[FDTD]{fdtd ts 1}
+        \caption{FDTD simulation timestep 3}
     \end{subfigure}
     \begin{subfigure}{0.5\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd4}
-        \caption[FDTD]{fdtd ts 1}
+        \caption{FDTD simulation timestep 4}
     \end{subfigure}
     \caption[Visualisations of Finite-Difference Time-Domain simulation timesteps]{Visualisations of Finite-Difference Time-Domain simulation timesteps.}
 \end{figure}
@@ -335,8 +319,7 @@ Wave-based techniques stand out for their precision, solving the wave equation t
 Wave-based methods account for the full complexity of sound waves, including diffraction, interference, and wavefront curvature—phenomena typically ignored by geometrical acoustics. These methods are based on solving the wave equation, which describes how sound pressure levels vary in space and time.
 Amongst popular techniques for sound propagation are \acrfull{fdtd} methods. These methods discretise the wave equation in both time and spatial domains, using a grid to simulate how waves propagate through a medium. \acrshort{fdtd} methods are widely used in engineering and physics to model sound propagation in complex environments and to study the effects of diffraction and absorption or to model natural phenomena outside the sound domain \citep{teixeira2023finite}.
 
-% In FDTD, the simulation domain is the space truncated by the simulation region and discretized by the mesh. When an FDTD simulation runs, the electromagnetic (EM) fields are calculated from Maxwell’s equations in every mesh cell and the solutions are repeatedly time-stepped. Spatial discretization allows for the representation of complex geometries and structures, while temporal discretization captures the evolution of EM fields over time.
-
+In \acrshort{fdtd}, the simulation domain is the space truncated by the simulation region and discretised by the mesh. When an FDTD simulation runs, the acoustic energy fields are calculated from wave equations in every mesh cell and the solutions are repeatedly time-stepped. Spatial discretisation allows for the representation of complex geometries and structures, while temporal discretization captures the evolution of energy fields over time.
 These techniques can model wave phenomena with high accuracy and can account for varying medium properties but at the cost of high computational resource requirements. In large environments, such computational costs can limit their application for certain tasks.
 
 
@@ -365,17 +348,11 @@ The method is less effective for high-frequency sounds where the wavelength is s
 
 
 
-Principle: FEM subdivides a large problem (such as a room or an outdoor environment) into smaller, simpler parts called finite elements. The sound field in each element is approximated by basis functions.
-Application: Commonly used in architectural acoustics and automotive industry, FEM helps in designing quieter and more acoustically pleasant spaces.
-Strengths: Highly accurate and versatile, capable of modeling complex material properties and geometries.
-Limitations: Computationally intensive, especially for three-dimensional problems and high frequencies.
+They subdivide a large problem (such as a room or an outdoor environment) into smaller, simpler parts called finite elements. The sound field in each element is approximated by basis functions. Commonly used in architectural acoustics and automotive industry, FEM helps in designing quieter and more acoustically pleasant spaces, designing spaces with specific acoustic properties, such as concert halls and lecture theaters, assessing the impact of noise on communities and designing sound barriers to mitigate unwanted noise. FASTBEM REFERNCE
 
-Handling Wave Phenomena: Wave-based methods excel in scenarios where interference, diffraction, and wavefront curvature are important, which are often approximated or ignored in geometrical acoustics.
-Applications
-Architectural Acoustics: Designing spaces with specific acoustic properties, such as concert halls and lecture theaters.
-Environmental Acoustics: Assessing the impact of noise on communities and designing sound barriers to mitigate unwanted noise.
-Product Design: Creating quieter and more pleasing products, from household appliances to large industrial machines.
-Conclusion
+They are highly accurate and versatile, capable of modeling complex material properties and geometries but computationally intensive, especially for three-dimensional problems and high frequencies.
+Wave-based methods excel in scenarios where interference, diffraction, and wavefront curvature are important, which are often approximated or ignored in geometrical acoustics.
+
 Wave-based methods provide a detailed and rigorous approach to acoustic modeling, ideal for scenarios where high fidelity and accuracy are necessary, and particularly when dealing with low frequencies and complex interactions. While computationally more intensive than geometrical acoustics methods, the depth and realism they offer make them indispensable in many advanced acoustic studies and applications.
 
 
@@ -474,18 +451,32 @@ Modern game engines and acoustic simulation software aim to replicate the behavi
   \caption[Visualisation of example BRDFs]{Example \acrshortpl{brdf} applied to a surface, defining a rough material (a) and glossy material (b). These functions emulate how properties of real surfaces respond to colliding light: glossy materials will reflect energy specularly, whereas uneven rough surfaces will cause diffuse scattering.}\label{fig:brdf-vis}
 \end{figure}
 
-\section{Deep Learning Fundamentals}
+
+
+\section{Deep Learning Background}
 Subsequent chapters of this thesis will leverage deep learning techniques to solve a subset of problems associated with developing a system targeting the overarching aim. Specifically, acoustic materials are central to applying the system to realistic, complex scenes, as they contribute towards the perceived quality and realism evoked by the auditory display. The problem arises from the complexity of mapping the appearance of surfaces within the complex scene to acoustic materials. Many factors in complex virtual environments influence the appearance of surfaces, making it hard to distinguish surfaces and map them against acoustic materials automatically.\par
 Deep learning is a subset of machine learning comprising techniques and pipelines to address such mapping problems by learning from examples and providing a generalised model for unseen cases. The potential of deep learning lies in the feature extraction process, allowing models to learn from examples influenced by many factors. The term deep learning is associated with the feature extraction process, delegated to layered feature extraction components composing the model \citep{dolhasz2021perceptually}.\par
-Deep learning techniques discussed in this thesis can be broadly categorised based on the learning approach into supervised learning and unsupervised learning. Supervised learning is an example where the algorithm learns from a labeled dataset, understanding the relationship between the input features and the target output. The goal is to predict the output for new, unseen data based on this learned relationship. Unsupervised learning algorithms, on the other hand, analyse unlabeled data to find patterns or inherent structures.\par
-The goal of a model is to provide inference on unseen data based on training on a set of representative examples, emulating basic human abilities that are hard to programmatically engineer in computers. Typically, deep learning models consist of an input layer ingesting data such as images or audio signals, deeper layers extracting features from input data, and output layers transforming the extracted features to perform a task. A loss function is often employed to measure the error and accuracy of the output data and improve the fitness of the model through backpropagation: the tuning of weights and biases of neurons in hidden layers based on computer errors, see Figure~\ref{fig:nn}. With layers fit on a dataset, the model can infer output from unseen data, generalising on the task at hand \citep{szeliski2022computer}.
+
+
+\subsection{Image Processing}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{image-processing-example}
+    \caption[Image processing example --- Gaussian filter]{Visualisation of an image processing technique applied to an example image (left axes). On both axis pairs, abscissa and ordinate indicate pixel coordinates. A Gaussian blur filter is applied to the image by means of convolution applied to pixel intensity values representing the image. The right axes show the result.}\label{fig:image-gaussian-filter}
+\end{figure}
+Image processing is the act of performing operations on an image in order to enhance it or extract information. It involves manipulating pixel data to improve the image or to analyze it. This field intersects computer science, mathematics, and a broad range of engineering disciplines. Similarly to digital audio signals, as overviewed in Section~\ref{sec:DSP-background}, images are often represented in digital systems by encoding intensity values of colours registered by an analogue-to-digital converter \citep{marschner2015fundamentals}.
+Figure~\ref{fig:image-gaussian-filter} shows an example image processing operation where pixel values expressing pixel intensity values are represented as $\mathcal{RGB}$ triplets and expressed as a three-dimensional matrix that spans across the width and height of the image in pixels. Through convolution, a Gaussian filter is applied to the pixel values, rendering a processed image.\par
+Image processing is fundamental to deep learning as operations like convolution are often used to apply filters for several applications \citep{goodfellow2016deep}. Convolutional neural networks build upon the process of decomposing a given image with multiple filters, from coarse to fine, matching patterns and shapes, expressed through kernels, which can be learned by neural networks as the next Sections will demonstrate.\par
+
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{nn}
-    \caption[Diagram of a fully-connected neural network]{A visualisation of a basic neural network with fully-connected hidden layers.}\label{fig:nn}
+    \caption[Diagram of a fully connected neural network]{A visualisation of a basic neural network with fully connected hidden layers.}\label{fig:nn}
 \end{figure}
 
 \subsection{General Machine Learning Tasks and Applications}
+Deep learning techniques discussed in this thesis can be broadly categorised based on the learning approach into supervised learning and unsupervised learning. Supervised learning is an example where the algorithm learns from a labelled dataset, understanding the relationship between the input features and the target output. The goal is to predict the output for new, unseen data based on this learned relationship. Unsupervised learning algorithms, on the other hand, analyse unlabeled data to find patterns or inherent structures.\par
+The goal of a model is to provide inference on unseen data based on training on a set of representative examples, emulating basic human abilities that are hard to programmatically engineer in computers. Typically, deep learning models consist of an input layer ingesting data such as images or audio signals, deeper layers extracting features from input data, and output layers transforming the extracted features to perform a task. A loss function is often employed to measure the error and accuracy of the output data and improve the fitness of the model through backpropagation: the tuning of weights and biases of neurons in hidden layers based on computer errors, see Figure~\ref{fig:nn}. With layers fit on a dataset, the model can infer output from unseen data, generalising on the task at hand \citep{szeliski2022computer}.
 General deep learning tasks related to this thesis include classification, regression, or synthesis.
 Classification is a type of supervised learning where the goal is to predict the category or class of an input. The input data is fed into the algorithm, which then outputs a label from a predefined set. For example, a classification model might be used to predict the presence of objects in an input image. Classification can be binary (two classes) or multiclass (more than two) \citep{goodfellow2016deep}.\par
 Regression, another type of supervised learning, involves predicting a continuous quantity instead of a categorical label. The aim is to find the relationship or mapping between input variables and a continuous output variable. An example application is to predict parameters of audio engines like pitch or amplitude based on input physics factors like mass \citep{colombo2021psychometric}. Regression models are evaluated using different metrics than classification models, such as \acrfull{mse}. The choice of metric often depends on the specific requirements of the task.\par
