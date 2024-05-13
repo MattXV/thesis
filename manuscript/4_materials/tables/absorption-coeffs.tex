@@ -1,8 +1,8 @@
 \begin{table}
-    \def\widthspark{120pt}
+    \def\widthspark{160pt}
     \centering
     \caption[Acoustic material definitions]{Common acoustic absorption coefficients with ranges (low-high) of $\alpha$ absorption characteristics across the frequency bands for those material types. It should be noted that these are regressions and averages of generally adopted materials and existing measurement tables; realistic or surveying acoustic simulations should adopt absorption measurements of real materials.}
-    \begin{tabular}{lll}
+    \begin{tabularx}{\textwidth}{Xll}
     \toprule
     \textbf{Material}                  & \textbf{Low $\alpha$}                                                              & \textbf{High $\alpha$}                                                               \\ \midrule
     Glass and glazing                  & \includegraphics[width=\widthspark]{sparklines/glass and glazing_low}               & \includegraphics[width=\widthspark]{sparklines/glass and glazing_high}               \\ 
@@ -17,5 +17,5 @@
     Mineral wool \& foams              & \includegraphics[width=\widthspark]{sparklines/mineral wool and foams_low}          & \includegraphics[width=\widthspark]{sparklines/mineral wool and foams_high}          \\ 
     Audience \& seating                & \includegraphics[width=\widthspark]{sparklines/audience and seating_low}            & \includegraphics[width=\widthspark]{sparklines/audience and seating_high}            \\ 
     \bottomrule
-    \end{tabular}\label{tab:absorption-coeffs}
+    \end{tabularx}\label{tab:absorption-coeffs}
 \end{table}
