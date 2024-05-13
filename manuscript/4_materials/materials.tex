@@ -275,43 +275,10 @@ St Mary Guild Hall
 \end{figure}
 
 
-% \begin{figure}
-%     \centering
-%     \begin{subfigure}[t]{0.49\textwidth}
-%        \centering
-%        \includegraphics[width=\textwidth]{environment}
-%        \caption{Input Camera Render}
-%        \label{fig:chi-input-env}
-%     \end{subfigure}
-%     \begin{subfigure}[t]{0.49\textwidth}
-%        \centering
-%        \includegraphics[width=\textwidth]{reconstructed}
-%        \caption{Re-projected Acoustic Materials}
-%        \label{fig:chi-reconstructed-env}
-%     \end{subfigure}
-% \caption{}
-% \label{fig:chi-scanning}
-% \end{figure}
-
-
 \subsection{Proof of Concept System Overview}
-The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data.
-
-
-Texture Extraction: The next step involves extracting textures from the environment. This process captures the visual features of surfaces within the scene, which are crucial for subsequent image segmentation and material classification.
-
-Image Segmentation: For segmentation, the SLIC (Simple Linear Iterative Clustering) superpixel algorithm is employed. This algorithm partitions the extracted textures into superpixels, which are clusters of pixels with similar characteristics. This method is chosen for its efficiency in reducing computational load while maintaining a high level of detail in texture features.
-
-Conversion to Rectified Patches: Once the superpixels are formed, they are converted into rectified patches. This step involves transforming the clustered pixel data into a standardized format, which facilitates more accurate analysis in the following stages.
-
-Feature Extraction: The rectified patches are then fed into a pre-trained feature extractor. This component of the system utilizes deep learning techniques to analyze and identify the distinctive features of each patch, which are indicative of different materials found in the environment.
-
-Material Classification: Upon extraction of features, a classifier layer integrated with the feature extractor assigns semantic material labels to each patch. This classification is based on the textural and color features identified during feature extraction, allowing the system to discern between different material types such as wood, metal, fabric, etc.
-
-Mapping to Acoustic Absorption Coefficients: Subsequent to material classification, each semantic material type is associated with specific acoustic absorption coefficients. These coefficients are critical for simulating how sound interacts with different materials, impacting the acoustic properties of the environment.
-
-Final Mapping to Environmental Meshes: In the final step, the semantic materials, along with their corresponding acoustic properties, are mapped onto a set of meshes that represent the physical structure of the environment. This mapping uses UV mapping data to accurately align the material properties with the 3D geometry of the meshes, ensuring that the acoustic simulation reflects real-world conditions.
-
+The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data. The system deploys the tested texture-based method illustrated in Section~\ref{sec:texture-tagging}. As an overview, the system starts by extracting textures from the environment, as they express the visual features of surfaces within the scene, which can be used to infer material properties.
+Following the tested methodology, image textures are segmented using a superpixel segmentation technique. The SLIC (Simple Linear Iterative Clustering) superpixel algorithm is employed \citep{slic6205760}. This algorithm partitions the extracted textures into superpixels, providing clusters of pixels with similar characteristics. The SLIC algorithm allows the partitioning of image textures into perceptually meaningful segments separating contextual elements expressed in image data into clusters. Once the superpixels are formed, they are converted into rectified patches, enabling \acrshortpl{cnn} to treat clusters of pixels as input image data. This step involves transforming the clustered pixel data into $32x32$ image patches.
+The rectified patches are then fed into the pre-trained ResNet50 feature extractor, identifying the distinctive features of each patch, which are indicative of semantic materials found in the texture data. Upon extraction of features, a classifier layer appended to the feature extractor assigns semantic material labels to each patch. This classification is based on the textural and color features identified during feature extraction, allowing the system to discern between different material types such as wood, metal, fabric, etc. Each semantic material type is associated with specific acoustic absorption coefficients. These coefficients are critical for simulating how sound interacts with different materials, regardless of the nature of the acoustic rendering method adopted, impacting the acoustic properties of the environment. In the final step, the semantic materials, along with their corresponding acoustic properties, are mapped onto a set of meshes that represent the physical structure of the environment. This mapping uses UV mapping data to accurately align the material properties with the 3D geometry of the meshes, ensuring that the acoustic simulation reflects real-world conditions.
 
 \subsubsection{Mesh Segmentation}
 Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned have limited knowledge of the semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
