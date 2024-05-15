@@ -140,7 +140,7 @@ According to \cite{schwartz2019recognizing}, small image patches contain enough 
     \label{fig:texture-tagging-training}
 \end{figure}
 The training pipeline determines the visual material space by applying transfer learning to the OpenSurfaces dataset \citep{bell2013opensurfaces}, which comprises 36 classes of surface photographs. To do so, a SLIC superpixel segmentation algorithm \citep{slic6205760} segments input surface photographs into a set of superpixel labels, determining regions correlated with boundaries of objects. These resulting superpixel labels are then used to generate rectified image patches encapsulating their contours through edge detection, adopting~\cite{ding2001canny}'s method.
-Rectified image patches provide input to a ResNet50 \citep{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of $32\times32$ pixel resolution input patches. The network trains the network on \num{13677819} input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \citep{kingma2014adam} to update the weights initialised from the ImageNet dataset \citep{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about $0.94$ and $0.83$ respectively. 
+Rectified image patches provide input to a ResNet50 \citep{he2016deep}, used as a feature extractor for a classification network using a standard fully connected layer to predict class labels based on embeddings of $32\times32$ pixel resolution input patches. The network trains the network on \num{13677819} input patches, composing a train set of about 9.1M images and an evaluation set of about 4.5M, adopting the standard Adam optimiser \citep{kingma2014adam} to update the weights initialised from the ImageNet dataset \citep{deng2009imagenet}. The model usually converges in 45 epochs with a training and validation accuracy of about $94\%$ and $83\%$ respectively. 
 
 \subsubsection{Inference}
 \begin{figure}[htbp]
@@ -198,7 +198,7 @@ The geometry of a conference room is reconstructed to deploy the proposed system
        \caption{Reconstructed environment}
        \label{fig:chi-reconstructed-env}
     \end{subfigure}
-\caption[Texture-based system evaluation --- environment reconstruction process]{}
+\caption[Texture-based system evaluation --- environment reconstruction process]{The evaluation design uses a real space to deploy the texture-based system. The real space, on the left, is captured with a LiDAR scan, obtaining a triangulated mesh. The virtual reconstruction of the space, on the right, is used to simulate a soundfield using acoustic materials inferred by the system. The simulated soundfield is then compared to the real counterpart.}
 \label{fig:chi-scanning}
 \end{figure}
 
@@ -322,7 +322,7 @@ UV Mapping of scene geometry to texture segments.
 \end{figure}
 
 \subsection{Proof of Concept Visualisation}
-
+\input{poc-graphics}
 \section{Discussion}
 Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
 
