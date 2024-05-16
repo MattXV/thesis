@@ -235,67 +235,62 @@ Figures~\ref{fig:texture-testing-rirs}, and~\ref{fig:texture-testing-spectograms
 The perceptual metric between the measured ground truth and the synthesised wavefields yields three variables describing 1620 pairwise distances between the measured and synthesised RIRs, see Table~\ref{tab:chi-perceptual-distance}. Given the test conditions, the correlation test uses Pearson \textit{r} scores to measure the relationship between RIRs with different acoustic geometry.
 
 
-\section{Proof of Concept Demonstration}
-A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs.\par
-The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes.\par
-The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
+% \section{Proof of Concept Demonstration}
+% A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs.\par
+% The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes.\par
+% The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
 
-\subsection{Test Scenes}
-The proof of concept is demonstrated in three real spaces: a small, a medium, and a large environment, see Table~\ref{tab:material-eval-scene}. These environments have diverse ecosystems of surfaces and materials that characterise and determine their respective soundscape and acoustic fingerprints.
-\input{scenes} %tab:material-eval-scene
+% \subsection{Test Scenes}
+% The proof of concept is demonstrated in three real spaces: a small, a medium, and a large environment, see Table~\ref{tab:material-eval-scene}. These environments have diverse ecosystems of surfaces and materials that characterise and determine their respective soundscape and acoustic fingerprints.
+% \input{scenes} %tab:material-eval-scene
 
-\paragraph{Small Test Scene}
-Mastering Suite
+% \paragraph{Small Test Scene}
+% Mastering Suite
 
-\paragraph{Medium Test Scene}
-Recital Hall
+% \paragraph{Medium Test Scene}
+% Recital Hall
 
-\paragraph{Large Test Scene}
-St Mary Guild Hall
+% \paragraph{Large Test Scene}
+% St Mary Guild Hall
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\linewidth]{guildhall}
-    \caption[Proof of concept demonstration --- large environment]{St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second.}
-    \label{fig:guildhall-iso-render}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{guildhall}
+%     \caption[Proof of concept demonstration --- large environment]{St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second.}
+%     \label{fig:guildhall-iso-render}
+% \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\linewidth]{recital-hall}
-    \caption[Proof of concept demonstration --- medium environment]{Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.}
-    \label{fig:conservatoire-iso-render}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{recital-hall}
+%     \caption[Proof of concept demonstration --- medium environment]{Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.}
+%     \label{fig:conservatoire-iso-render}
+% \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\linewidth]{mastering_suite}
-    \caption[Proof of concept demonstration --- small environment]{Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.}
-    \label{fig:mastering-iso-render}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{mastering_suite}
+%     \caption[Proof of concept demonstration --- small environment]{Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.}
+%     \label{fig:mastering-iso-render}
+% \end{figure}
 
 
-\subsection{Proof of Concept System Overview}
-The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data. The system deploys the tested texture-based method illustrated in Section~\ref{sec:texture-tagging}. As an overview, the system starts by extracting textures from the environment, as they express the visual features of surfaces within the scene, which can be used to infer material properties.
-Following the tested methodology, image textures are segmented using a superpixel segmentation technique. The SLIC (Simple Linear Iterative Clustering) superpixel algorithm is employed \citep{slic6205760}. This algorithm partitions the extracted textures into superpixels, providing clusters of pixels with similar characteristics. The SLIC algorithm allows the partitioning of image textures into perceptually meaningful segments separating contextual elements expressed in image data into clusters. Once the superpixels are formed, they are converted into rectified patches, enabling \acrshortpl{cnn} to treat clusters of pixels as input image data. This step involves transforming the clustered pixel data into $32x32$ image patches.
-The rectified patches are then fed into the pre-trained ResNet50 feature extractor, identifying the distinctive features of each patch, which are indicative of semantic materials found in the texture data. Upon extraction of features, a classifier layer appended to the feature extractor assigns semantic material labels to each patch. This classification is based on the textural and color features identified during feature extraction, allowing the system to discern between different material types such as wood, metal, fabric, etc. Each semantic material type is associated with specific acoustic absorption coefficients. These coefficients are critical for simulating how sound interacts with different materials, regardless of the nature of the acoustic rendering method adopted, impacting the acoustic properties of the environment. In the final step, the semantic materials, along with their corresponding acoustic properties, are mapped onto a set of meshes that represent the physical structure of the environment. This mapping uses UV mapping data to accurately align the material properties with the 3D geometry of the meshes, ensuring that the acoustic simulation reflects real-world conditions.
+% \subsection{Proof of Concept System Overview}
+% The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data. The system deploys the tested texture-based method illustrated in Section~\ref{sec:texture-tagging}. As an overview, the system starts by extracting textures from the environment, as they express the visual features of surfaces within the scene, which can be used to infer material properties.
+% Following the tested methodology, image textures are segmented using a superpixel segmentation technique. The SLIC (Simple Linear Iterative Clustering) superpixel algorithm is employed \citep{slic6205760}. This algorithm partitions the extracted textures into superpixels, providing clusters of pixels with similar characteristics. The SLIC algorithm allows the partitioning of image textures into perceptually meaningful segments separating contextual elements expressed in image data into clusters. Once the superpixels are formed, they are converted into rectified patches, enabling \acrshortpl{cnn} to treat clusters of pixels as input image data. This step involves transforming the clustered pixel data into $32x32$ image patches.
+% The rectified patches are then fed into the pre-trained ResNet50 feature extractor, identifying the distinctive features of each patch, which are indicative of semantic materials found in the texture data. Upon extraction of features, a classifier layer appended to the feature extractor assigns semantic material labels to each patch. This classification is based on the textural and color features identified during feature extraction, allowing the system to discern between different material types such as wood, metal, fabric, etc. Each semantic material type is associated with specific acoustic absorption coefficients. These coefficients are critical for simulating how sound interacts with different materials, regardless of the nature of the acoustic rendering method adopted, impacting the acoustic properties of the environment. In the final step, the semantic materials, along with their corresponding acoustic properties, are mapped onto a set of meshes that represent the physical structure of the environment. This mapping uses UV mapping data to accurately align the material properties with the 3D geometry of the meshes, ensuring that the acoustic simulation reflects real-world conditions.
 
-\subsubsection{Mesh Segmentation}
-Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned have limited knowledge of the semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
-Such limitation is beyond the scope of this thesis work. It is a problem that can be addressed with complex mappings between defining a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. A family of techniques exists to address the problem of segmenting 3D scenes expressed as triangulated meshes or point clouds. However, the complex nature of three-dimensional space reconstructions makes the problem an open challenge. The work by~\cite{chen2009benchmark} is a significant stepping stone towards the problem of defining a physical entity represented in a complex mesh or point cloud, as the authors gather annotations from humans to investigate the consistency in segmenting entities represented in reconstructed data.\par
-Such experiments have shown a consensus in the segmentation process and provided a benchmark as an evaluation tool and starting point for automated methods. There are techniques available that address the problem, such as~\cite{rusu2011pcl}'s work providing a set of algorithms in Point Cloud Library, as well as new methods leveraging geometrical \acrshortpl{cnn} to segment 3D meshes and point clouds, such as~\cite{feng2020semantic3d}'s work. Despite these techniques being available, there are still large margins of errors when deployed on in-the-wild reconstructions that require fine-tuning and human authoring.\par
-Hence, the mesh segmentation stage of the material recognition pipeline is performed manually, separating the reconstructed data into semantically meaningful segments with a minimum structural size of $70cm$, following~\cite{pelzer2010frequency}'s perceptual threshold for \acrshort{ga} pipelines. Using Blender as a 3D data editor\footnote{\url{https://www.blender.org/}}, the reconstruction obtained from the Matterport camera is separated into individual meshes, see Figure~\ref{fig:mesh-segmentation}.\par
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{mesh-segmentation}
-    \caption{Mesh segmentation process performed manually on a reconstructed scene.}
-    \label{fig:mesh-segmentation}
-\end{figure}
 
-\subsubsection{Manual Acoustic Material Tagging}
-The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each sub mesh.
+
+
+% \subsection{Proof of Concept Visualisation}
+% % \input{poc-graphics}
+\section{Discussion}
+\subsection{Manual Acoustic Material Tagging}
+The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each submesh.
 
 UV Mapping of scene geometry to texture segments.
+
 
 \begin{figure}
     \centering
@@ -317,17 +312,24 @@ UV Mapping of scene geometry to texture segments.
         \label{fig:uv_floor2}
     \end{subfigure}
             
-    \caption{UV mapping of one scene geometry segment to many texture segments.}
+    \caption[Visualisation of the UV mapping process]{UV mapping of one scene geometry segment to many texture segments.}
     \label{fig:uv_mapping_demo}
 \end{figure}
-
-\subsection{Proof of Concept Visualisation}
-\input{poc-graphics}
-\section{Discussion}
 Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
 
 Problem of mesh segmentation with semantics projection. Future work.
 
+\subsubsection{Mesh Segmentation}
+Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned have limited knowledge of the semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
+Such limitation is beyond the scope of this thesis work. It is a problem that can be addressed with complex mappings between defining a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. A family of techniques exists to address the problem of segmenting 3D scenes expressed as triangulated meshes or point clouds. However, the complex nature of three-dimensional space reconstructions makes the problem an open challenge. The work by~\cite{chen2009benchmark} is a significant stepping stone towards the problem of defining a physical entity represented in a complex mesh or point cloud, as the authors gather annotations from humans to investigate the consistency in segmenting entities represented in reconstructed data.\par
+Such experiments have shown a consensus in the segmentation process and provided a benchmark as an evaluation tool and starting point for automated methods. There are techniques available that address the problem, such as~\cite{rusu2011pcl}'s work providing a set of algorithms in Point Cloud Library, as well as new methods leveraging geometrical \acrshortpl{cnn} to segment 3D meshes and point clouds, such as~\cite{feng2020semantic3d}'s work. Despite these techniques being available, there are still large margins of errors when deployed on in-the-wild reconstructions that require fine-tuning and human authoring.\par
+Hence, the mesh segmentation stage of the material recognition pipeline is performed manually, separating the reconstructed data into semantically meaningful segments with a minimum structural size of $70cm$, following~\cite{pelzer2010frequency}'s perceptual threshold for \acrshort{ga} pipelines. Using Blender as a 3D data editor\footnote{\url{https://www.blender.org/}\label{fn:blender}}, the reconstruction obtained from the Matterport camera is separated into individual meshes, see Figure~\ref{fig:mesh-segmentation}.\par
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{mesh-segmentation}
+    \caption[Mesh segmentation process]{Mesh segmentation process performed manually on a reconstructed scene. The figure shows the virtual reconstruction of the small test room after the mesh segmentation process. Scene elements are segmented using Blender\ref{fn:blender}, allowing submeshes to represent each scene element. This allows the material tagging system to target scene elements.}
+    \label{fig:mesh-segmentation}
+\end{figure}
 
 
 \section{Conclusions}
