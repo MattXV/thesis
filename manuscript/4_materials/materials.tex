@@ -18,7 +18,7 @@ This Chapter addresses acoustic material tagging by providing the following cont
     \item a novel methodology for acoustic material tagging using a camera-based system and computer vision techniques to infer from the scene;
     \item an alternative system that abstracts from the use of cameras and operates on reconstructed virtual geometry;
     \item objective and subjective methodologies to evaluate the efficacy of the systems comparing against objective and subjective metrics;
-    \item a proof-of-concept demonstration stemming from the development of the two systems
+    % \item a proof-of-concept demonstration stemming from the development of the two systems
 \end{itemize}
 
 
@@ -167,7 +167,7 @@ Material labels inferred from textures are associated with acoustic measurements
        \caption{SLIC Superpixels}
        \label{fig:slic-labels}
     \end{subfigure}
-\caption[SLIC superpixel computation on a texture]{SLIC Superpixel computation on real texture from a virtual reconstruction of a conference room.}
+\caption[SLIC superpixel computation on an input texture]{SLIC Superpixel computation on real texture from a virtual reconstruction of a conference room.}
 \label{fig:slic-generation}
 \end{figure}%
 \begin{figure}[htbp]
@@ -219,7 +219,7 @@ Figures~\ref{fig:texture-testing-rirs}, and~\ref{fig:texture-testing-spectograms
 \begin{figure}[htbp]%
     \centering
     \includegraphics[width=1\textwidth]{rir-texture-testing}%
-    \caption[Texture-based system testing IR results --- time domain]{Measured impulse responses from measurements shown as normalised direct energy of reflections in function of time $h(t)$.  Energy functions of measured impulse responses, shown in the time domain where the horizontal axis indicates time, and the vertical axis indicates magnitude of reflection energy from 0 to 1.}%
+    \caption[Texture-based system testing IR results --- time domain]{Measured impulse responses from measurements shown as normalised direct energy of reflections as a function of time $h(t)$.  Energy functions of measured impulse responses, shown in the time domain where the horizontal axis indicates time, and the vertical axis indicates magnitude of reflection energy from 0 to 1.}%
     \label{fig:texture-testing-rirs}%
 \end{figure}%
 
@@ -234,62 +234,31 @@ Figures~\ref{fig:texture-testing-rirs}, and~\ref{fig:texture-testing-spectograms
 \input{chi-perceptual-distance}
 The perceptual metric between the measured ground truth and the synthesised wavefields yields three variables describing 1620 pairwise distances between the measured and synthesised RIRs, see Table~\ref{tab:chi-perceptual-distance}. Given the test conditions, the correlation test uses Pearson \textit{r} scores to measure the relationship between RIRs with different acoustic geometry.
 
-
-% \section{Proof of Concept Demonstration}
-% A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs.\par
-% The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes.\par
-% The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
-
-% \subsection{Test Scenes}
-% The proof of concept is demonstrated in three real spaces: a small, a medium, and a large environment, see Table~\ref{tab:material-eval-scene}. These environments have diverse ecosystems of surfaces and materials that characterise and determine their respective soundscape and acoustic fingerprints.
-% \input{scenes} %tab:material-eval-scene
-
-% \paragraph{Small Test Scene}
-% Mastering Suite
-
-% \paragraph{Medium Test Scene}
-% Recital Hall
-
-% \paragraph{Large Test Scene}
-% St Mary Guild Hall
-
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{guildhall}
-%     \caption[Proof of concept demonstration --- large environment]{St Mary's Guildhall: a Medieval-style church in Coventry, West Midlands, England. The large environment has a unique soundscape, characterised by a recorded $T_{60}$ reverberation time of over a second.}
-%     \label{fig:guildhall-iso-render}
-% \end{figure}
-
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{recital-hall}
-%     \caption[Proof of concept demonstration --- medium environment]{Recital Hall: a wooden space serving as a stage for musical performances. The soundscape is characterised by a recorded $T_{60}$ reverberation time within a second.}
-%     \label{fig:conservatoire-iso-render}
-% \end{figure}
-
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{mastering_suite}
-%     \caption[Proof of concept demonstration --- small environment]{Mastering Suite: a small audio production studio with acoustic treatments to minimise the effect of the soundscape on the sound reproduction system within.}
-%     \label{fig:mastering-iso-render}
-% \end{figure}
+\subsection{Discussion}
+Experimental results show correlations between wave-fields generated from geometry that has been automatically tagged by the improved material tagging system; geometry tagged with a single generic material, and geometry tagged with human supervision. A preliminary perceptual test shows that tagging the acoustic geometry using a material classifier mapped to acoustic absorption data can produce acoustic simulations that correlate to their manually tagged counterparts.\par
+As shown in the example of superpixel prediction in Figure \ref{fig:slic-labels}, the classifier can recognise many patches from the input image texture, associating them with labels that visually relate to the material represented, excluding outliers by selecting the most frequent prediction. In the evaluation, the mesh reconstruction process can introduce noise to the resulting texture due to the geometrical approximations caused by the point cloud's triangulation \cite{turner2014fast}. These approximations cause artefacts, resulting in incorrectly predicted material labels. While the superpixel segmentation process excludes these outliers, it prevents the feature extractor from capturing larger structures in the input texture.\par
+The generic and tagged simulations, having a single acoustic material and approximated absorption data, are likely to subtract less energy from rays, maintaining more energy over late reflections. Hence, the limited number of rays and more specific acoustic absorption assigned to scene geometry determine shorter reverberation levels in the simulation with predicted materials, see Figure \ref{fig:texture-testing-spectograms}. According to the spectral analysis, this also causes the simulation to preserve more harmonic details above $10^3 Hz$. Overall the experimental evaluation shows that acoustic materials mapping through the texture-based system yields results that correlate to artistic material tags. Consequently, the improved system can tag acoustic materials in unseen complex scenes, reducing the costs of applications of wave-based methods in \acrshortpl{ve}. However, there are limitations in the test design that can affect the generalisability of the system, especially considering the single measurement point and the limited set of materials in the real environment. These limitations raise the need for an extended evaluation including different scene scales, i.e. larger rooms or outdoor environments having more sustained late reflections in their \acrshortpl{rir}. Besides, task-based subjective experiments in \acrshortpl{ve} with subjects would further define the perceptual impact of acoustic material tagging on acoustic simulations.\par
 
 
-% \subsection{Proof of Concept System Overview}
-% The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data. The system deploys the tested texture-based method illustrated in Section~\ref{sec:texture-tagging}. As an overview, the system starts by extracting textures from the environment, as they express the visual features of surfaces within the scene, which can be used to infer material properties.
-% Following the tested methodology, image textures are segmented using a superpixel segmentation technique. The SLIC (Simple Linear Iterative Clustering) superpixel algorithm is employed \citep{slic6205760}. This algorithm partitions the extracted textures into superpixels, providing clusters of pixels with similar characteristics. The SLIC algorithm allows the partitioning of image textures into perceptually meaningful segments separating contextual elements expressed in image data into clusters. Once the superpixels are formed, they are converted into rectified patches, enabling \acrshortpl{cnn} to treat clusters of pixels as input image data. This step involves transforming the clustered pixel data into $32x32$ image patches.
-% The rectified patches are then fed into the pre-trained ResNet50 feature extractor, identifying the distinctive features of each patch, which are indicative of semantic materials found in the texture data. Upon extraction of features, a classifier layer appended to the feature extractor assigns semantic material labels to each patch. This classification is based on the textural and color features identified during feature extraction, allowing the system to discern between different material types such as wood, metal, fabric, etc. Each semantic material type is associated with specific acoustic absorption coefficients. These coefficients are critical for simulating how sound interacts with different materials, regardless of the nature of the acoustic rendering method adopted, impacting the acoustic properties of the environment. In the final step, the semantic materials, along with their corresponding acoustic properties, are mapped onto a set of meshes that represent the physical structure of the environment. This mapping uses UV mapping data to accurately align the material properties with the 3D geometry of the meshes, ensuring that the acoustic simulation reflects real-world conditions.
+\section{Considerations on Acoustic Material Tagging Systems}
+In light of the two acoustic material tagging systems illustrated, this Section will draw conclusions from the data gathered and interpreted from tests run on both the camera-based and the texture-based prototype.
+
+\subsection{Conclusions  Drawn From the Two Systems}
+Acoustic modelling and audio rendering methods can benefit from research and development of computer vision methods. 
+The current status of this work does not eliminate the human-in-the-loop; however, it can generalise and operate on large sets of complex scenes. As a result, artistic and creative workflows for level design can benefit from an automated material tagging system that is agnostic of scene complexity and allows for easy integration of wave-based acoustic renderers.
+
+% superpixel
+The proposed systems addressed the problem of mapping acoustic absorption data to scene geometry in virtual environments for acoustic simulations. Methods and frameworks for material recognition have become efficient enough in recognising materials in the wild with varying factors of illumination, shape and surface characteristics. Despite their limited resolution in computer games applications, sound propagation systems benefit from acoustic material tagging. The proposed solutions aim to integrate material recognition into wave-based methods to determine materials' acoustic properties.
 
 
+\subsection{The Problem with Manual Material Tagging}
+The closest approximation to ground truth for the design of evaluations is derived from scenes where an acoustic engineer manually tags materials using a pre-compiled database. However, this method introduces inherent biases due to the choice of materials being restricted to those available in the database. As such the manual tagging process has the engineer selecting from the closest match rather than an exact representation. The manually crafted ground truth contains biases caused by the limitations of the database used. This issue underscores the need for a more dynamic and comprehensive database that can adapt to include new materials and more nuanced categorizations as the field evolves.\par
+However, the generation of acoustic materials has significant challenges in costs and resources as they often require the use of impedance tubes \citep{jones1997comparison}. This can be unfeasible in diverse outdoor environments with complex sets of diverse materials, or where samples of materials are not easily available for impedance testing.
 
+\subsection{Advantages and Limitations of the Two Approaches}
+The camera approach can provide useful implementations in the context of \acrshort{ar} platforms, as the camera render requirements can be satisfied by built-in \acrshort{hmd} cameras. Scene reconstruction systems such as the Matterport cameras \citep{chang2017matterport3d} share the requirements of capturing camera renders covering the entire real space. 
 
-% \subsection{Proof of Concept Visualisation}
-% % \input{poc-graphics}
-\section{Discussion}
-\subsection{Manual Acoustic Material Tagging}
-The segmented meshes are then manually tagged, assigning acoustic absorption coefficients to the triangles of each submesh.
-
-UV Mapping of scene geometry to texture segments.
+The texture-based system can be highly efficient due to the mapping between texture data and scene geometry shown in Figure~\ref{fig:uv_mapping_demo}.
 
 
 \begin{figure}
@@ -315,15 +284,15 @@ UV Mapping of scene geometry to texture segments.
     \caption[Visualisation of the UV mapping process]{UV mapping of one scene geometry segment to many texture segments.}
     \label{fig:uv_mapping_demo}
 \end{figure}
-Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
+% Both systems provide fundamental building blocks for acoustic material tagging for AAR pipelines.
 
-Problem of mesh segmentation with semantics projection. Future work.
+% Problem of mesh segmentation with semantics projection. Future work.
 
 \subsubsection{Mesh Segmentation}
 Current space reconstruction algorithms that generate a triangulated mesh representing the physical space scanned have limited knowledge of the semantics of the reconstruction. Until the definition of a scene entity is given and a solution to distinguish physical scene entities in the reconstructed space, it is impossible to separate the triangulated mesh into semantically meaningful segmented.\par
 Such limitation is beyond the scope of this thesis work. It is a problem that can be addressed with complex mappings between defining a scene entity belonging to a physical environment and its reconstruction as a triangulated mesh. A family of techniques exists to address the problem of segmenting 3D scenes expressed as triangulated meshes or point clouds. However, the complex nature of three-dimensional space reconstructions makes the problem an open challenge. The work by~\cite{chen2009benchmark} is a significant stepping stone towards the problem of defining a physical entity represented in a complex mesh or point cloud, as the authors gather annotations from humans to investigate the consistency in segmenting entities represented in reconstructed data.\par
 Such experiments have shown a consensus in the segmentation process and provided a benchmark as an evaluation tool and starting point for automated methods. There are techniques available that address the problem, such as~\cite{rusu2011pcl}'s work providing a set of algorithms in Point Cloud Library, as well as new methods leveraging geometrical \acrshortpl{cnn} to segment 3D meshes and point clouds, such as~\cite{feng2020semantic3d}'s work. Despite these techniques being available, there are still large margins of errors when deployed on in-the-wild reconstructions that require fine-tuning and human authoring.\par
-Hence, the mesh segmentation stage of the material recognition pipeline is performed manually, separating the reconstructed data into semantically meaningful segments with a minimum structural size of $70cm$, following~\cite{pelzer2010frequency}'s perceptual threshold for \acrshort{ga} pipelines. Using Blender as a 3D data editor\footnote{\url{https://www.blender.org/}\label{fn:blender}}, the reconstruction obtained from the Matterport camera is separated into individual meshes, see Figure~\ref{fig:mesh-segmentation}.\par
+Hence, the mesh segmentation stage of the material recognition pipeline is performed manually for future experiments discussed in this thesis, separating the reconstructed data into semantically meaningful segments with a minimum structural size of $70cm$, following~\cite{pelzer2010frequency}'s perceptual threshold for \acrshort{ga} pipelines. Using Blender as a 3D data editor\footnote{\url{https://www.blender.org/}\label{fn:blender}}, the reconstruction obtained from the Matterport camera is separated into individual meshes, see Figure~\ref{fig:mesh-segmentation}.\par
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{mesh-segmentation}
@@ -332,20 +301,15 @@ Hence, the mesh segmentation stage of the material recognition pipeline is perfo
 \end{figure}
 
 
-\section{Conclusions}
-Path to a unified solution.
+\subsection{Contributions and Future Research Directions}
+The prototypes developed in this Chapter have demonstrated their capability to effectively tag entire unseen virtual environments with appropriate acoustic materials. This is due to the training phases where the systems learned to recognise and categorise various materials based on visual features. By employing machine learning techniques and a structured approach to feature extraction and material classification, these systems can autonomously apply accurate acoustic tags across diverse virtual environments, enabling more realistic and dynamically responsive acoustic simulations.\par
+Despite these promising results gathered from the camera and texture-based systems, several challenges persist, primarily due to the lack of comprehensive datasets and standardized definitions for acoustic materials. Limitations remain around the practicality and generalisability of the systems, requiring wider research areas to address problems around unified data on acoustic materials and the problem of segmenting unseen virtual reconstructions of real space. \par
 
+The next steps of this work aim at extending the system to broader scenes with larger sets of materials as well as improving the material recognition by performing multi-scale analysis of superpixels and adopting clustering paradigms to overcome the limitations of finite material space definitions. Finally, the two systems aim at employing these methods to eliminate the human-in-the-loop for the process of labelling materials for acoustic renderers or assist in artistic and creative processes for level design. 
+Both systems have potential in the context of \acrshort{ar} platforms, where \acrshortpl{hmd} provide camera renders and virtual reconstructions of real space at interactive rates. Future work should expand towards extending the systems to infer acoustic materials in real environments, leveraging access to real soundfields to optimise predicted acoustic materials.
+% % Camera-based
+% - Extend testing for the camera-based system to allow its use in real environments, making use of cameras available in HMDs.
+% - Perform and test acoustic material tagging on real environments using HMDs, then measuring and updating materials using the real environment as ground truth
 
-\subsection{Contributions}
-Camera-based system for acoustic material tagging.
-
-\subsection{Future Research Directions}
-% Camera-based
-Acoustic modelling and audio rendering methods can benefit from research and development of computer vision methods. 
-The current status of this work does not eliminate the human-in-the-loop; however, it can generalise and operate on large sets of complex scenes. As a result, artistic and creative workflows for level design can benefit from automated material tagging system that is agnostic of scene complexity and allow for easy integration of wave-based acoustic renderers.
-The next steps planned for this work include the development of a generalised system to perform material tagging in complex scenes. This will consider optimisation methods to allow the inference of entire scenes automatically with the minimal set of camera probes to consistently tag every acoustically congruent object that is contributory to the VE. 
-% superpixel
-The proposed systems addressed the problem of mapping acoustic absorption data to scene geometry in virtual environments for acoustic simulations. Methods and frameworks for material recognition have become efficient enough in recognising materials in the wild with varying factors of illumination, shape and surface characteristics. Despite their limited resolution in computer games applications, sound propagation systems benefit from acoustic material tagging. The proposed solutions aim to integrate material recognition into wave-based methods to determine materials' acoustic properties.
-The next steps of this work aims to extend the system to broader scenes with larger sets of materials as well as improving the material recognition by performing multi-scale analysis of superpixels and adopting clustering paradigms to overcome the limitations of finite material space definitions.
-Finally, the two systems aim at employing these methods to eliminate the human-in-the-loop for the process of labelling materials for acoustic renderers or assist in artistic and creative processes for level design. 
+% - 
 
