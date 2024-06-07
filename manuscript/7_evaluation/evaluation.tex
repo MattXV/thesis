@@ -88,11 +88,15 @@ where $t$, $\theta$ and $\phi$ indicate, respectively, time, the listener's azim
     \label{fig:psycho-top-view}
 \end{figure}
 \subsection{Audio Stimuli}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\columnwidth]{stimuli-plot}
+    \caption{Spectral analysis of the stimuli used.}
+    \label{fig:stimuli}
+\end{figure}
 The testing framework presents two sets of audio stimuli: a \emph{set} of anechoic audio excerpts $S_A$, and a \emph{set} containing corresponding audio excerpts $S_P$ generated using a prototype deployment of the geometrical acoustics pipeline. The latter set of auralisations is produced based on the listener's position during the testing procedure and the position of the sound-emitting objects in the testing scene. \par
-
-
-RATIONALE FOR CLIPS
-
+In localisation test methods, it is common to use test tones or broadband noise as stimuli to evaluate the distance between ground truth source positions and target positions expressed by participants \citep{bertet2013investigation, kashino1998adaptation}. Psychoacoustic factors around the perception of loudness may affect the application of localisation abilities \citep{blauert1997spatial}. Hence, stimuli are selected to cover a wide range of frequencies around the audible range.
 For the \emph{localisation} task, both sets are constructed with three anechoic audio samples: a $4.98s$ drums loop, a $4.87s$ singing clip, and a $7.14s$ violin clip. All sound clips are indefinitely looped until the subtask is completed or the participant pauses them with interactable panes presented every time audio is reproduced.
 The \emph{clustering} task has eight pairs of $25s$ multi-instrument anechoic recordings \footnote{\url{https://odeon.dk/downloads/odeon-zip-archives/}}. For each pair, the two sound sources emit a different instrument from the same musical excerpt. Emitting the same audio from the two sources is avoided to prevent potential reproduction artefacts of phase cancellations that could interfere with the task. The \emph{clustering} task has eight anechoic pairs, and eight counterparts propagated with appropriate IRs for a total of 18 subtasks.
 

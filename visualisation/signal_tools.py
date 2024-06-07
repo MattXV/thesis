@@ -25,6 +25,10 @@ SPECTROGRAM_NSEGS = 2**2
 FILTER_KERNEL_SIZE = 2**14
 
 
+def next_power_of_2(x):  
+    return 1 if x == 0 else 2**(x - 1).bit_length()
+
+
 def clip(signal):
     return np.where(signal > 0.2, 0.9, signal)
 
@@ -194,6 +198,25 @@ def deconvolve(measurement_chirp, recording, samplerate, source_listener_dist_m=
     z = z[np.argmax(z) - delay_samples:]
 
     return z
+
+def plot_spectrum(signal, samplerate, axes, n):
+    x = np.hanning(np.squeeze(signal).shape[0])
+    x = np.squeeze(signal) * x
+    
+    t = np.arange(0, n//2) * samplerate / n//2
+    index = np.abs(t - 20).argmin()
+
+    y = fft(x, n, norm='forward')
+    y = y[:y.shape[0] // 2]
+    y[:index] = 0
+    y = np.abs(y.real)
+    y = (y - np.min(y)) / np.ptp(y)
+    
+    axes.plot(t, y)
+    axes.set_xscale('log')
+    axes.set_yscale('log')
+    axes.set_xlim(20, 20000)
+
 
 # PLOTS
 def plot_spectrogram(signal, samplerate, axes, label=None, scale=1000, title_fontsize=18, fontsize=12, labels=('Frequency (Hz)', 'Time (s)')):

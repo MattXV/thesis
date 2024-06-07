@@ -163,3 +163,7 @@ cython_debug/
 *.pdf
 *.eps
 *.wav
+
+!arp.wav
+!singing.wav
+!drums.wav
