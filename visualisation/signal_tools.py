@@ -18,7 +18,7 @@ plt.rcParams['font.size'] = '5'
 
 SAMPLERATE = 48000
 # SPECTROGRAM_NSEGS = 2**9
-SPECTROGRAM_NFFT = 2**6
+SPECTROGRAM_NFFT = 2**7
 SPECTROGRAM_WSIZE = 64
 SPECTROGRAM_NSEGS = 2**2
 # SPECTROGRAM_NFFT = 1024
@@ -199,7 +199,7 @@ def deconvolve(measurement_chirp, recording, samplerate, source_listener_dist_m=
 
     return z
 
-def plot_spectrum(signal, samplerate, axes, n):
+def plot_spectrum(signal, samplerate, axes, n, interp=None):
     x = np.hanning(np.squeeze(signal).shape[0])
     x = np.squeeze(signal) * x
     
@@ -211,8 +211,16 @@ def plot_spectrum(signal, samplerate, axes, n):
     y[:index] = 0
     y = np.abs(y.real)
     y = (y - np.min(y)) / np.ptp(y)
+
+    if interp:
+        interp_x = np.linspace(0, t[-1], interp)
+        interp_y = np.interp(interp_x, t, y)
+        t = interp_x
+        y = interp_y
+
     
     axes.plot(t, y)
+
     axes.set_xscale('log')
     axes.set_yscale('log')
     axes.set_xlim(20, 20000)

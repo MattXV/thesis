@@ -26,6 +26,12 @@ This evaluation aims at investigating how audio interactions in \acrshort{ar} af
 
 
 \subsection{Task Definitions}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{procedure-overview}
+    \caption{Procedure of the evaluation. }
+    \label{fig:psycho-procedure-overview}
+\end{figure}
 The subjective study focuses on two tasks:
 \begin{enumerate}
     \item the \textbf{localisation} task: where participants are asked to listen to a set of audio stimuli and indicate which holographic object is responsible for emitting each stimulus, choosing from arrays of holographic objects;
@@ -48,6 +54,10 @@ Section~\ref{sec:psy-procedure} details the procedure repeated for each particip
 \end{figure}
 The two tasks were implemented in Unity 2021.3.14f1 using Microsoft Mixed Reality Toolkit\footnote{\url{https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/unity-development-overview}} and deployed and executed in a Microsoft Hololens 2 HMD\textsuperscript{\ref{note:ms-hl2},\ref{note:ms-hl2-hw}}. Figure~\ref{fig:psycho-apparatus} shows the experimental apparatus composing the evaluation framework: the user is presented with visual and auditory stimuli driven by the Unity game engine, responsible for managing the scene representing the evaluation tasks, rendering holographic interactable objects. Audio reproduction was done through the embedded audio interface in the Microsoft Hololens 2 HMD and using a pair of Bose Soundsport earbuds with an integrated D/A converter.\par
 Spatial information relating to the scene and the user, as well as interactions detected by the gesture recognition features of the HMD, determine the reproduction of audio stimuli. These are processed with customised spatialisation tools to consider human factors in the audio reproduction chain. The system is tested in a real space, a teaching room of $10.7m$ by $8.6m$ dimensions, where participants stand in the middle of the room wearing the HMD and a headset to complete the two tasks with their freedom being restricted to 3 DoF.\par
+
+\subsection{User Interface System}
+Proxemic UI
+
 
 \subsection{Geometry Reconstruction and Handling}
 The room, the physical test environment, is scanned using a Matterport Pro3\footnote{\url{https://matterport.com/pro3}} camera, from 9 camera placements covering the walkable space of the room uniformly, with the Near array being $0.9m$ from the listener, the Medium $2.24m$, and the Far $4.02m$; please refer to Figure~\ref{fig:cst-mesh} for a visualisation of the mesh showing wireframe geometry and textures of the reconstruction. The textured triangulated mesh is partitioned into semantically related segments, separating architectural components of the room, as well as furniture and objects, into individual meshes to facilitate indexing and attributing of physical characteristics to portions of the scene geometry. We manually tag the segmented portions of the scanned geometry, attributing frequency-dependent absorption coefficients and mapping the appearance of the reconstructed textures with acoustic materials from measured absorption data\footnote{\url{https://odeon.dk/downloads/materials/}}. In acoustic rendering operations, material properties assigned to scene geometry are required to approximate models of the environment soundscape. 
@@ -91,8 +101,8 @@ where $t$, $\theta$ and $\phi$ indicate, respectively, time, the listener's azim
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1\columnwidth]{stimuli-plot}
-    \caption{Spectral analysis of the stimuli used.}
+    \includegraphics[width=1\columnwidth]{stimuli}
+    \caption{The evaluation design uses three auditory stimuli, reproduced as spatialised sound sources placed at positions defined by the near, medium, and far array. The figure shows a spectral analysis conducted over the three stimuli showing how the spectrum of ``drums'', ``singing'', and ``arp'' centre around low, medium, and high frequencies.}
     \label{fig:stimuli}
 \end{figure}
 The testing framework presents two sets of audio stimuli: a \emph{set} of anechoic audio excerpts $S_A$, and a \emph{set} containing corresponding audio excerpts $S_P$ generated using a prototype deployment of the geometrical acoustics pipeline. The latter set of auralisations is produced based on the listener's position during the testing procedure and the position of the sound-emitting objects in the testing scene. \par
