@@ -38,8 +38,8 @@ The subjective study focuses on two tasks:
     \item the \textbf{masking} task: where participants are displayed concurrent audio stimuli, and they are asked to determine whether these propagate from a singular or two invisible sound-emitting objects.
 \end{enumerate}
 The rationale for defining the tasks centre around key aspects of sound rendering, namely the efficacy of propagation effects, measured by analysing user performance in tasks requiring the perception of spatial clues encoded in audio transmissions presented to the users within the complex scene. The other aspect centres around the problem of performance the limited computational resources in \acrshortpl{hmd}.
-The localisation tasks aims at evaluating whether there is a significant increase in perceived spatial information using sound rendering pipeline, compared against unpropagated stimuli. This tasks is often evaluated to analyse the effectiveness of sound rendering methods \citep{rungta2016psychoacoustic}.
-The masking task aims at investigating how concurrent sound sources are perceived by the user, studying the efficacy of sound rendering pipelines in resolving masking effects occuring in sound sources at varying distances from each other. Testing how users perceive concurrent sound sources can provide insights and guidelines for handling clustered sources in large-scale scenes, aiming at reducing the load of propagation methods simulating multiple sources \citep{schissler2016interactive}.
+The localisation task aims at evaluating whether there is a significant increase in perceived spatial information using a sound rendering pipeline, compared to unpropagated stimuli. This task is often evaluated to analyse the effectiveness of sound rendering methods \citep{rungta2016psychoacoustic}.
+The masking task measures how concurrent sound sources are perceived by the user, studying the efficacy of sound rendering pipelines in resolving masking effects occurring in sound sources at varying distances from each other. Testing how users perceive concurrent sound sources can provide insights and guidelines for handling clustered sources in large-scale scenes, aiming at reducing the load of propagation methods simulating multiple sources \citep{schissler2016interactive}.
 Section~\ref{sec:psy-procedure} details the procedure repeated for each participant to conduct the two tasks.
 
 \subsection{Participants}
@@ -56,8 +56,9 @@ The two tasks were implemented in Unity 2021.3.14f1 using Microsoft Mixed Realit
 Spatial information relating to the scene and the user, as well as interactions detected by the gesture recognition features of the HMD, determine the reproduction of audio stimuli. These are processed with customised spatialisation tools to consider human factors in the audio reproduction chain. The system is tested in a real space, a teaching room of $10.7m$ by $8.6m$ dimensions, where participants stand in the middle of the room wearing the HMD and a headset to complete the two tasks with their freedom being restricted to 3 DoF.\par
 
 \subsection{User Interface System}
-Proxemic UI
 
+\citep{huang2022proxemics}
+\citep{buschel2021miria}
 
 \subsection{Geometry Reconstruction and Handling}
 The room, the physical test environment, is scanned using a Matterport Pro3\footnote{\url{https://matterport.com/pro3}} camera, from 9 camera placements covering the walkable space of the room uniformly, with the Near array being $0.9m$ from the listener, the Medium $2.24m$, and the Far $4.02m$; please refer to Figure~\ref{fig:cst-mesh} for a visualisation of the mesh showing wireframe geometry and textures of the reconstruction. The textured triangulated mesh is partitioned into semantically related segments, separating architectural components of the room, as well as furniture and objects, into individual meshes to facilitate indexing and attributing of physical characteristics to portions of the scene geometry. We manually tag the segmented portions of the scanned geometry, attributing frequency-dependent absorption coefficients and mapping the appearance of the reconstructed textures with acoustic materials from measured absorption data\footnote{\url{https://odeon.dk/downloads/materials/}}. In acoustic rendering operations, material properties assigned to scene geometry are required to approximate models of the environment soundscape. 
@@ -71,12 +72,15 @@ In the testing framework, the reconstructed geometry is used by the game engine 
     \label{fig:cst-208-photograph}
 \end{figure}
 The experimental evaluation deploys the rendering pipelines presented in Chapter~\ref{ch:ar-pipeline} as an offline process. The soundscape is simulated by generating \acrshort{ir} for source-listener pairs in the AR environment by implementing the renderer proposed in Section~\ref{sec:ga-based-pipeline}, maintaining the validity of the offline renders by adopting static sound sources and environment and limiting the movement freedom of the listener. As shown in Figure~\ref{fig:psycho-apparatus}, auditory stimuli use \acrshortpl{rir} convolved to anechoic audio samples to reflect approximated acoustic phenomena in audio signals displayed to participants. The experimental evaluation uses ray tracing as an offline rendering to perform sound propagation between scene elements in \acrshort{ar}. This is done by restricting sound transmissions to static sound sources and a static listener (the participant). Hence, the participant's position is fixed within the grey holographic barriers, as shown in Figure~\ref{fig:psycho-top-view}.
-
-FIX THIS
 We implement a minimal geometrical acoustics renderer, based on \cite{saviojaGA}'s work, to approximate reverberation by modelling acoustic energy decay with propagation paths between an emitter and detector. Sound sources are considered omnidirectional emitters, from which $3*10^3$ rays originate at uniformly distributed points on a $1m$ radius sphere located at the sound source position in the scene, searching for geometrical intersections within the \acrshort{bvh} constructed on the scanned space, see Figure~\ref{fig:cst-mesh}. Intersections are computed between propagating rays and leaf nodes of the \acrshort{bvh}, using the normal and acoustic absorption data attributed to the encapsulated triangle, allowing propagation paths a maximum of four reflection orders.
 $\alpha_f$ acoustic absorption data provided by tagged materials and attributed to mesh triangles is frequency-dependent, $f \in \{ 125, 250, 500, 1000, 2000, 4000 \}Hz$, following state-of-the-art sound propagation methods \citep{schissler2017acoustic}.\par
-
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{CST-208-mats} \\
+    \includegraphics[width=1\linewidth]{cst-mat-vis}
+    \caption{An isometric view of the room used for the experiment, visualising acoustic materials. Materials are mapped to the scanned environment geometry (see Figure~\ref{fig:cst-mesh}) by segmenting the mesh into semantically meaningful submeshes that represent scene entities.}
+    \label{fig:cst-208-materials}
+\end{figure}
 Propagation paths have $e_0 = 1$ initial energy values across six frequency bands relating to frequency-dependent material data, attenuated upon collisions with scene geometry and logged in a series of \acrshortpl{ir} that model frequency-dependent reverberation. To overcome the deterministic nature of the ray tracer, we adopt \cite{schroder2011physically}'s technique, consisting of generating Poisson-distributed sequences of Dirac-Delta pulses to simulate the likelihood of detecting acoustic reflections in a hypothetical environment. These sequences are convolved with the modelled energy from the ray tracer, filtered based on their respective frequency band contributing towards Equivalent Rectangular Bandwidths (ERB) portions of the spectrum centred around each $f$ and having all frequency-dependent \acrshortpl{ir} contributing equally towards the spectrum, which are finally summed together into a \acrshort{rir}. \par
 Listener and sound source positions were pre-determined by the \emph{localisation} and \emph{clustering} task, see Figure~\ref{fig:psycho-top-view}; RIRs are pre-computed for all sound-emitting objects placed in the virtual reconstruction of the space.
 
