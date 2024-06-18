@@ -26,7 +26,7 @@ This evaluation aims at investigating how audio interactions in \acrshort{ar} af
 
 
 \subsection{Task Definitions}
-\begin{figure}[htbp]
+\begin{figure}[htbp]%procedure diagram
     \centering
     \includegraphics[width=1\linewidth]{procedure-overview}
     \caption{Experiment procedure administered to participants: the task starts with a familiarisation scene where the user is introduced to the UI system and is asked to calibrate the audio reproduction system. The user then performs the localisation and masking tasks after the familiarisation scene.}
@@ -46,22 +46,30 @@ Section~\ref{sec:psy-procedure} details the procedure repeated for each particip
 31 participants, of whom 16 females and 15 males, were recruited from staff and students of Birmingham City University and were invited to partake in the two tasks, which are defined as follows. Participants were asked to pinpoint the location of a set of sounds, resolving the direction of arrival of sound sources and determining the number of concurrent sound sources they could identify at varying angular distances. A within-subjects design was conducted with 31 participants (16 females, 15 males) to probe the human auditory perception of practical tasks in a virtual environment.
 
 \subsection{Apparatus and Evaluation Platform}
-\begin{figure}[htbp]
+\begin{figure}[htbp]%room mesh
     \centering
     \includegraphics[width=1\columnwidth]{7_evaluation/images/cst_isoview.png}
-    \caption{Visualisation of the virtual reconstruction of the space used for the user study. The space, scanned using a Matterport Pro3 camera, is manually segmented into semantically related portions of geometry aligning with acoustic material definitions (e.g. curtains, floor, walls) and imported into the game engine for scene alignment and spatial mapping. The scanned geometry is handled using a Bounding Volume Hierarchy to allow indexing and searching of the triangle primitive for acoustic material tagging and rendering operations. Acoustic rendering is performed between sources and the listener, generating Impulse Response pairs, based on propagation paths computed by a ray tracer bouncing rays off the scene geometry with tagged acoustic materials.}
+    \caption{Visualisation of the virtual reconstruction of the space used for the user study. The space, scanned using a Matterport Pro3 camera, is manually segmented into semantically related portions of geometry aligning with acoustic material definitions (e.g. curtains, floor, walls) and imported into the game engine for scene alignment and spatial mapping. The scanned geometry is handled using a Bounding Volume Hierarchy to allow indexing and searching of the triangle primitive for acoustic material tagging and rendering operations. Acoustic rendering is performed between sources and the listener, generating impulse response pairs, based on propagation paths computed by a ray tracer bouncing rays off the scene geometry with tagged acoustic materials.}
     \label{fig:cst-mesh}
 \end{figure}
 The two tasks were implemented in Unity 2021.3.14f1 using Microsoft Mixed Reality Toolkit\footnote{\url{https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/unity-development-overview}} and deployed and executed in a Microsoft Hololens 2 HMD\textsuperscript{\ref{note:ms-hl2},\ref{note:ms-hl2-hw}}. Figure~\ref{fig:psycho-apparatus} shows the experimental apparatus composing the evaluation framework: the user is presented with visual and auditory stimuli driven by the Unity game engine, responsible for managing the scene representing the evaluation tasks, rendering holographic interactable objects. Audio reproduction was done through the embedded audio interface in the Microsoft Hololens 2 HMD and using a pair of Bose Soundsport earbuds with an integrated D/A converter.\par
 Spatial information relating to the scene and the user, as well as interactions detected by the gesture recognition features of the HMD, determine the reproduction of audio stimuli. These are processed with customised spatialisation tools to consider human factors in the audio reproduction chain. The system is tested in a real space, a teaching room of $10.7m$ by $8.6m$ dimensions, where participants stand in the middle of the room wearing the HMD and a headset to complete the two tasks with their freedom being restricted to 3 DoF.\par
 
 \subsection{User Interface System}
+A user interface system presents stimuli to participants.
+
+Proxemics involves using physical distance as a dimension of interaction design, where the spatial relationship between users and devices influences interaction possibilities 
+Non-diegetic UIs are often more straightforward to implement and can provide clear, immediate access to information and controls. They are commonly used for displaying data relating to the complex scene or the task being performed.
+
+\citep{dickinson2021diegetic}
+
+Studies have shown that diegetic interfaces can provide high-quality interactions and maintain a user's sense of presence, although they may sometimes increase perceived workload
 
 \citep{huang2022proxemics}
 \citep{buschel2021miria}
 
 \subsection{Geometry Reconstruction and Handling}
-The room, the physical test environment, is scanned using a Matterport Pro3\footnote{\url{https://matterport.com/pro3}} camera, from 9 camera placements covering the walkable space of the room uniformly, with the Near array being $0.9m$ from the listener, the Medium $2.24m$, and the Far $4.02m$; please refer to Figure~\ref{fig:cst-mesh} for a visualisation of the mesh showing wireframe geometry and textures of the reconstruction. The textured triangulated mesh is partitioned into semantically related segments, separating architectural components of the room, as well as furniture and objects, into individual meshes to facilitate indexing and attributing of physical characteristics to portions of the scene geometry. We manually tag the segmented portions of the scanned geometry, attributing frequency-dependent absorption coefficients and mapping the appearance of the reconstructed textures with acoustic materials from measured absorption data\footnote{\url{https://odeon.dk/downloads/materials/}}. In acoustic rendering operations, material properties assigned to scene geometry are required to approximate models of the environment soundscape. 
+The room, the physical test environment, is scanned using a Matterport Pro3\footnote{\url{https://matterport.com/pro3}} camera, from 9 camera placements covering the walkable space of the room uniformly, with the Near array being $0.9m$ from the listener, the Medium $2.24m$, and the Far $4.02m$;  refer to Figure~\ref{fig:cst-mesh} for a visualisation of the mesh showing wireframe geometry and textures of the reconstruction. The textured triangulated mesh is partitioned into semantically related segments, separating architectural components of the room, as well as furniture and objects, into individual meshes to facilitate indexing and attributing of physical characteristics to portions of the scene geometry. We manually tag the segmented portions of the scanned geometry, attributing frequency-dependent absorption coefficients and mapping the appearance of the reconstructed textures with acoustic materials from measured absorption data\footnote{\url{https://odeon.dk/downloads/materials/}}. In acoustic rendering operations, material properties assigned to scene geometry are required to approximate models of the environment soundscape. 
 In the testing framework, the reconstructed geometry is used by the game engine to align holographic objects with the physical space. We use a dynamic \acrshort{bvh} implementation, constructing the tree using mesh triangles with attributed acoustic absorption characteristics to organise, index, and search the scanned geometry within the game engine for sound propagation \citep{kopta2012fast}.\par
 
 \subsection{Acoustic Rendering Apparatus}
@@ -102,7 +110,6 @@ where $t$, $\theta$ and $\phi$ indicate, respectively, time, the listener's azim
     \label{fig:psycho-top-view}
 \end{figure}
 \subsection{Audio Stimuli}
-
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\columnwidth]{stimuli}
