@@ -1,0 +1,23 @@
+\begin{table*}
+  \caption[Image-Source Model-based acoustic rendering --- Objective test results]{Features extracted from room impulse response pairs generated using the proposed system and metrics of corresponding input environments. Each pair has a \emph{predicted} and \emph{tagged} \acrshort{rir}, referring to acoustic materials being inferred with acoustic material classification or tagged manually. $t$ refers to the time taken to compute reflections, and $P$ indicates the number of sampling points per dimension.}\label{tab:ism_scene_scores}
+	\centering%
+\begin{tabular}{lllll}
+                         & Room             & Office            & Church         & Village        \\ \midrule
+Scene                    & \includegraphics[width=0.16\textwidth]{Room}  & \includegraphics[width=0.16\textwidth]{Office} & \includegraphics[width=0.16\textwidth]{Church} & \includegraphics[width=0.16\textwidth]{Village} \\
+Acoustic Volume          & \includegraphics[width=0.16\textwidth]{Room_mc}  & \includegraphics[width=0.16\textwidth]{Office_mc} & \includegraphics[width=0.16\textwidth]{Church_mc} & \includegraphics[width=0.16\textwidth]{Village_mc} \\ \midrule
+Volume $(m^3)$           & $3.43 \times 10$      & $8.64 \times 10^3$     & $4.83 \times 10^4$  & $3.45 \times 10^8$  \\
+Triangles                & 15.4M            & 0.973M            & 0.49M          & 9.6M           \\
+P                        & $16^3$           & $32^3$            & $64^3$         & $128^3$        \\
+Order                    & 3                & 4                 & 5              & 1              \\
+$t (s) $                 & 2.824            & 3.53              & 2.791          & 1.25           \\ \midrule
+predicted $T_{60} (s)$   & 0.997            & 1.705             & 5.982          & 0.103          \\
+tagged $T_{60}(s)$       & 0.331            & 0.734             & 9.6            & 0.124          \\
+$T_{60}$ error           & 0.666            & 0.971             & 3.618          & 0.021          \\ \midrule
+predicted $C_{50}$       & 1.278            & -2.613            & -12.341        & -5.724         \\
+tagged $C_{50}$          & 0.709            & -1.193            & -13.706        & -3.036         \\
+$C_{50}$ error           & 0.569            & 1.42              & 1.365          & 2.688          \\ \midrule
+predicted $D_{50}$       & 0.499            & 0.384             & 0.048          & 0.275          \\
+tagged $D_{50}$          & 0.509            & 0.619             & 0.035          & 0.36           \\
+$D_{50}$ error           & 0.01             & 0.235             & 0.013           & 0.085         \\
+\end{tabular}%
+\end{table*}
