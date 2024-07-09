@@ -77,25 +77,6 @@
 \newacronym{ild}{ILD}{Interaural Level Difference}
 \newacronym{aabb}{AABB}{Axis-Aligned Bounding Box}
 
-
-% Citing   use \autocite, \parencite, or \textcite rather than \cite.
-%  http://tex.stackexchange.com/questions/102662/harvard-reference-using-biblatex
-%  https://www.sharelatex.com/blog/2013/07/31/getting-started-with-biblatex.html
-%  http://guides.library.yale.edu/bibtex/home
-% \usepackage[backend=bibtex, style=authoryear, firstinits=true, ]{biblatex}
-% \addbibresource{thesis.bib}
-
-%\AtBeginBibliography{\footnotesize}
-% \DeclareFieldFormat => Remove Quotes from article Titles
-%  http://tex.stackexchange.com/questions/94089/remove-quotes-from-inbook-reference-title-with-biblatex
-%\DeclareFieldFormat[inbook,inproceedings,article,phdthesis,mastersthesis]{citetitle}{#1}
-%\DeclareFieldFormat[inbook,inproceedings,article,phdthesis,mastersthesis]{title}{#1}
-
-%NOTE: The hyperref usepackage should be the last \usepackage!!
-%NOTE: When pagebackref=true an error will appear at the end of compiling. press `q' to ignore
-%NOTE: Referencing Algorithms does not work if this usepackage is before the hyperref include.!!
-%NOTE: The following document configuration settings generally do not need to be modified
-
 %% MATH SYMBOLS
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
@@ -173,7 +154,7 @@
               {8_conclusions/images}
 }
 
-% Hack to achieve \graphicspath for tables 
+% \graphicspath for tables 
 \makeatletter
 \def\input@path{{1_intro/tables}
               {2_background/tables}
@@ -210,10 +191,10 @@
 % \include{2_background/background}        % ch:background
 % \include{3_lit-review/lit-review}        % ch:lit-review
 % \include{4_materials/materials}          % ch:materials 
-% \include{5_rendering/acoustic-rendering} % ch:acoustic-rendering
+\include{5_rendering/acoustic-rendering} % ch:acoustic-rendering
 % \include{6_AR-pipeline/ar-pipeline}      % ch:ar-pipeline
 % \include{7_evaluation/evaluation}        % ch:evaluation
-\include{8_conclusions/conclusions}      % ch:conclusion
+% \include{8_conclusions/conclusions}      % ch:conclusion
 
 %\printbibliography[heading=bibintoc]
 \footnotesize
