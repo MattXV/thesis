@@ -1,7 +1,7 @@
 \chapter{Proof-of-Concept Material Tagging System}
 A proof of concept implementation is designed to work on real-world scenes, gathering insights into the performance of the proposed material tagging prototypes in attributing acoustic properties to segments of the scene geometry of a given environment expressed as a set of triangulated meshes. The design focuses on scenes scanned with space reconstruction techniques applied to real environments, emulating space reconstruction paradigms often adopted by AR HMDs.\par
 The design prototype uses standard space-sensing cameras to produce triangulated meshes from a set of real environments. These virtual reconstructions are then processed, segmenting the scene of each environment by generating portions of scene geometry into a set of semantically meaningful sub-meshes expressing elements of the scene. Submeshes are tagged with acoustic material by assigning each scene element, referred to by its sub-mesh, a semantic acoustic material drawn from a generated list of materials defined by each of the two prototypes.\par
-The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. The evaluation measures the accuracy in assigning the correct semantic information to each scene element, comparing predictions to ground truth acoustic material tags.
+The two prototype systems are deployed on the virtual reconstructions of the real spaces, inferring acoustic materials across all scene elements. 
 
 \section{Proof of Concept System}
 The system is deployed across various test scenes that are selected to represent diverse environments with varying geometric and material complexities to demonstrate the application of the proof of concept system on real-world reconstructed data. The system deploys the tested texture-based method illustrated in Section~\ref{sec:texture-tagging}. As an overview, the system starts by extracting textures from the environment, as they express the visual features of surfaces within the scene, which can be used to infer material properties.
@@ -12,14 +12,6 @@ The rectified patches are then fed into the pre-trained ResNet50 feature extract
 The proof of concept is demonstrated in three real spaces: a small, a medium, and a large environment, see Table~\ref{tab:material-eval-scene}. These environments have diverse ecosystems of surfaces and materials that characterise and determine their respective soundscape and acoustic fingerprints.
 \input{scenes} %tab:material-eval-scene
 
-\paragraph{Small Test Scene}
-Mastering Suite
-
-\paragraph{Medium Test Scene}
-Recital Hall
-
-\paragraph{Large Test Scene}
-St Mary Guild Hall
 
 \begin{figure}[htbp]
     \centering
