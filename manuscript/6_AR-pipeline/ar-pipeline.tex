@@ -145,15 +145,19 @@ Beyond a baseline prototype for modelling acoustics of AR environments are poten
 Chapter~\ref{ch:evaluation} demonstrates a prototype deployment of the implementation discussed in the previous Sections, characterising the psychoacoustic factors associated with approximating the soundfield surrounding the user. The implementation focuses on a single sound source, omitting optimisations that target multiple sources, real-time aspects, dynamic environments scenarios, and factors targeting realistic acoustic rendering. With the human listener being the target for the generated audio-visual stimuli, rendering procedures affecting the perceived quality require probing of human perception to measure performance aspects and realism of the system. \par
 Despite the need to outline perceptual responses and characterise psychoacoustic factors of rendering pipelines, a vision for research directions and expansions toward context-aware and realistic auditory interactions in AR should be developed.
 
-\subsection{Psychoacoustic Characterisation of Acoustic Rendering}
-A crucial aspect associated with the vision of a real-time system is defining the need to outline the minimum required threshold for realism in IRs.
-Dolhasz threshold definition \citep{Dolhasz_2020_CVPR}. 
-By reviewing a large body of work around sound rendering for AR, \cite{yang2019audio} highlight the need for definitions of \acrshortpl{jnd} and thresholds for realism and presence evoked by auditory displays. 
+% \subsection{Psychoacoustic Characterisation of Acoustic Rendering}
+% A crucial aspect associated with the vision of a real-time system is defining the need to outline the minimum required threshold for realism in IRs.
+% Dolhasz threshold definition \citep{Dolhasz_2020_CVPR}. 
+% By reviewing a large body of work around sound rendering for \acrshort{ar}, \cite{yang2019audio} highlight the need for definitions of \acrshortpl{jnd} and thresholds for realism and presence evoked by auditory displays. 
 
-\subsection{RL agents for Acoustic Material Tagging}
-Agents going around the scene and painting surfaces with acoustic materials, with the goal of optimising towards target soundfield parameters.
 
-WAtertight acoustic simulations using neural networks in the digital twin space so that you could scan an environmet and see that it's iso compliant
+
+\subsection{Combining Reinforcement Learning With Material Tagging}
+Tagging materials in \acrshort{ar} space has been shown to significantly influence simulated soundfields and resulting auralisations. By accurately identifying and assigning acoustic properties to surfaces within an \acrshort{ar} environment, it is possible to create highly realistic and immersive auditory experiences. This process involves matching virtual acoustic materials to their physical counterparts and validating the accuracy through impulse response measurements. The precision of material tagging directly impacts the quality of sound propagation and the user's overall auditory experience.
+So far, this work has primarily focused on matching virtual acoustic materials to their physical ground truth, especially considering the work in Chapters~\ref{ch:materials} and~\ref{ch:acoustic-rendering}, involving testing to ensure that the virtual materials accurately replicate the acoustic properties of the real-world surfaces they represent. The error margins are assessed based on impulse responses measured from the physical environment, aiming to minimise discrepancies and enhance realism.\par
+Reinforcement Learning (RL) offers tools that can target wider problems around \acrshort{xr} and fields of acoustics by leveraging material tagging. Rather than achieving the closest match between virtual and real acoustic materials, RL agents can be trained to assign materials to geometry within a given environment to improve the parameters of its soundfield. RL agents combined with simulated soundfields are being explored as part of new research avenues around audio-visual navigation or locomotion for robotics applications, where models can be trained to understand acoustic characteristics or space by analysing visual and geometrical features of virtual environments \citep{chen2021semantic, gan2020look}.
+The training process would involve simulating various configurations of acoustic materials and evaluating their impact on the impulse response. The RL agent uses this feedback to iteratively adjust the material assignments, gradually converging on an optimal solution that meets the target criteria.
+The application of this has several practical benefits and potential use cases around architectural design, achieving specific acoustic properties is crucial for spaces such as concert halls, recording studios, and lecture theaters. An RL agent can predict and select materials that optimise sound quality, ensuring that the designed spaces meet the desired acoustic standards such as ISO standards for assessing acoustics of space for musical performance. This is an open research avenue that has been explored using classic sound rendering methods by \cite{funkhouser2004beam} and \cite{heimes2019real}.
 
 
 \subsection{Hear-Through Displays and Context-Aware Dereverberation}
