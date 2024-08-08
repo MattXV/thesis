@@ -43,31 +43,11 @@ On the one hand, there is a large body of research in psychoacoustic abilities s
     \includegraphics[width=1\linewidth]{use-of-xr}
     \caption[Adoption of XR in real-world tasks]{Areas targeted by recent works published towards the adoption of \acrshort{xr} in real-world tasks \citep{DEGIORGIO2023645}}
 \end{figure}
-
-Extended Reality (XR) technology, encompassing Virtual Reality (VR), Augmented Reality (AR), and Mixed Reality (MR), is increasingly being adopted across a wide range of industries and research applications for performing real-world tasks. This rapid adoption is driven by the unique capabilities of XR platforms to create immersive, interactive experiences that can replicate and enhance real-world scenarios.
-
-One significant advantage of XR platforms is their ability to bridge the gap between academic study and professional work by simulating real-world applications of learned concepts in a virtual environment. This immersive approach enables students and trainees to practice and refine their skills in a controlled setting that mirrors actual work conditions. By providing a hands-on learning experience without the constraints of physical resources, XR technology prepares individuals more effectively for their professional roles.
-
-Moreover, XR technology can stimulate interest and engagement by providing access to realistic simulations without incurring the physical costs associated with traditional training methods. For example, medical students can practice surgical procedures in a virtual operating room, engineers can experiment with complex machinery, and pilots can train in virtual cockpits. These simulations not only save costs but also offer unlimited repeatability, allowing learners to practice as many times as necessary to achieve proficiency.
-
-XR platforms are also powerful tools for knowledge transfer. They can present complex information in an interactive and visually engaging manner, making it easier for users to understand and retain new concepts. Whether it’s onboarding new employees, educating customers about products, or training staff on new processes, XR provides an effective medium for conveying information.
-
-Safety is another critical area where XR technology proves invaluable. By simulating dangerous scenarios in a virtual environment, users can learn how to handle emergencies and hazardous situations without any risk to their physical well-being. This capability is particularly beneficial in industries such as firefighting, military, aviation, and construction, where real-world training can be dangerous and costly.
-
-Cost reduction is a significant benefit of using XR for simulations. Traditional training methods often require substantial resources, including materials, equipment, and physical spaces. XR simulations eliminate these costs by creating virtual environments where users can practice and learn. This approach not only reduces expenses but also minimizes the wear and tear on physical equipment.
-
-Fundamental to all these applications are audio interactions. Sound is a key stimulus that conveys critical information about the environment, enhances realism, and provides feedback that guides user actions. In virtual environments, realistic audio cues can indicate the presence of hazards, signal the operation of machinery, or replicate the ambient sounds of a particular setting, all of which contribute to a more immersive and effective learning experience.
-
-In summary, XR technology offers a transformative approach to training, education, and various industrial applications by creating realistic, interactive simulations that enhance learning, improve safety, and reduce costs. The integration of accurate audio interactions further amplifies these benefits, making XR an essential tool in the modern digital landscape.
-
-\citep{DEGIORGIO2023645}
-
-\citep{jot2021rendering}
-\citep{audio2020git}
-
-
-\footnote{\url{https://www.uploadvr.com/meta-xr-audio-sdk-acoustic-ray-tracing-simulation/}}
-
+One significant advantage of \acrshort{xr} platforms is their ability to bridge the gap between academic study and professional work by simulating real-world applications of learned concepts in a virtual environment. This immersive approach enables students and trainees to practice and refine their skills in a controlled setting that mirrors actual work conditions. By providing a hands-on learning experience without the constraints of physical resources, \acrshort{xr} technology prepares individuals more effectively for their professional roles, this has caused thousands of businesses in the manufacturing industry to adopt immersive platforms\footnote{\url{https://www.pwc.co.uk/issues/technology/immersive-technologies/how-uk-organisations-use-vr-ar/business-benefits-of-xr-are-all-around-us.html}}.
+\acrshort{xr} platforms are powerful tools for knowledge transfer: they can present complex information in an interactive and visually engaging manner, making it easier for users to understand and retain new concepts. For instance, in onboarding new employees, educating customers about products, or training staff on new processes, \acrshort{xr} provides an effective medium for conveying information.
+Safety is another critical area where \acrshort{xr} technology proves invaluable. By simulating dangerous scenarios in a virtual environment, users can learn how to handle emergencies and hazardous situations without any risk to their physical well-being. This capability is particularly beneficial in industries such as firefighting, military, aviation, and construction, where real-world training can be dangerous and costly. Cost reduction is a significant benefit of using \acrshort{xr} for simulations, in this area, traditional training methods often require substantial resources, including materials, equipment, and physical spaces. \acrshort{xr} simulations eliminate these costs by creating virtual environments where users can practice and learn.
+Fundamental to all these applications are audio interactions. Sound is a key stimulus that conveys critical information about the environment, enhances realism, and provides feedback that guides user actions. In virtual environments, realistic audio cues can indicate the presence of hazards, signal the operation of machinery, or replicate the ambient sounds of a particular setting, all of which contribute to a more immersive and effective learning experience \citep{DEGIORGIO2023645, jot2021rendering}.
+This has raised interest towards realistic audio, increasing the drive for developing frameworks for realistic sound rendering. Recently, the industry has seen the popularisation of sound rendering tools such as Microsoft Project Acoustics\footnote{\url{https://github.com/microsoft/ProjectAcoustics}}, Steam Audio \citep{audio2020git}, and even more recently, Meta XR Audio SDK\footnote{\url{https://www.uploadvr.com/meta-xr-audio-sdk-acoustic-ray-tracing-simulation/}}.
 
 \section{Significance}
 A novel aspect of the proposed work is the application of computer vision methods to infer acoustic data associated with materials and boundaries in environments to enable sound rendering systems such as acoustic simulation methods, to adapt to unseen complex scenes in materials.\par
@@ -87,17 +67,42 @@ The proposed work aims to explore rendering pipelines with respect to sound prop
 
 
 \section{Objectives}\label{sec:thesis-objectives}
-\begin{itemize}
+The following is a list of objectives established as part of the thesis work, associated with Key Performance Indicators (KPIs):
+\begin{enumerate}
     \item To review the current state of audio rendering in virtual environments, assessing their limitations, realism and computational requirements to investigate their applications in real-time acoustic simulations for complex scenes.
+        \begin{itemize}
+            \item[\textbf{KPI 1.1}:] Completion of a comprehensive literature review covering key papers on current audio rendering techniques;
+            \item[\textbf{KPI 1.2}:] Identification and detailed documentation of the major limitations of current methods.
+        \end{itemize}
     \item To explore how, in modern approaches to acoustic simulations, visual representations of materials relate to simulated soundfields.
+        \begin{itemize}
+            \item[\textbf{KPI 2.1}:] Development and implementation of different visual-to-acoustic material mapping algorithms.
+            \item[\textbf{KPI 2.2}:] Comparative analysis of the accuracy of these algorithms real-world material data.
+            \item[\textbf{KPI 2.3}:] Publication of findings in a peer-reviewed conference or journal.
+        \end{itemize}
     \item To design and test systems to automatically attribute acoustic materials to scene geometry in virtual environments, recognising and distinguishing between materials in the acoustic and visual domains.
+        \begin{itemize}
+            \item[\textbf{KPI 3.1}:] Development and implementation of an accurate acoustic material mapping algorithm.
+            \item[\textbf{KPI 3.2}:] Testing the system on different virtual environments, each with diverse material types.
+        \end{itemize}
     \item To study and evaluate the application of sound rendering methods with acoustic material recognition.
+        \begin{itemize}
+            \item[\textbf{KPI 4.1}:] Integration of the material recognition system with at least 2 state-of-the-art sound rendering methods
+            \item[\textbf{KPI 4.2}:] Performance evaluation through objective and subjective metrics.
+        \end{itemize}
     \item To design and propose a novel pipeline for acoustic rendering applied to augmented reality platforms.
+        \begin{itemize}
+            \item[\textbf{KPI 5.1}:] Development of a complete pipeline prototype incorporating advanced acoustic rendering and material recognition capabilities.
+            \item[\textbf{KPI 5.2}:] Demonstration of the pipeline in real-world AR applications, showcasing its practical utility and advantages.
+        \end{itemize}
     \item To investigate psychoacoustic and human factors in auditory displays created by the proposed pipeline by testing an augmented reality prototype.
-\end{itemize}
+        \begin{itemize}
+            \item[\textbf{KPI 6.1}:] Design and conduct at least 3 psychoacoustic experiments to assess the perceptual quality of the auditory displays.
+            \item[\textbf{KPI 6.2}:] Gather data from participants to evaluate human factors such as task performance.
+        \end{itemize}
+\end{enumerate}
 
 \section{Thesis Structure}
-
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{thesis-structure}
