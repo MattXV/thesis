@@ -66,6 +66,9 @@ A convolutional neural network is used to discriminate materials of objects repr
 The model, pre-trained on the ImageNet dataset \citep{deng2009imagenet}, is fine-tuned for 70 epochs minimising focal loss \citep{lin2017focal}. Table~\ref{tab:cog-model} shows the information on the networks trained, including the total number of parameters, $F_{1}$\hyp{}score, Intersection Over Union (IOU), and the number of epochs to obtain fit models.
 \input{cog-model}
 
+\subsubsection{Model Training}
+TODO
+
 \subsubsection{Model Inference}
 The trained model outputs an $m \times n \times k$ matrix $M$, where $m$ and $n$ are the input image resolution and $k$ is the number of classes. For each pixel, the $k$ channels encode a probability distribution across the classes. Per-pixel classes are determined with the member having the highest presence probability, reducing $M$ to an $m \times n$ matrix where entries encode the semantic class; see Table~\ref{tab:absorption-coeffs}. 
 In addition, counts of unique entries in $M$ determine the number of pixels describing the associated material. Scaling based on the distance between a target object and $C_n$ allows material exclusion below a threshold.
@@ -91,8 +94,7 @@ Upon tagging meshes based on pixel-level data extracted from segmentation maps, 
        \caption{Re-projected Acoustic Materials}
        \label{fig:cog-reproj-b}
     \end{subfigure}
-\caption[Material tagging segmentation reprojection system]{Map Reprojection performed on an input camera render: based on a predicted segmentation map, acoustic materials determined by pixel-wise semantic information are re-projected onto scene objects captured by the camera.}
-\label{fig:cog-reprojection}
+\caption[Material tagging segmentation reprojection system]{Map Reprojection performed on an input camera render: based on a predicted segmentation map, acoustic materials determined by pixel-wise semantic information are re-projected onto scene objects captured by the camera.}\label{fig:cog-reprojection}
 \end{figure}
 
 \subsection{Acoustic Materials}
@@ -145,7 +147,7 @@ Rectified image patches provide input to a ResNet50 \citep{he2016deep}, used as 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{chi-inference}
-    \caption[Texture-based material recognition system --- inference phase]{Overview of the texture-based system set up for the \emph{inferece} phase: textures mapped to meshes representing scene objects are decomposed into image patches using SLIC superpixel segmentation. A trained classifier extracts features from image patches and generates acoustic materials, which are then mapped against geometry representing the given scene object.}
+    \caption[Texture-based material recognition system --- inference phase]{Overview of the texture-based system set up for the \emph{inference} phase: textures mapped to meshes representing scene objects are decomposed into image patches using SLIC superpixel segmentation. A trained classifier extracts features from image patches and generates acoustic materials, which are then mapped against geometry representing the given scene object.}
     \label{fig:texture-tagging-inference}
 \end{figure}
 During the \emph{inference} phase, the set of textured meshes in given a scene is used to unwrap textures as images, prividing input to the trained network to recognise acoustic materials; see Figure~\ref{fig:texture-tagging-inference}. The trained ResNet50 extracts features from input image textures in complex scenes, whose embeddings enable the classifier to predict class labels associated with each input superpixels. The most frequent prediction maps to an acoustic measurement database, defining the output acoustic material. On average, the classifier takes $11.2s$ to determine the acoustic material for a given texture, see Figure~\ref{fig:slic-generation}, divided in $3.8s$ for generating rectified patches and $7.3s$ to extract features and compute the mapping. The transparency information contained in the mesh texture is preserved, allowing the network to dismiss image patches that do not contain visual features as demonstrated in Figure~\ref{fig:slic-labels}.
