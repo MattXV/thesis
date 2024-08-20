@@ -71,6 +71,50 @@ fig.savefig('rir-processing.pdf')
 # %%
 
 
+fig, rows = plt.subplots(6, tight_layout=True, dpi=300, figsize=(3.2, 3))
+fig.suptitle('IR Components')
+l1 = st.plot_waveform(p125,  FS, rows[0])
+rows[0].set_title('125 Hz')
+l2 = st.plot_waveform(p250,  FS, rows[1])
+rows[1].set_title('250 Hz')
+l3 = st.plot_waveform(p500,  FS, rows[2])
+rows[2].set_title('500 Hz')
+l4 = st.plot_waveform(p1000, FS, rows[3])
+rows[3].set_title('1000 Hz')
+l5 = st.plot_waveform(p2000, FS, rows[4])
+rows[4].set_title('2000 Hz')
+l6 = st.plot_waveform(p4000, FS, rows[5])
+rows[5].set_title('4000 Hz')
+
+[rows[i].set_xticklabels([]) for i in range(0, 5)]
+rows[5].set_xlabel('Time (s)')
+rows[2].set_ylabel('Magnitude')
+plt.show()
+
+# %%
+
+fig.savefig('ir-components.pdf')
+
+# %
+
+# %%
+fig, (ax) = plt.subplots(1,  tight_layout=True, dpi=300, figsize=(3.2, 3))
+t1 = 0.1
+
+rir = st.read_audio('rirs/tagged.wav', FS)
+rir = st.trim_from_to(rir, 0, t1, FS)
+
+line = st.plot_waveform(rir, FS, ax, 'Summed IR')
+ax.set_title('Summed IR')
+ax.set_xlabel('Time (s)')
+ax.set_ylabel('Magnitude')
+
+plt.show()
+
+fig.savefig('rir-summed.pdf')
+
+#%%
+
 fig, (ax, bx) = plt.subplots(1, 2,  tight_layout=True, dpi=300, figsize=(6.4, 3))
 t1 = 0.2
 

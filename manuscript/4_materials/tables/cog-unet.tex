@@ -1,0 +1,9 @@
+\begin{landscape}
+    \null\vfill
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.95\linewidth]{unet-full}
+        \caption[Camera-based acoustic material tagging model]{Convolutional neural network used for the camera-based acoustic material tagging system: given an input camera render of the virtual environment, the model performs semantic segmentation, predicting a map of semantic classes associated with each pixel in the input image. The model is trained on a set of renders from various virtual environments. The output semantic maps are then reprojected onto objects in the environment. By associating the semantic classes with acoustic characteristics and scene geometry, this information can be used in rendering operations.}\label{fig:cog-unet}
+    \end{figure}
+    \null\vfill
+\end{landscape}
