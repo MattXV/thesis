@@ -294,23 +294,23 @@ While ray tracing is versatile and efficient, it still carries \acrshort{ga} lim
 
 \subsubsection{Wave-based Modelling Techniques}
 \begin{figure}
-    \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.47\textwidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd1}
         \caption{FDTD simulation timestep 1}
     \end{subfigure}
-    \begin{subfigure}{0.5\linewidth}
+    \begin{subfigure}{0.47\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd2}
         \caption{FDTD simulation timestep 2}
     \end{subfigure}
 
-    \begin{subfigure}{0.5\linewidth}
+    \begin{subfigure}{0.47\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd3}
         \caption{FDTD simulation timestep 3}
     \end{subfigure}
-    \begin{subfigure}{0.5\linewidth}
+    \begin{subfigure}{0.47\linewidth}
         \centering
         \includegraphics[width=\linewidth]{fdtd4}
         \caption{FDTD simulation timestep 4}
@@ -452,8 +452,7 @@ Deep learning techniques discussed in this thesis can be broadly categorised bas
 The goal of a model is to provide inference on unseen data based on training on a set of representative examples, emulating basic human abilities that are hard to programmatically engineer in computers. Typically, deep learning models consist of an input layer ingesting data such as images or audio signals, deeper layers extracting features from input data, and output layers transforming the extracted features to perform a task. A loss function is often employed to measure the error and accuracy of the output data and improve the fitness of the model through backpropagation: the tuning of weights and biases of neurons in hidden layers based on computer errors, see Figure~\ref{fig:nn}. With layers fit on a dataset, the model can infer output from unseen data, generalising on the task at hand \citep{szeliski2022computer}.
 General deep learning tasks related to this thesis include classification, regression, or synthesis.
 Classification is a type of supervised learning where the goal is to predict the category or class of an input. The input data is fed into the algorithm, which then outputs a label from a predefined set. For example, a classification model might be used to predict the presence of objects in an input image. Classification can be binary (two classes) or multiclass (more than two) \citep{goodfellow2016deep}.\par
-Regression, another type of supervised learning, involves predicting a continuous quantity instead of a categorical label. The aim is to find the relationship or mapping between input variables and a continuous output variable. An example application is to predict parameters of audio engines like pitch or amplitude based on input physics factors like mass \citep{colombo2021psychometric}. Regression models are evaluated using different metrics than classification models, such as \acrfull{mse}. The choice of metric often depends on the specific requirements of the task.\par
-Deep learning techniques are becoming increasingly popular in virtual environment pipelines due to the flexibility and potential to adapt to various tasks.
+Regression, another type of supervised learning, involves predicting a continuous quantity instead of a categorical label. The aim is to find the relationship or mapping between input variables and a continuous output variable. An example application is to predict parameters of audio engines like pitch or amplitude based on input physics factors like mass \citep{colombo2021psychometric}. Regression models are evaluated using different metrics than classification models, such as \acrfull{mse}. The choice of metric often depends on the specific requirements of the task. Deep learning techniques are becoming increasingly popular in virtual environment pipelines due to the flexibility and potential to adapt to various tasks.\par
 
 \subsection{Deep learning Tasks Within Immersive Applications}
 Detecting the presence of certain objects in an image represents a milestone in the development of \acrshortpl{cnn} and computer vision techniques as it emulates a basic task of the human visual system. Due to the nature of image representations in computers, as described in Section~\ref{sec:image-processing}, recognising entities depicted by images is a central problem in computer vision \citep{szeliski2022computer}. Classic computer vision algorithms have approached the problem by providing algorithms to recognise patterns programmatically by filtering the image or scanning for certain features. Thanks to advances in \acrshortpl{cnn}, object detection was addressed by extracting features using deep layers and learning from annotated examples expressing a set of classes captured in various contexts.\par

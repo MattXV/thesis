@@ -27,10 +27,8 @@
 \newcolumntype{N}{>{\refstepcounter{rowcntr}\therowcntr}c}
 % Reset the rowcntr counter at each new tabular
 \AtBeginEnvironment{tabular}{\setcounter{rowcntr}{0}}
-
 % X column with ragged right
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
-
 
 % glossary options - thanks Sean <3
 \usepackage[acronym, nonumberlist, nomain, toc, style=alttree]{glossaries}
@@ -146,9 +144,6 @@
     captionpos=b%
 } %\hypersetup{colorlinks=true, citecolor=\color{colIdentifier}}
 
-% \sloppy %NOTE: To ensure the Right Hand Margin is used (Especially for long URLS)
-%NOTE: END of the document configuration settings
-
 \DeclareGraphicsExtensions{.jpg,.png,.gif,.pdf,.eps}
 \graphicspath{{1_intro/images}
               {2_background/images}
@@ -209,4 +204,9 @@
 \appendix
 \include{appendix}
 
+\chapter{Publications}
+\includepdf[pages=-, offset=0 0, fitpaper=true]{publications/1.pdf}
+\includepdf[pages=-, offset=0 0, fitpaper=true]{publications/2.pdf}
+\includepdf[pages=-, offset=0 0, fitpaper=true]{publications/3.pdf}
+\includepdf[pages=-, offset=0 0, fitpaper=true]{publications/4.pdf}
 \end{document}
