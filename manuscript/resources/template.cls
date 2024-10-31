@@ -42,6 +42,9 @@
         \vskip 0.25in
                 \normalfont A report submitted as part of the requirements\\for the degree of
                 \@degreetitle
+
+                \vskip 0.125in
+                    Digital Media Technology Lab
                 \vskip 0.125in
                     Birmingham City University\\
         \vfill
