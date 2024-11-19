@@ -106,8 +106,9 @@
         \chapter*{#1}
         \addcontentsline{toc}{chapter}{#1}}
 
-\def\afterpreface{\newpage
-        \pagestyle{plain}}
+\newcommand{\afterpreface}[1]{\newpage
+        \pagestyle{plain}
+        #1}
 
 \pagestyle{plain}
 
