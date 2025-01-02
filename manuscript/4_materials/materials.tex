@@ -25,13 +25,11 @@ This Chapter addresses acoustic material tagging by providing the following cont
     \item a novel methodology for acoustic material tagging using a camera-based system and computer vision techniques to infer from the scene;
     \item an alternative system that abstracts from the use of cameras and operates on reconstructed virtual geometry;
     \item objective and subjective methodologies to evaluate the efficacy of the systems comparing against objective and subjective metrics;
-    % \item a proof-of-concept demonstration stemming from the development of the two systems
 \end{itemize}
-
 
 \section{Camera-based Acoustic Material Tagging}\label{sec:camera-tagging}
 \subsection{System Overview}
-The camera-based acoustic material tagging pipeline is the first approach to attribute physical properties to portions of scene geometry representing a virtual environment. At a high-level overview, the pipeline adopts a \acrfull{cnn} to understand the scene features of the environment, expressed as pixel-wise semantic information predicted from camera renders obtained by a perspective camera within the virtual environment. The network generates a prediction map where pixel-wise semantic information maps to acoustic absorption information, e.g., a pixel belonging to a wooden table in the virtual scene may be attributed with ``wood'' semantics, which maps to absorption data related to the semantic material. By using camera transformation matrices, semantic information is projected onto the scene from camera space. The system has two phases: \emph{training} and \emph{inference}.
+The camera-based acoustic material tagging pipeline is the first approach, within the development of this work, to attribute physical properties to portions of scene geometry representing a virtual environment. At a high-level overview, the pipeline adopts a \acrfull{cnn} to understand the scene features of the environment, expressed as pixel-wise semantic information predicted from camera renders obtained by a perspective camera within the virtual environment. The network generates a prediction map where pixel-wise semantic information maps to acoustic absorption information, e.g., a pixel belonging to a wooden table in the virtual scene may be attributed with ``wood'' semantics, which maps to absorption data related to the semantic material. By using camera transformation matrices, semantic information is projected onto the scene from camera space. The system has two phases: \emph{training} and \emph{inference}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{camera-pipeline}
