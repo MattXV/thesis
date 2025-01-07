@@ -64,7 +64,8 @@ ax.vlines(inds, quartile1, quartile3, color='tab:green', linestyle='-', lw=5)
 # set style for the axes
 labels = ['Room', 'Office', 'Church', 'Village']
 set_axis_style(ax, labels)
-ax.set_xlabel('$D(Predicted, Truth)$')
+ax.set_xlabel('Scene')
+ax.set_ylabel('Distance Value: $D(Predicted, Truth)$')
 
 plt.show()
 
