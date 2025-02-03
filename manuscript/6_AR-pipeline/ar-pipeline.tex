@@ -15,15 +15,7 @@ The following Chapter details the implementation to address the primary objectiv
 Discussions on design principles, implementation, and limitations feed into methodologies for future research direction, as demonstrated by Chapter~\ref{ch:evaluation}, where the evaluation design has foundations on the outcomes of these Sections.
 
 \section{Concept}\label{sec:overview}
-In light of the work towards 
-The proposed system aims to produce realistic sound transmissions between sound-emitting holograms in \acrshort{mr} space and a listener experiencing the holograms via a head-mounted holographic display and perceived auditory stimuli via headphones. In this Chapter, the term ``listener'' is used interchangeably with the term ``user'' to refer to the user who is displayed audio-visual stimuli from both the holographic \acrshort{hmd} and the headphones. The implementation of this method for interactive sound rendering is demonstrated on a Microsoft Hololens 2 Augmented Reality Head-Mounted Headset, an embedded wearable computer with a holographic display featuring space-sensing and spatial mapping technology that enables Simultaneous Localisation and Mapping (SLAM) methods~\citep{davison2003real, ungureanu2020hololens}.\par
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=1\linewidth]{ar-system}
-    \caption[High-level diagram of the proposed sound rendering pipeline]{Overview of the presented method showing a user (blue) and listener (red) in AR space: audio-visual stimuli are displayed to the user through headphones and a head-mounted display, experiencing virtual holograms projected onto his surroundings. The proposed system aims to render sound transmissions from sound-emitting holograms and the listener realistically.}
-\label{fig:method-overview}
-\end{figure}
+The proposed system aims to produce realistic sound transmissions between sound-emitting holograms in \acrshort{mr} space and a listener experiencing the holograms via a head-mounted holographic display and perceived auditory stimuli via headphones, see Figure~\ref{fig:proposed-system-diagram}. In this Chapter, the term ``listener'' is used interchangeably with the term ``user'' to refer to the user who is displayed audio-visual stimuli from both the holographic \acrshort{hmd} and the headphones. The implementation of this method for interactive sound rendering is demonstrated on a Microsoft Hololens 2 Augmented Reality Head-Mounted Headset, an embedded wearable computer with a holographic display featuring space-sensing and spatial mapping technology that enables Simultaneous Localisation and Mapping (SLAM) methods~\citep{davison2003real, ungureanu2020hololens}, see Figure~\ref{fig:proposed-system-diagram}.\par
 
 \subsection{Dynamic Environment Reconstruction}
 The first link in the chain of generating realistic sound transmission between a listener and holograms in \acrshort{mr} space is generating and handling a virtual environment to host scene elements such as virtual sound-emitting entities. In \acrshort{mr} space, the scene geometry includes a reconstruction of the real space surrounding the user. The space surrounding the user is reconstructed using space-sensing technology featured in the Hololens 2 \acrshort{hmd}~\citep{ungureanu2020hololens}. Using the Microsoft Mixed Reality Toolkit~\footnote{\url{https://github.com/microsoft/MixedRealityToolkit-Unity}}, an environment mesh is continuously extracted as a triangulated mesh and updated every 3 to 5 seconds, reflecting dynamic changes in the environment (e.g.\ furniture being moved or a crowd entering the space).\par
@@ -42,16 +34,8 @@ The triangulated mesh, represented as a list of triangles and indices, is used t
     \caption[A Bounding Volume Hierarchy computed on a real environment]{A visualisation of a BVH constructed on a portion of a scanned environment, left image, to demonstrate how AABBs encapsulate triangle primitives, visible in the centre image, forming a tree of boxes to partition the geometry.}
 \label{fig:bvh-visualisation}
 \end{figure}
-One key advantage of the employment of a \acrshort{bvh} for the handling of scene geometry is the space partitioning that can be used for the material tagging process. As discussed in Chapter~\ref{ch:materials}, \acrshortpl{cnn} offer efficient approaches to mapping the appearance of surfaces to the acoustic characteristics of their materials, like absorption or scattering coefficients. The space partitioning provided by the \acrshortpl{bvh} here is used to capture the appearance of portions of the reconstructed environment in order to determine the material characteristics of its surfaces.\par
+One key advantage of the employment of a \acrshort{bvh} for the handling of scene geometry is the space partitioning that can be used for the material tagging process. As discussed in Chapter~\ref{ch:materials}, \acrshortpl{cnn} offer efficient approaches to mapping the appearance of surfaces to the acoustic characteristics of their materials, like absorption or scattering coefficients. The space partitioning provided by the \acrshortpl{bvh} here is used to capture the appearance of portions of the reconstructed environment in order to determine the material characteristics of its surfaces, see Figure~\ref{fig:bvh-visualisation}.\par
 The employment of a \acrshortpl{bvh} additionally allows the generation of ground truth data for acoustic material mapping processes: with access to the physical space, the acoustic material classification pipeline can test the accuracy of material tagging against labelled mesh segments. This would allow the pipeline to better target specific ecosystems of materials by creating sets of training data by labelling representative environments and generating image patches from the reconstructed space partitioned by the \acrshort{bvh}.
-
-\subsection{Acoustic Rendering Pipeline}
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=1\linewidth]{ar-pipeline-diagram}
-    \caption[Proposed acoustic rendering pipeline --- integration with game engines]{An overview of the technical implementation of the proposed pipeline for spatial audio rendering applied to an Augmented Reality interactive application. }
-    \label{fig:ar-pipeline-overview}
-\end{figure}
 
 \subsection{Overview}
 As discussed in Chapter~\ref{ch:lit-review}, the current state of research towards realistic auditory display in virtual environments leverages deep learning-based methods, using \acrshortpl{nn} to create latent representations of soundfields \citep{liu2022sound, ratnarajah2022mesh2ir, chen2023everywhere}. These methods often encode visual and geometrical features of the environment, as well as spatial features relating to the source and listener. These avenues are, however, experimental and require intense use of GPUs or hardware, making it hard to test on wearable computing platforms. Classic geometrical acoustics-based pipelines continue to receive attention from both research and professional domains, making ray tracing or hybrid techniques faster and more efficient by exploiting parallelisation paradigm in modern compute hardware \citep{cowan2010gpu,diaz2021gpurir}.\par
@@ -77,6 +61,12 @@ Audio rendering tasks, such as performing the convolution operation indicated by
 The following Section proposes a software implementation of the system, proposing a technical apparatus that can be employed for dynamic auralisation of sound-emitting holograms, considering approximated acoustic phenomena of \acrshort{mr} space.
 
 \subsection{Overview}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\linewidth]{ar-pipeline-diagram}
+    \caption[Proposed acoustic rendering pipeline --- integration with game engines]{An overview of the technical implementation of the proposed pipeline for spatial audio rendering applied to an Augmented Reality interactive application. }
+    \label{fig:ar-pipeline-overview}
+\end{figure}
 The system, illustrated in Figure~\ref{fig:ar-pipeline-overview}, has a game engine as its core component, responsible for querying the \acrshort{hmd} for updates on the spare surrounding the user, indexing and handling reconstructed scene geometry, computing energy transfers between emitters and receivers, and controlling a \acrshort{dsp} engine for performing audio rendering tasks.
 \begin{figure}[htb]
     \centering
