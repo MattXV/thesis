@@ -44,7 +44,7 @@
                 \@degreetitle
 
                 \vskip 0.125in
-                    Digital Media Technology Lab
+                    \@faculty
                 \vskip 0.125in
                     Birmingham City University\\
         \vfill
