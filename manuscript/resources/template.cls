@@ -49,7 +49,7 @@
                     Birmingham City University\\
         \vfill
         \vskip 0.5in
-                \sc\@submitdate
+                \sc April 2025
         \vfill
                 
                 \large Supervisors\\\@principaladviser\\
@@ -64,7 +64,7 @@
                 I confirm that the work contained in this \@rpttype \space project report has been composed solely by myself and has not been accepted in any previous application for a degree. All sources of information have been specifically acknowledged, and all verbatim extracts are distinguished by quotation marks.
                 \par
                 \vskip 2in
-                Signed \includegraphics[width=1.5in]{#1} \hspace{0.2 in} Date: \today\newline
+                Signed \includegraphics[width=1.5in]{#1} \hspace{0.2 in} Date: \formatdate{15}{4}{2025}\newline
                 \hspace*{0.5 in} \@author 
                 \par
         \end{minipage}%
